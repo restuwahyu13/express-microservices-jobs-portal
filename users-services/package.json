@@ -1,0 +1,26 @@
+{
+  "name": "express-microservices",
+  "version": "1.0.0",
+  "description": "express microservices jobs portal",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restuwahyu13/express-microservices-jobs-portal.git"
+  },
+  "keywords": [
+    "express",
+    "microservices",
+    "node",
+    "express",
+    "microservices"
+  ],
+  "author": "restuwahyu13",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/restuwahyu13/express-microservices-jobs-portal/issues"
+  },
+  "homepage": "https://github.com/restuwahyu13/express-microservices-jobs-portal#readme"
+}
