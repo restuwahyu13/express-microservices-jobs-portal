@@ -1,5 +1,5 @@
 {
-	"name": "users-services",
+	"name": "companies-services",
 	"version": "1.0.0",
 	"description": "express microservices jobs portal",
 	"main": "dist/server.js",
