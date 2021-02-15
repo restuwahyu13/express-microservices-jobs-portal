@@ -7,12 +7,14 @@ services:
     image: companies/service
     build: ./companies-service
     restart: unless-stopped
-    env_file: ./companies-service/.env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3000
     ports:
       - 3000:3000
     volumes:
-      - /workspace/companies-service
-      - /workspace/companies-service/node_modules
+      - /usr/src/companies-service
+      - /usr/src/companies-service/node_modules
     networks:
       - webapp-network
   ######################
@@ -22,12 +24,14 @@ services:
     image: jobs/service
     build: ./jobs-service
     restart: unless-stopped
-    env_file: ./jobs-service/.env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3001
     ports:
       - 3001:3001
     volumes:
-      - /workspace/jobs-service
-      - /workspace/jobs-service/node_modules
+      - /usr/src/jobs-service
+      - /usr/src/jobs-service/node_modules
     networks:
       - webapp-network
   ######################
@@ -37,12 +41,14 @@ services:
     image: profiles/service
     build: ./profiles-service
     restart: unless-stopped
-    env_file: ./profiles-service/.env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3002
     ports:
       - 3002:3002
     volumes:
-      - /workspace/profiles-service
-      - /workspace/profiles-service/node_modules
+      - /usr/src/profiles-service
+      - /usr/src/profiles-service/node_modules
     networks:
       - webapp-network
   ######################
@@ -52,12 +58,14 @@ services:
     image: users/service
     build: ./users-service
     restart: unless-stopped
-    env_file: ./users-service/.env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3003
     ports:
       - 3003:3003
     volumes:
-      - /workspace/users-service
-      - /workspace/users-service/node_modules
+      - /usr/src/users-service
+      - /usr/src/users-service/node_modules
     networks:
       - webapp-network
   ######################

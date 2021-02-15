@@ -1,8 +1,8 @@
-FROM node:12-alpine
-WORKDIR /workspace/profiles-service
+FROM node:14-alpine
+WORKDIR /usr/src/profiles-service
 COPY package*.json \
-  .env /workspace/profiles-service/
+  .env /usr/src/profiles-service/
 RUN npm install --silent
-COPY . /workspace/profiles-service/
+COPY . /usr/src/profiles-service/
 EXPOSE 3002
 CMD ["npm", "start"]

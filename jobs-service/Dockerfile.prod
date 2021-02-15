@@ -1,8 +1,8 @@
-FROM node:12-alpine
-WORKDIR /workspace/jobs-service
+FROM node:14-alpine
+WORKDIR /usr/src/jobs-service
 COPY package*.json \
-  .env /workspace/jobs-service/
+  .env /usr/src/jobs-service/
 RUN npm install --silent
-COPY . /workspace/jobs-service/
+COPY . /usr/src/jobs-service/
 EXPOSE 3001
 CMD ["npm", "start"]
