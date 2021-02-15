@@ -1,0 +1,8 @@
+{
+	"name": "Proxy Service",
+	"service": "proxy",
+	"dockerComposeFile": ["../docker-compose.yml"],
+	"workspaceFolder": "/etc/nginx/conf.d",
+	"shutdownAction": "none",
+	"forwardPorts": [80]
+}
