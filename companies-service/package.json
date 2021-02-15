@@ -11,7 +11,8 @@
 		"format": "prettier ./src/**/*.{ts,spect.ts,test.ts} --write",
 		"lint": "eslint ./src/**/*.{ts,spect.ts,test.ts} --fix",
 		"lintfix": "npm run format && npm run lint",
-		"test": "jest"
+		"test": "jest",
+		"test:watch": "jest --watchAll"
 	},
 	"email": "restuwahyu13@gmail.com",
 	"repository": {
