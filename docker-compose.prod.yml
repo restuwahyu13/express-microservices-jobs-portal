@@ -10,6 +10,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=3000
+      - NODE_ENV=production
     ports:
       - 3000:3000
     volumes:
@@ -27,6 +28,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=3001
+      - NODE_ENV=production
     ports:
       - 3001:3001
     volumes:
@@ -44,6 +46,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=3002
+      - NODE_ENV=production
     ports:
       - 3002:3002
     volumes:
@@ -61,6 +64,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=3003
+      - NODE_ENV=production
     ports:
       - 3003:3003
     volumes:
