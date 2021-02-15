@@ -1,0 +1,8 @@
+FROM node:12-alpine
+WORKDIR /workspace/profiles-service
+COPY package*.json \
+  .env /workspace/profiles-service/
+RUN npm install --silent
+COPY . /workspace/profiles-service/
+EXPOSE 3002
+CMD ["npm", "start"]

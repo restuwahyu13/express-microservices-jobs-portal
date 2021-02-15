@@ -1,0 +1,8 @@
+FROM node:12-alpine
+WORKDIR /workspace/users-service
+COPY package*.json \
+  .env /workspace/users-service/
+RUN npm install --silent
+COPY . /workspace/users-service/
+EXPOSE 3003
+CMD ["npm", "start"]

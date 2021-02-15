@@ -1,0 +1,82 @@
+version: '3.8'
+services:
+  ######################
+  ### COMPANIES SERVICE
+  ######################
+  companies-service:
+    image: companies/service
+    build: ./companies-service
+    restart: unless-stopped
+    env_file: ./companies-service/.env
+    ports:
+      - 3000:3000
+    volumes:
+      - /workspace/companies-service
+      - /workspace/companies-service/node_modules
+    networks:
+      - webapp-network
+  ######################
+  ### JOBS SERVICE
+  ######################
+  jobs-service:
+    image: jobs/service
+    build: ./jobs-service
+    restart: unless-stopped
+    env_file: ./jobs-service/.env
+    ports:
+      - 3001:3001
+    volumes:
+      - /workspace/jobs-service
+      - /workspace/jobs-service/node_modules
+    networks:
+      - webapp-network
+  ######################
+  ### PROFILES SERVICE
+  ######################
+  profiles-service:
+    image: profiles/service
+    build: ./profiles-service
+    restart: unless-stopped
+    env_file: ./profiles-service/.env
+    ports:
+      - 3002:3002
+    volumes:
+      - /workspace/profiles-service
+      - /workspace/profiles-service/node_modules
+    networks:
+      - webapp-network
+  ######################
+  ### USERS SERVICE
+  ######################
+  users-service:
+    image: users/service
+    build: ./users-service
+    restart: unless-stopped
+    env_file: ./users-service/.env
+    ports:
+      - 3003:3003
+    volumes:
+      - /workspace/users-service
+      - /workspace/users-service/node_modules
+    networks:
+      - webapp-network
+  ######################
+  ### NGINX SERVICE
+  ######################
+  proxy:
+    build: ./nginx
+    container_name: nginx-proxy
+    restart: unless-stopped
+    ports:
+      - 80:80
+    depends_on:
+      - companies-service
+      - jobs-service
+      - profiles-service
+      - users-service
+    networks:
+      - webapp-network
+
+networks:
+  webapp-network:
+    driver: bridge
