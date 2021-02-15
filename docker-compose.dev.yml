@@ -5,7 +5,9 @@ services:
   ######################
   companies-service:
     image: companies/service
-    build: ./companies-service
+    build:
+      context: .
+      dockerfile: ./companies-service/Dockerfile.dev
     restart: unless-stopped
     env_file: ./companies-service/.env
     ports:
@@ -20,7 +22,9 @@ services:
   ######################
   jobs-service:
     image: jobs/service
-    build: ./jobs-service
+    build:
+      context: .
+      dockerfile: ./jobs-service/Dockerfile.dev
     restart: unless-stopped
     env_file: ./jobs-service/.env
     ports:
@@ -35,7 +39,9 @@ services:
   ######################
   profiles-service:
     image: profiles/service
-    build: ./profiles-service
+    build:
+      context: .
+      dockerfile: ./profiles-service/Dockerfile.dev
     restart: unless-stopped
     env_file: ./profiles-service/.env
     ports:
@@ -50,7 +56,9 @@ services:
   ######################
   users-service:
     image: users/service
-    build: ./users-service
+    build:
+      context: .
+      dockerfile: ./users-service/Dockerfile.dev
     restart: unless-stopped
     env_file: ./users-service/.env
     ports:

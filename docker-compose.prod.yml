@@ -5,7 +5,9 @@ services:
   ######################
   companies-service:
     image: companies/service
-    build: ./companies-service
+    build:
+      context: .
+      dockerfile: ./companies-service/Dockerfile.prod
     restart: unless-stopped
     environment:
       - HOST=0.0.0.0
@@ -23,7 +25,9 @@ services:
   ######################
   jobs-service:
     image: jobs/service
-    build: ./jobs-service
+    build:
+      context: .
+      dockerfile: ./jobs-service/Dockerfile.prod
     restart: unless-stopped
     environment:
       - HOST=0.0.0.0
@@ -41,7 +45,9 @@ services:
   ######################
   profiles-service:
     image: profiles/service
-    build: ./profiles-service
+    build:
+      context: .
+      dockerfile: ./profiles-service/Dockerfile.prod
     restart: unless-stopped
     environment:
       - HOST=0.0.0.0
@@ -59,7 +65,9 @@ services:
   ######################
   users-service:
     image: users/service
-    build: ./users-service
+    build:
+      context: .
+      dockerfile: ./users-service/Dockerfile.prod
     restart: unless-stopped
     environment:
       - HOST=0.0.0.0
