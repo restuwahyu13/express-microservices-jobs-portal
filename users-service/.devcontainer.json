@@ -1,0 +1,9 @@
+{
+	"name": "Users Service",
+	"service": "users-service",
+	"dockerComposeFile": ["../docker-compose.yml"],
+	"workspaceFolder": "/workspace/users-service",
+	"shutdownAction": "none",
+	"forwardPorts": [3004],
+	"remoteUser": "node"
+}

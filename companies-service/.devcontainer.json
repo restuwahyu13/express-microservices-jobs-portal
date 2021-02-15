@@ -1,0 +1,8 @@
+{
+	"name": "Companies Service",
+	"service": "companies-service",
+	"dockerComposeFile": ["../docker-compose.yml"],
+	"workspaceFolder": "/workspace/companies-service",
+	"shutdownAction": "none",
+	"forwardPorts": [3001]
+}

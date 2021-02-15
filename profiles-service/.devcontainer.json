@@ -1,0 +1,9 @@
+{
+	"name": "Profiles Service",
+	"service": "profiles-service",
+	"dockerComposeFile": ["../docker-compose.yml"],
+	"workspaceFolder": "/workspace/profiles-service",
+	"shutdownAction": "none",
+	"forwardPorts": [3003],
+	"remoteUser": "node"
+}

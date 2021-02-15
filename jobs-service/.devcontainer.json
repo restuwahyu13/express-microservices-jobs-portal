@@ -1,0 +1,9 @@
+{
+	"name": "Jobs Service",
+	"service": "jobs-service",
+	"dockerComposeFile": ["../docker-compose.yml"],
+	"workspaceFolder": "/workspace/jobs-service",
+	"shutdownAction": "none",
+	"forwardPorts": [3002],
+	"remoteUser": "node"
+}

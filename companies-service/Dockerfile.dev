@@ -1,0 +1,8 @@
+FROM node:12-alpine
+WORKDIR /workspace/companies-service
+COPY package*.json \
+  .env /workspace/companies-service/
+RUN npm install --silent
+COPY . /workspace/companies-service/
+EXPOSE 3000
+CMD ["npm", "start"]
