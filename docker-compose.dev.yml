@@ -5,16 +5,22 @@ services:
   ######################
   companies-service:
     image: companies/service
+    container_name: companies-service-dev
     build:
       context: .
       dockerfile: ./companies-service/Dockerfile.dev
     restart: unless-stopped
-    env_file: ./companies-service/.env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3000
+      - NODE_ENV=development
     ports:
       - 3000:3000
+    depends_on:
+      - db
     volumes:
-      - /workspace/companies-service
-      - /workspace/companies-service/node_modules
+      - /usr/src/companies-service
+      - /usr/src/companies-service/node_modules
     networks:
       - webapp-network
   ######################
@@ -22,16 +28,21 @@ services:
   ######################
   jobs-service:
     image: jobs/service
+    container_name: jobs-service-dev
     build:
       context: .
       dockerfile: ./jobs-service/Dockerfile.dev
     restart: unless-stopped
-    env_file: ./jobs-service/.env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3001
+      - NODE_ENV=development
     ports:
       - 3001:3001
-    volumes:
-      - /workspace/jobs-service
-      - /workspace/jobs-service/node_modules
+    depends_on:
+      - db
+      - /usr/src/jobs-service
+      - /usr/src/jobs-service/node_modules
     networks:
       - webapp-network
   ######################
@@ -39,16 +50,22 @@ services:
   ######################
   profiles-service:
     image: profiles/service
+    container_name: profiles-service-dev
     build:
       context: .
       dockerfile: ./profiles-service/Dockerfile.dev
     restart: unless-stopped
-    env_file: ./profiles-service/.env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3002
+      - NODE_ENV=development
     ports:
       - 3002:3002
+    depends_on:
+      - db
     volumes:
-      - /workspace/profiles-service
-      - /workspace/profiles-service/node_modules
+      - /usr/src/profiles-service
+      - /usr/src/profiles-service/node_modules
     networks:
       - webapp-network
   ######################
@@ -56,16 +73,22 @@ services:
   ######################
   users-service:
     image: users/service
+    container_name: users-service-dev
     build:
       context: .
       dockerfile: ./users-service/Dockerfile.dev
     restart: unless-stopped
-    env_file: ./users-service/.env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3003
+      - NODE_ENV=development
+    depends_on:
+      - db
     ports:
       - 3003:3003
     volumes:
-      - /workspace/users-service
-      - /workspace/users-service/node_modules
+      - /usr/src/users-service
+      - /usr/src/users-service/node_modules
     networks:
       - webapp-network
   ######################
@@ -73,7 +96,7 @@ services:
   ######################
   proxy:
     build: ./nginx
-    container_name: nginx-proxy
+    container_name: proxy-service-dev
     restart: unless-stopped
     ports:
       - 80:80
@@ -84,7 +107,22 @@ services:
       - users-service
     networks:
       - webapp-network
+  ######################
+  ### MONGO SERVICE
+  ######################
+  db:
+    image: mongo:alpine
+    container_name: db-service-dev
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - db:/var/lib/mongodb/data:delegated
+    networks:
+      - webapp-network
+
+volumes:
+  db:
 
 networks:
   webapp-network:
-    driver: bridge
