@@ -40,53 +40,220 @@ const Schema: mongoose.Schema = new mongoose.Schema({
 		trim: true,
 		default: null
 	},
-	workExperience: {
-		type: mongoose.Types.Map,
-		unique: true,
-		trim: true,
-		default: [{}]
-	},
-	education: {
-		type: mongoose.Types.Map,
-		unique: true,
-		trim: true,
-		default: [{}]
-	},
 	skill: {
 		type: mongoose.Types.Array,
 		unique: true,
 		trim: true,
 		default: []
 	},
-	interest: {
-		type: mongoose.Types.Map,
-		unique: true,
-		trim: true,
-		default: [{}]
-	},
 	resume: {
 		type: String,
 		trim: true,
 		default: null
 	},
+	workExperience: [
+		{
+			companyName: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: null
+			},
+			jobPosition: {
+				type: String,
+				trim: true,
+				default: null
+			},
+			startDate: {
+				type: Date,
+				trim: true,
+				default: null
+			},
+			endDate: {
+				type: Date,
+				trim: true,
+				default: null
+			},
+			workInformation: {
+				type: String,
+				trim: true,
+				default: null
+			}
+		}
+	],
+	education: [
+		{
+			institutionName: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: null
+			},
+			degree: {
+				type: String,
+				trim: true,
+				default: null
+			},
+			fieldStudy: {
+				type: String,
+				trim: true,
+				default: null
+			},
+			startDate: {
+				type: Date,
+				trim: true,
+				default: null
+			},
+			endDate: {
+				type: Date,
+				trim: true,
+				default: null
+			},
+			information: {
+				type: String,
+				trim: true,
+				default: null
+			}
+		}
+	],
+	jobPreferences: {
+		jobInterest: {
+			type: mongoose.Types.Array,
+			unique: true,
+			trim: true,
+			default: []
+		},
+		workType: {
+			type: mongoose.Types.Array,
+			unique: true,
+			trim: true,
+			default: []
+		},
+		salaryExpectations: {
+			type: Number,
+			trim: true,
+			default: 0
+		},
+		workCityPreferences: {
+			type: mongoose.Types.Array,
+			unique: true,
+			trim: true,
+			default: []
+		}
+	},
 	portofolio: {
-		type: mongoose.Types.Map,
-		unique: true,
-		trim: true,
-		default: [{}]
+		facebook: {
+			type: String,
+			trim: true,
+			default: null
+		},
+		twitter: {
+			type: String,
+			trim: true,
+			default: null
+		},
+		instagram: {
+			type: String,
+			trim: true,
+			default: null
+		},
+		linkedIn: {
+			type: String,
+			trim: true,
+			default: null
+		},
+		behance: {
+			type: String,
+			trim: true,
+			default: null
+		},
+		dribbble: {
+			type: String,
+			trim: true,
+			default: null
+		},
+		gitHub: {
+			type: String,
+			trim: true,
+			default: null
+		},
+		codePen: {
+			type: String,
+			trim: true,
+			default: null
+		},
+		vimeo: {
+			type: String,
+			trim: true,
+			default: null
+		},
+		youtube: {
+			type: String,
+			trim: true,
+			default: null
+		},
+		pinterest: {
+			type: String,
+			trim: true,
+			default: null
+		}
 	},
-	appreciation: {
-		type: mongoose.Types.Map,
-		unique: true,
-		trim: true,
-		default: [{}]
-	},
-	volunteerExperience: {
-		type: mongoose.Types.Map,
-		unique: true,
-		trim: true,
-		default: [{}]
-	}
+	appreciation: [
+		{
+			awardTitle: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: null
+			},
+			achievementTitle: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: null
+			},
+			awardYear: {
+				type: String,
+				trim: true,
+				default: null
+			},
+			awardInformation: {
+				type: String,
+				trim: true,
+				default: null
+			}
+		}
+	],
+	volunteerExperience: [
+		{
+			organizationName: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: null
+			},
+			organizationPosition: {
+				type: String,
+				trim: true,
+				default: null
+			},
+			startDate: {
+				type: String,
+				trim: true,
+				default: null
+			},
+			endDate: {
+				type: String,
+				trim: true,
+				default: null
+			},
+			organizationInformation: {
+				type: String,
+				trim: true,
+				default: null
+			}
+		}
+	]
 })
 
 export const UserSchema = mongoose.model<ProfilesDTO>('profilesService', Schema)
