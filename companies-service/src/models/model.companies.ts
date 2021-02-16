@@ -1,26 +1,23 @@
 import * as mongoose from 'mongoose'
 import shortId from 'shortid'
-import { UsersDTO } from '../dto/dto.companies'
+import { CompaniesDTO } from '../dto/dto.companies'
 
 const CompaniesSchema: mongoose.Schema = new mongoose.Schema({
-	userId: {
+	companiesId: {
 		type: String,
 		unique: true,
 		trim: true,
 		default: shortId()
 	},
-	firstName: {
+	companyName: {
 		type: String,
+		unique: true,
 		trim: true,
-		required: [true, 'firstName is required']
-	},
-	lastName: {
-		type: String,
-		trim: true,
-		required: [true, 'lastName is required']
+		required: [true, 'companyName is required']
 	},
 	email: {
 		type: String,
+		unique: true,
 		trim: true,
 		required: [true, 'email is required']
 	},
@@ -29,46 +26,24 @@ const CompaniesSchema: mongoose.Schema = new mongoose.Schema({
 		trim: true,
 		required: [true, 'password is required']
 	},
-	location: {
-		type: String,
-		trim: true,
-		required: [true, 'location is required']
-	},
 	phone: {
-		type: String,
+		type: Number,
+		unique: true,
 		trim: true,
 		required: [true, 'phone is required']
-	},
-	role: {
-		type: String,
-		trim: true,
-		default: 'users'
-	},
-	active: {
-		type: Boolean,
-		trim: true,
-		default: false
-	},
-	firstLogin: {
-		type: Date,
-		trim: true,
-		default: null
-	},
-	lastLogin: {
-		type: Date,
-		trim: true,
-		default: null
-	},
-	createdAt: {
-		type: Date,
-		trim: true,
-		default: null
-	},
-	updatedAt: {
-		type: Date,
-		trim: true,
-		default: null
 	}
+
+	//  photo?: String
+	//  bannerPhoto?: String
+	//  industry?: String
+	//  overview?: String
+	//  gallery?: string[]
+	//  role?: String
+	//  active?: Boolean
+	//  firstLogin?: any
+	//  lastLogin?: any
+	//  createdAt?: any
+	//  updatedAt?: any
 })
 
-export const companiesModel = mongoose.model<UsersDTO>('usersService', CompaniesSchema)
+export const companiesModel = mongoose.model<CompaniesDTO>('companiesService', CompaniesSchema)

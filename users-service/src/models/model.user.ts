@@ -11,16 +11,19 @@ const UserSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	firstName: {
 		type: String,
+		unique: true,
 		trim: true,
 		required: [true, 'firstName is required']
 	},
 	lastName: {
 		type: String,
+		unique: true,
 		trim: true,
 		required: [true, 'lastName is required']
 	},
 	email: {
 		type: String,
+		unique: true,
 		trim: true,
 		required: [true, 'email is required']
 	},
@@ -36,6 +39,7 @@ const UserSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	phone: {
 		type: String,
+		unique: true,
 		trim: true,
 		required: [true, 'phone is required']
 	},
