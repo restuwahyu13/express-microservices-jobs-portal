@@ -40,7 +40,7 @@ const Schema: mongoose.Schema = new mongoose.Schema({
 		trim: true,
 		default: null
 	},
-	skill: {
+	skills: {
 		type: mongoose.Types.Array,
 		unique: true,
 		trim: true,
