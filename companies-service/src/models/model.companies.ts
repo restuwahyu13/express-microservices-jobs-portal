@@ -3,7 +3,7 @@ import shortId from 'shortid'
 import { CompaniesDTO } from '../dto/dto.companies'
 
 const CompaniesSchema: mongoose.Schema = new mongoose.Schema({
-	companiesId: {
+	companyId: {
 		type: String,
 		unique: true,
 		trim: true,
