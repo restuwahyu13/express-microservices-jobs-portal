@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose'
 import shortId from 'shortid'
 import { UsersDTO } from '../dto/dto.users'
 
-const Schema: mongoose.Schema = new mongoose.Schema({
+const UserSchema: mongoose.Schema = new mongoose.Schema({
 	userId: {
 		type: String,
 		unique: true,
@@ -71,4 +71,4 @@ const Schema: mongoose.Schema = new mongoose.Schema({
 	}
 })
 
-export const UserSchema = mongoose.model<UsersDTO>('usersService', Schema)
+export const userSchema = mongoose.model<UsersDTO>('usersService', UserSchema)

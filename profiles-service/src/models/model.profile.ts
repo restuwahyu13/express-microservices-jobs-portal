@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose'
 import shortId from 'shortid'
 import { ProfilesDTO } from '../dto/dto.profile'
 
-const Schema: mongoose.Schema = new mongoose.Schema({
+const JobSchema: mongoose.Schema = new mongoose.Schema({
 	profileId: {
 		type: String,
 		unique: true,
@@ -256,4 +256,4 @@ const Schema: mongoose.Schema = new mongoose.Schema({
 	]
 })
 
-export const UserSchema = mongoose.model<ProfilesDTO>('profilesService', Schema)
+export const ProfileSchema = mongoose.model<ProfilesDTO>('profilesService', JobSchema)
