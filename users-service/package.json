@@ -3,6 +3,9 @@
 	"version": "1.0.0",
 	"description": "express microservices jobs portal",
 	"main": "dist/server.js",
+	"files": [
+		"dists/**/*.js"
+	],
 	"scripts": {
 		"cleanup": "rimraf dist",
 		"build": "tsc --pretty",
@@ -26,12 +29,37 @@
 		"express",
 		"microservices"
 	],
-	"author": "restuwahyu13",
+	"engines": {
+		"node": ">=10",
+		"npm": ">=6"
+	},
+	"author": {
+		"name": "Restu Wahyu Saputra",
+		"email": "restuwahyu13@gmail.com"
+	},
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/restuwahyu13/express-microservices-jobs-portal/issues"
 	},
 	"homepage": "https://github.com/restuwahyu13/express-microservices-jobs-portal#readme",
+	"dependencies": {
+		"@sendgrid/mail": "^7.4.2",
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
+		"bullmq": "^1.14.4",
+		"cloudinary": "^1.24.0",
+		"compression": "^1.7.4",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"express-rate-limit": "^5.2.5",
+		"express-slow-down": "^1.4.0",
+		"helmet": "^4.4.1",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.11.14",
+		"multer": "^1.4.2",
+		"shortid": "^2.2.16",
+		"streambox-collection": "0.0.6"
+	},
 	"devDependencies": {
 		"@types/bcryptjs": "^2.4.2",
 		"@types/body-parser": "^1.19.0",
@@ -70,23 +98,5 @@
 		"ts-node": "^9.1.1",
 		"typescript": "^4.1.5",
 		"winston": "^3.3.3"
-	},
-	"dependencies": {
-		"@sendgrid/mail": "^7.4.2",
-		"bcryptjs": "^2.4.3",
-		"body-parser": "^1.19.0",
-		"bullmq": "^1.14.4",
-		"cloudinary": "^1.24.0",
-		"compression": "^1.7.4",
-		"cors": "^2.8.5",
-		"express": "^4.17.1",
-		"express-rate-limit": "^5.2.5",
-		"express-slow-down": "^1.4.0",
-		"helmet": "^4.4.1",
-		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^5.11.14",
-		"multer": "^1.4.2",
-		"shortid": "^2.2.16",
-		"streambox-collection": "0.0.6"
 	}
 }

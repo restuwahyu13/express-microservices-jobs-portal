@@ -1,20 +1,6 @@
-interface IUsers {
-	userId?: string
-	firstName: string
-	lastName: string
-	email: string
-	password: string
-	location: string
-	phone: number
-	role?: string
-	active?: boolean
-	firstLogin?: any
-	lastLogin?: any
-	createdAt?: any
-	updatedAt?: any
-}
+import { Document } from 'mongoose'
 
-export class UsersDTO implements IUsers {
+export class UsersDTO extends Document {
 	readonly userId?: string
 	readonly firstName: string
 	readonly lastName: string
