@@ -109,7 +109,7 @@ const Schema: mongoose.Schema = new mongoose.Schema({
 				trim: true,
 				default: null
 			},
-			educationinformation: {
+			educationInformation: {
 				type: String,
 				trim: true,
 				default: null
