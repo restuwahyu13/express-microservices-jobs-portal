@@ -89,7 +89,7 @@ const Schema: mongoose.Schema = new mongoose.Schema({
 				trim: true,
 				default: null
 			},
-			degree: {
+			educationDegree: {
 				type: String,
 				trim: true,
 				default: null
@@ -109,7 +109,7 @@ const Schema: mongoose.Schema = new mongoose.Schema({
 				trim: true,
 				default: null
 			},
-			information: {
+			educationinformation: {
 				type: String,
 				trim: true,
 				default: null
