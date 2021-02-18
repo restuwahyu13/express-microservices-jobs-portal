@@ -16,12 +16,12 @@ export const getResendSubscriber = (): Promise<Record<string, any>> => {
 				}
 
 				if (checkUser.active == true) {
-					resolve({ statusCode: 400, message: 'user account has been active, please login now' })
+					resolve({ statusCode: 400, message: 'user account has been active, please login' })
 				}
 
 				resolve({
 					statusCode: 200,
-					message: `resend new token successfuly, please check your email ${checkUser.email}`,
+					message: `resend new token successfully, please check your email ${checkUser.email}`,
 					data: checkUser
 				})
 			} catch (err) {

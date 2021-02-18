@@ -27,12 +27,12 @@ export const getRegisterSubscriber = (): Promise<Record<string, any>> => {
 				})
 
 				if (createNewAccount) {
-					resolve({ statusCode: 400, message: 'create new user failed, please try again' })
+					resolve({ statusCode: 403, message: 'create new user failed, please try again' })
 				}
 
 				resolve({
 					statusCode: 201,
-					message: `create new account successfuly, please check your email ${res.email}`,
+					message: `create new account successfully, please check your email ${res.email}`,
 					data: createNewAccount
 				})
 			} catch (err) {
