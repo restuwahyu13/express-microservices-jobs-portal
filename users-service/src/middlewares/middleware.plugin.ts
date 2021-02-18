@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { Express, NextFunction } from 'express'
+import { Express } from 'express'
 import bodyParser from 'body-parser'
 import zlib from 'zlib'
 import cors from 'cors'

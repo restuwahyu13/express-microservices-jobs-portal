@@ -1,8 +1,7 @@
 import bcrypt from 'bcryptjs'
 
 export const hashPassword = (password: string): string => {
-	const salt: string = bcrypt.getSalt('10')
-	return bcrypt.hashSync(salt)
+	return bcrypt.hashSync(password)
 }
 
 export const verifyPassword = (password: string, hashPassword: string): Promise<any> => {
