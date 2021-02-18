@@ -13,24 +13,28 @@ export const getRegisterSubscriber = (): Promise<Record<string, any>> => {
 				const checkUser: UsersDTO = await userSchema.findOne({ email: res.email }).lean()
 
 				if (checkUser) {
-					resolve({ statusCode: 409, message: 'email already exist, please try again' })
-				} else {
-					const addUser = await userSchema.create({
-						firstName: res.firstName,
-						lastName: res.lastName,
-						email: res.email,
-						password: hashPassword(res.password),
-						location: res.location,
-						phone: res.phone,
-						createdAt: new Date()
-					})
-
-					if (addUser) {
-						resolve({ statusCode: 201, message: `create new account successfuly, please check your email ${res.email}` })
-					} else {
-						resolve({ statusCode: 400, message: 'create new user failed, please try again' })
-					}
+					resolve({ statusCode: 409, message: 'email already taken, please try again' })
 				}
+
+				const createNewAccount: UsersDTO = await userSchema.create({
+					firstName: res.firstName,
+					lastName: res.lastName,
+					email: res.email,
+					password: hashPassword(res.password),
+					location: res.location,
+					phone: res.phone,
+					createdAt: new Date()
+				})
+
+				if (createNewAccount) {
+					resolve({ statusCode: 400, message: 'create new user failed, please try again' })
+				}
+
+				resolve({
+					statusCode: 201,
+					message: `create new account successfuly, please check your email ${res.email}`,
+					data: createNewAccount
+				})
 			} catch (err) {
 				reject({ statusCode: 500, message: 'internal server error' })
 			}

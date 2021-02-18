@@ -14,17 +14,17 @@ export const registerController = async (req: Request, res: Response): Promise<v
 	const { firstName, lastName, email, password, location, phone }: IUser = req.body
 
 	await setRegisterPublisher({ firstName, lastName, email, password, location, phone })
-	const response = await getRegisterSubscriber()
+	const { statusCode, message, data } = await getRegisterSubscriber()
 
-	if (response.statusCode >= 400) {
-		streamBox(res, response.statusCode, {
+	if (statusCode >= 400) {
+		streamBox(res, statusCode, {
 			method: req.method,
-			statusCode: response.statusCode,
-			message: response.message
+			statusCode: statusCode,
+			message: message
 		})
 	} else {
-		const { accessToken }: IJwt = signAccessToken()(res, { email: email }, { expiresIn: '5m' })
-		const template: IRegisterMail = tempMailRegister(email, accessToken)
+		const { accessToken }: IJwt = signAccessToken()(res, { id: data.id, email: data.email }, { expiresIn: '5m' })
+		const template: IRegisterMail = tempMailRegister(data.email, accessToken)
 
 		sgMail.setApiKey(process.env.SG_API_KEY)
 		const sgResponse: [ClientResponse, any] = await sgMail.send(template)
@@ -35,10 +35,10 @@ export const registerController = async (req: Request, res: Response): Promise<v
 				message: 'Server error failed to sending email activation'
 			})
 		} else {
-			streamBox(res, response.statusCode, {
+			streamBox(res, statusCode, {
 				method: req.method,
-				status: response.statusCode,
-				message: response.message
+				status: statusCode,
+				message: message
 			})
 		}
 	}
