@@ -1,8 +1,8 @@
 import { IResetMail } from '../interface/iterface.tempmail'
 
-const CLIENT_URL = process.env.NODE_ENV !== 'production' ? process.env.URL_DEV : process.env.URL_PROD
-
 export const tempMailReset = (to: string, token: string): IResetMail => {
+	const CLIENT_URL = process.env.NODE_ENV !== 'production' ? process.env.URL_DEV : process.env.URL_PROD
+
 	return {
 		from: 'admin@bfintech.com',
 		to: to,
@@ -121,7 +121,7 @@ export const tempMailReset = (to: string, token: string): IResetMail => {
         <div class="container">
             <div class="card">
                 <div class="logo">
-								  <h4><a href="">Barbar Fintech Company</a></h4>
+								  <h4><a href="">Jobseeker Portal.inc</a></h4>
                 </div>
                 <div class="card-body">
                     <p class="card-title"><strong>Hello Dear ${to}</strong></p>
@@ -132,7 +132,7 @@ export const tempMailReset = (to: string, token: string): IResetMail => {
                         <a href="${CLIENT_URL}/user/reset-password/${token}">Reset Password</a>
                     </button>
                     <div class="footer-logo">
-										<span class="footer">&copy; ${new Date().getFullYear()} Barbar Fintech, Inc All Right Reserved</span>
+										<span class="footer">&copy; ${new Date().getFullYear()} Jobseeker Portal, Inc All Right Reserved</span>
                      </div>
                     </div>
                 </div>

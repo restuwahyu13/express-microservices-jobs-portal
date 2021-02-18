@@ -1,12 +1,11 @@
 import { IResendMail } from '../interface/iterface.tempmail'
 
-const CLIENT_URL = process.env.NODE_ENV !== 'production' ? process.env.URL_DEV : process.env.URL_PROD
-
 export const tempMailResend = (to: string, token: string): IResendMail => {
+	const CLIENT_URL = process.env.NODE_ENV !== 'production' ? process.env.URL_DEV : process.env.URL_PROD
 	return {
-		from: 'admin@bfintech.com',
+		from: 'ayana@joobseeker.com',
 		to: to,
-		subject: 'Email Activation Account',
+		subject: 'New Email Activation Account',
 		html: `
         <!DOCTYPE html>
         <html lang="en">
@@ -140,18 +139,18 @@ export const tempMailResend = (to: string, token: string): IResendMail => {
         <div class="container">
             <div class="card">
                 <div class="logo">
-                    <h4><a href="">Barbar Fintech Company</a></h4>
+									<h4><a href="">Jobseeker Portal.inc</a></h4>
                 </div>
                 <div class="card-body">
                     <p class="card-title"><strong>Hello Dear ${to}</strong></p>
-                        <p class="card-subtitle"><strong>Kepada user YTH </strong>silahkan konfirmasi account anda:
+                        <p class="card-subtitle"><strong>Kepada user YTH </strong>berikut adalah activation token account anda:
                     </p>
                 <div class="text-content">
                     <button>
                       <a href="${CLIENT_URL}/api/v1/user/activation/${token}">Activation Account</a>
                     </button>
                     <div class="footer-logo">
-                        <span class="footer">&copy; ${new Date().getFullYear()} Barbar Fintech Company, Inc All Right Reserved</span>
+										<span class="footer">&copy; ${new Date().getFullYear()} Jobseeker Portal, Inc All Right Reserved</span>
                         </div>
                     </div>
                 </div>

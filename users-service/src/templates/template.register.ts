@@ -1,12 +1,12 @@
 import { IRegisterMail } from '../interface/iterface.tempmail'
 
-const CLIENT_URL = process.env.NODE_ENV !== 'production' ? process.env.URL_DEV : process.env.URL_PROD
-
-export const tempMailRegister = (to: string, token: string): IRegisterMail => ({
-	from: 'ayana@joobseeker.com',
-	to: to,
-	subject: 'Email Activation Account',
-	html: `
+export const tempMailRegister = (to: string, token: string): IRegisterMail => {
+	const CLIENT_URL = process.env.NODE_ENV !== 'production' ? process.env.URL_DEV : process.env.URL_PROD
+	return {
+		from: 'ayana@joobseeker.com',
+		to: to,
+		subject: 'Email Activation Account',
+		html: `
         <!DOCTYPE html>
         <html lang="en">
 
@@ -158,4 +158,5 @@ export const tempMailRegister = (to: string, token: string): IRegisterMail => ({
           </body>
       </html>
         `
-})
+	}
+}
