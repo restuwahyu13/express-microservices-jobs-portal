@@ -10,7 +10,7 @@
 		"cleanup": "rimraf dist",
 		"build": "tsc --pretty",
 		"start": "node dist/server.js",
-		"dev": "nodemon -w *.ts -x ts-node --files -H -P server.ts",
+		"dev": "nodemon -w 'src/**/*.ts' -x ts-node --files -H -T server.ts",
 		"format": "prettier ./src/**/*.{ts,spect.ts,test.ts} --write",
 		"lint": "eslint ./src/**/*.{ts,spect.ts,test.ts} --fix",
 		"lintfix": "npm run format && npm run lint",

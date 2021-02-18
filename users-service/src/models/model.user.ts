@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose'
+import mongoose, { Model } from 'mongoose'
 import shortId from 'shortid'
 import { UsersDTO } from '../dto/dto.users'
 
@@ -11,13 +11,11 @@ const UserSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	firstName: {
 		type: String,
-		unique: true,
 		trim: true,
 		required: [true, 'firstName is required']
 	},
 	lastName: {
 		type: String,
-		unique: true,
 		trim: true,
 		required: [true, 'lastName is required']
 	},
@@ -75,4 +73,4 @@ const UserSchema: mongoose.Schema = new mongoose.Schema({
 	}
 })
 
-export const userSchema = mongoose.model<UsersDTO>('usersService', UserSchema)
+export const userSchema: Model<UsersDTO> = mongoose.model('usersService', UserSchema)
