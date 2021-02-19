@@ -14,7 +14,7 @@ const customLogger = (req: Request, res: Response, serviceName: string) => {
 	if (req.statusCode >= 400) {
 		consola.info(
 			chalk.red(
-				'[Monitoring]:',
+				'[Logger]:',
 				JSON.stringify({
 					serviceName: serviceName,
 					ipAddress: req.ip || req.headers['x-forwarded-host'] || req.connection.remoteAddress,
@@ -28,7 +28,7 @@ const customLogger = (req: Request, res: Response, serviceName: string) => {
 	} else {
 		consola.info(
 			chalk.green(
-				'[Monitoring]:',
+				'[Logger]:',
 				JSON.stringify({
 					serviceName: serviceName,
 					ipAddress: req.ip || req.headers['x-forwarded-host'] || req.connection.remoteAddress,
