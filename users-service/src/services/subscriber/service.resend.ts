@@ -12,11 +12,17 @@ export const getResendSubscriber = (): Promise<Record<string, any>> => {
 				const checkUser: UsersDTO = await userSchema.findOne({ email: res.email }).lean()
 
 				if (!checkUser) {
-					resolve({ statusCode: 404, message: 'user is not exist for this email, please register new account' })
+					resolve({
+						statusCode: 404,
+						message: 'user is not exist for this email, please register new account'
+					})
 				}
 
 				if (checkUser.active == true) {
-					resolve({ statusCode: 400, message: 'user account has been active, please login' })
+					resolve({
+						statusCode: 400,
+						message: 'user account has been active, please login'
+					})
 				}
 
 				resolve({
@@ -25,7 +31,10 @@ export const getResendSubscriber = (): Promise<Record<string, any>> => {
 					data: checkUser
 				})
 			} catch (err) {
-				reject({ statusCode: 500, message: 'internal server error' })
+				reject({
+					statusCode: 500,
+					message: 'internal server error'
+				})
 			}
 		})
 	})

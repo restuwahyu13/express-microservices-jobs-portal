@@ -13,7 +13,10 @@ export const getRegisterSubscriber = (): Promise<Record<string, any>> => {
 				const checkUser: UsersDTO = await userSchema.findOne({ email: res.email }).lean()
 
 				if (checkUser) {
-					resolve({ statusCode: 409, message: 'email already taken, please try again' })
+					resolve({
+						statusCode: 409,
+						message: 'email already taken, please try again'
+					})
 				}
 
 				const createNewAccount: UsersDTO = await userSchema.create({
@@ -27,7 +30,10 @@ export const getRegisterSubscriber = (): Promise<Record<string, any>> => {
 				})
 
 				if (createNewAccount) {
-					resolve({ statusCode: 403, message: 'create new user failed, please try again' })
+					resolve({
+						statusCode: 403,
+						message: 'create new account failed, please try again'
+					})
 				}
 
 				resolve({
@@ -36,7 +42,10 @@ export const getRegisterSubscriber = (): Promise<Record<string, any>> => {
 					data: createNewAccount
 				})
 			} catch (err) {
-				reject({ statusCode: 500, message: 'internal server error' })
+				reject({
+					statusCode: 500,
+					message: 'internal server error'
+				})
 			}
 		})
 	})

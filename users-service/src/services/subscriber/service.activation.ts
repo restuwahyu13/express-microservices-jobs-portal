@@ -13,11 +13,17 @@ export const getActivationSubscriber = (): Promise<Record<string, any>> => {
 				const checkUser: UsersDTO = await userSchema.findById({ _id: res.id }).lean()
 
 				if (!checkUser) {
-					resolve({ statusCode: 404, message: 'userId is not exist for this users, please create new account' })
+					resolve({
+						statusCode: 404,
+						message: 'userId is not exist for this users, please create new account'
+					})
 				}
 
 				if (checkUser.active === true) {
-					resolve({ statusCode: 400, message: `user account has been active, please login` })
+					resolve({
+						statusCode: 400,
+						message: 'user account has been active, please login'
+					})
 				}
 
 				const updateActivation: UsersDTO = await userSchema.findByIdAndUpdate(checkUser._id, {
@@ -26,12 +32,21 @@ export const getActivationSubscriber = (): Promise<Record<string, any>> => {
 				})
 
 				if (updateActivation) {
-					resolve({ statusCode: 403, message: `activation account failed, please resend new token` })
+					resolve({
+						statusCode: 403,
+						message: 'activation account failed, please resend new token'
+					})
 				}
 
-				resolve({ statusCode: 200, message: `activation account successfully, please login` })
+				resolve({
+					statusCode: 200,
+					message: 'activation account successfully, please login'
+				})
 			} catch (err) {
-				reject({ statusCode: 500, message: 'internal server error' })
+				reject({
+					statusCode: 500,
+					message: 'internal server error'
+				})
 			}
 		})
 	})

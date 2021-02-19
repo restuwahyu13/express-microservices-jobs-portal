@@ -5,7 +5,10 @@ export const hashPassword = (password: string): string => {
 }
 
 export const verifyPassword = (password: string, hashPassword: string): Promise<any> => {
-	return new Promise((resolve, _) => {
-		bcrypt.compare(password, hashPassword, resolve)
+	return new Promise((resolve, reject) => {
+		bcrypt.compare(password, hashPassword, (error, success) => {
+			resolve(success)
+			reject(error)
+		})
 	})
 }

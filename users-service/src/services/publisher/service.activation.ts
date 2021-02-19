@@ -4,7 +4,7 @@ export const activationPublisher = new Publisher({ serviceName: 'activation', sp
 
 export const setActivationPublisher = async (data: Record<string, any>): Promise<any> => {
 	if (Object.keys(data).length > 0 && data) {
-		await activationPublisher.speaker({ ...data }, { removeOnComplete: 25, removeOnFail: 100 })
+		await activationPublisher.speaker({ ...data }, { removeOnComplete: true, removeOnFail: 1000 })
 	} else {
 		await activationPublisher.speaker({}, {})
 	}
