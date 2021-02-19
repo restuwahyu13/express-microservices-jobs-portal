@@ -11,7 +11,7 @@ export const serviceLogger = (serviceName: string) => (req: Request, res: Respon
 }
 
 const customLogger = (req: Request, res: Response, serviceName: string) => {
-	if (req.statusCode >= 400) {
+	if (res.statusCode >= 400) {
 		consola.info(
 			chalk.red(
 				'[Logger]:',

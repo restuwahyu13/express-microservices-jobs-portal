@@ -3,7 +3,6 @@ import { setLoginPublisher } from '../services/publisher/service.login'
 import { getLoginSubscriber } from '../services/subscriber/service.login'
 import { streamBox } from '../utils/util.stream'
 import { verifyPassword } from '../utils/util.encrypt'
-import { signAccessToken } from '../utils/util.jwt'
 
 export const loginController = async (req: Request, res: Response): Promise<void> => {
 	await setLoginPublisher({ email: req.body.email })
@@ -25,13 +24,10 @@ export const loginController = async (req: Request, res: Response): Promise<void
 						message: 'email/password is wrong'
 					})
 				} else {
-					const accessToken = signAccessToken()(res, { id: data._id, email: data.email }, { expiresIn: '1d' })
-
 					streamBox(res, statusCode, {
 						method: req.method,
 						status: statusCode,
-						message: data.message,
-						accessToken: accessToken
+						message: data.message
 					})
 				}
 			})

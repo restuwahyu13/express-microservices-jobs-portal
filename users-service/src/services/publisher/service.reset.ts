@@ -4,7 +4,7 @@ export const resetPublisher = new Publisher({ serviceName: 'reset', speakerName:
 
 export const setResetPublisher = async (data: Record<string, any>): Promise<any> => {
 	if (Object.keys(data).length > 0 && data) {
-		await resetPublisher.speaker({ ...data }, { removeOnComplete: true, removeOnFail: 1000 })
+		await resetPublisher.speaker({ ...data }, { removeOnComplete: 1000, removeOnFail: 1000 })
 	} else {
 		await resetPublisher.speaker({}, {})
 	}
