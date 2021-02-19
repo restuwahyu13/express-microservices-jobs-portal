@@ -7,7 +7,6 @@ import helmet from 'helmet'
 import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import slowDown from 'express-slow-down'
-import morgan from 'morgan'
 import { router } from 'bull-board'
 
 export const pluginMiddleware = (app: Express): void => {
@@ -35,10 +34,6 @@ export const pluginMiddleware = (app: Express): void => {
 			delayMs: 3000
 		})
 	)
-
-	if (process.env.NODE_ENV !== 'production') {
-		app.use(morgan('dev'))
-	}
 
 	app.enable('trust proxy')
 	app.disable('x-powered-by')
