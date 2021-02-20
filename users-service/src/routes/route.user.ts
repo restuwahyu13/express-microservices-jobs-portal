@@ -11,7 +11,7 @@ router.get('/user/activation/:token', [serviceLogger('Activation Service'), ...t
 router.post('/user/forgot-password', [serviceLogger('Forgot Service'), ...emailValidator()], controller.forgotController)
 router.post('/user/resend-token', [serviceLogger('Resend Service'), ...emailValidator()], controller.resendController)
 router.post(
-	'/user/reset-password',
+	'/user/reset-password/:token',
 	[serviceLogger('Reset Service'), ...tokenValidator(), ...passwordValidator()],
 	controller.resetController
 )
