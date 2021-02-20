@@ -40,7 +40,7 @@ export const loginController = async (req: Request, res: Response): Promise<void
 							method: req.method,
 							status: statusCode,
 							message,
-							accessToken
+							...accessToken
 						})
 					}
 				})

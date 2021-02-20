@@ -32,7 +32,7 @@ export const getLoginSubscriber = (): Promise<Record<string, any>> => {
 
 				resolve({
 					statusCode: 200,
-					message: 'Login successfully',
+					message: 'login successfully',
 					data: checkUser
 				})
 			} catch (err) {
