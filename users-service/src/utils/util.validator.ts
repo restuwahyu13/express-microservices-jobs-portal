@@ -14,10 +14,29 @@ export const expressValidator = (req: Request): ValidationError[] => {
 }
 
 export const registerValidator = (): ValidationChain[] => [
-	check('email').isEmpty().withMessage('email is required'),
+	check('firstName').notEmpty().withMessage('firstName is required'),
+	check('firstName')
+		.not()
+		.custom((val) => /[^a-zA-Z]/gi.test(val))
+		.withMessage('firstName cannot include unique character'),
+	check('lastName').notEmpty().withMessage('lastName is required'),
+	check('lastName')
+		.not()
+		.custom((val) => /[^a-zA-Z]/gi.test(val))
+		.withMessage('lastName cannot include unique character'),
+	check('email').notEmpty().withMessage('email is required'),
 	check('email').isEmail().withMessage('email is not valid'),
-	check('password').isEmpty().withMessage('password is required'),
-	check('password').isLength({ min: 8 }).withMessage('password must be at least 8 characters')
+	check('password').notEmpty().withMessage('password is required'),
+	check('password').isLength({ min: 8 }).withMessage('password must be at least 8 characters'),
+	check('location').notEmpty().withMessage('location is required'),
+	check('location')
+		.not()
+		.custom((val) => /[^a-zA-Z]/gi.test(val))
+		.withMessage('location cannot include unique character'),
+	check('phone').notEmpty().withMessage('phone is required'),
+	check('phone').isLength({ min: 10 }).withMessage('phone number must be at least 10 characters'),
+	check('phone').isLength({ max: 12 }).withMessage('phone number must be at least 12 characters'),
+	check('phone').isMobilePhone('id-ID').withMessage('phone number is not valid')
 ]
 
 export const loginValidator = (): ValidationChain[] => [
