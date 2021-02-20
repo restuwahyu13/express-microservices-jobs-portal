@@ -5,7 +5,7 @@ import { setResendPublisher } from '../services/publisher/service.resend'
 import { getResendSubscriber } from '../services/subscriber/service.resend'
 import { streamBox } from '../utils/util.stream'
 import { signAccessToken } from '../utils/util.jwt'
-import { tempMailRegister } from '../templates/template.register'
+import { tempMailResend } from '../templates/template.resend'
 import { IRegisterMail } from '../interface/iterface.tempmail'
 import { IJwt } from '../interface/interface.jwt'
 
@@ -21,7 +21,7 @@ export const resendController = async (req: Request, res: Response): Promise<voi
 		})
 	} else {
 		const { accessToken }: IJwt = signAccessToken()(res, { id: data._id, email: data.email }, { expiresIn: '5m' })
-		const template: IRegisterMail = tempMailRegister(data.email, accessToken)
+		const template: IRegisterMail = tempMailResend(data.email, accessToken)
 
 		sgMail.setApiKey(process.env.SG_API_KEY)
 		const sgResponse: [ClientResponse, any] = await sgMail.send(template)
