@@ -12,26 +12,24 @@ export const getResetSubscriber = (): Promise<Record<string, any>> => {
 			try {
 				const checkUser: UsersDTO = await userSchema.findById({ _id: res.id })
 
-				// if (!checkUser) {
-				// 	resolve({
-				// 		statusCode: 404,
-				// 		message: 'userId is not exist for this users, please create new account'
-				// 	})
-				// }
+				if (!checkUser) {
+					resolve({
+						statusCode: 404,
+						message: 'userId is not exist for this users, please create new account'
+					})
+				}
 
-				// const changePassword: UsersDTO = await userSchema.findByIdAndUpdate(checkUser._id, {
-				// 	password: hashPassword(res.password),
-				// 	updatedAt: new Date()
-				// })
+				const changePassword: UsersDTO = await userSchema.findByIdAndUpdate(checkUser._id, {
+					password: hashPassword(res.password),
+					updatedAt: new Date()
+				})
 
-				// if (!changePassword) {
-				// 	resolve({
-				// 		statusCode: 403,
-				// 		message: 'change new password failed, please try again'
-				// 	})
-				// }
-
-				console.log(checkUser)
+				if (!changePassword) {
+					resolve({
+						statusCode: 403,
+						message: 'change new password failed, please try again'
+					})
+				}
 
 				resolve({
 					statusCode: 200,

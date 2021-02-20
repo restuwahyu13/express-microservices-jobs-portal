@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import { check, validationResult, ValidationError, ValidationChain, Result } from 'express-validator'
+import { check, validationResult, ValidationError, ValidationChain, Result, Meta } from 'express-validator'
 
 export const expressValidator = (req: Request): ValidationError[] => {
 	const errors: Result<ValidationError> = validationResult(req)
@@ -17,12 +17,12 @@ export const registerValidator = (): ValidationChain[] => [
 	check('firstName').notEmpty().withMessage('firstName is required'),
 	check('firstName')
 		.not()
-		.custom((val) => /[^a-zA-Z]/gi.test(val))
+		.custom((val: string) => /[^a-zA-Z]/gi.test(val))
 		.withMessage('firstName cannot include unique character'),
 	check('lastName').notEmpty().withMessage('lastName is required'),
 	check('lastName')
 		.not()
-		.custom((val) => /[^a-zA-Z]/gi.test(val))
+		.custom((val: string) => /[^a-zA-Z]/gi.test(val))
 		.withMessage('lastName cannot include unique character'),
 	check('email').notEmpty().withMessage('email is required'),
 	check('email').isEmail().withMessage('email is not valid'),
@@ -31,7 +31,7 @@ export const registerValidator = (): ValidationChain[] => [
 	check('location').notEmpty().withMessage('location is required'),
 	check('location')
 		.not()
-		.custom((val) => /[^a-zA-Z]/gi.test(val))
+		.custom((val: string) => /[^a-zA-Z]/gi.test(val))
 		.withMessage('location cannot include unique character'),
 	check('phone').notEmpty().withMessage('phone is required'),
 	check('phone').isLength({ min: 10 }).withMessage('phone number must be at least 10 characters'),
@@ -53,4 +53,15 @@ export const emailValidator = (): ValidationChain[] => [
 export const tokenValidator = (): ValidationChain[] => [
 	check('token').notEmpty().withMessage('token is required'),
 	check('token').isBase64().withMessage('token is not valid')
+]
+
+export const passwordValidator = (): ValidationChain[] => [
+	check('password').notEmpty().withMessage('password is required'),
+	check('password').isLength({ min: 8 }).withMessage('password must be at least 8 characters'),
+	check('password')
+		.not()
+		.custom((value: string, { req }: Meta) => req.body.cpassword !== value)
+		.withMessage('confirm password is not match with password'),
+	check('cpassword').notEmpty().withMessage('cpassword is required'),
+	check('cpassword').isLength({ min: 8 }).withMessage('cpassword must be at least 8 characters')
 ]
