@@ -29,7 +29,7 @@ export const getRegisterSubscriber = (): Promise<Record<string, any>> => {
 					createdAt: new Date()
 				})
 
-				if (createNewAccount) {
+				if (!createNewAccount) {
 					resolve({
 						statusCode: 403,
 						message: 'create new account failed, please try again'
