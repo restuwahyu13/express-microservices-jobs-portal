@@ -5,7 +5,7 @@ import { streamBox } from '../utils/util.stream'
 import { verifySignAccessToken } from '../utils/util.jwt'
 
 export const resetController = async (req: Request, res: Response): Promise<void> => {
-	const activationToken = verifySignAccessToken()(req.params.id)
+	const activationToken = verifySignAccessToken()(req.params.token)
 
 	if (!activationToken) {
 		streamBox(res, 401, {
