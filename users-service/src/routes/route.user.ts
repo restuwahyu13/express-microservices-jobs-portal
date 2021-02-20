@@ -10,6 +10,10 @@ router.post('/user/login', [serviceLogger('Login Service'), ...loginValidator()]
 router.get('/user/activation/:token', [serviceLogger('Activation Service'), ...tokenValidator()], controller.activationController)
 router.post('/user/forgot-password', [serviceLogger('Forgot Service'), ...emailValidator()], controller.forgotController)
 router.post('/user/resend-token', [serviceLogger('Resend Service'), ...emailValidator()], controller.resendController)
-router.post('/user/reset-password', [serviceLogger('Reset Service'), ...passwordValidator()], controller.resetController)
+router.post(
+	'/user/reset-password',
+	[serviceLogger('Reset Service'), ...tokenValidator(), ...passwordValidator()],
+	controller.resetController
+)
 
 export default router
