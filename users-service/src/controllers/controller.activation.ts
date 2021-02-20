@@ -30,14 +30,14 @@ export const activationController = async (req: Request, res: Response): Promise
 			if (statusCode >= 400) {
 				streamBox(res, statusCode, {
 					method: req.method,
-					statusCode: statusCode,
-					message: message
+					status: statusCode,
+					message
 				})
 			} else {
 				streamBox(res, statusCode, {
 					method: req.method,
 					status: statusCode,
-					message: message
+					message
 				})
 			}
 		}

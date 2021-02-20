@@ -4,6 +4,7 @@ import { getLoginSubscriber } from '../services/subscriber/service.login'
 import { streamBox } from '../utils/util.stream'
 import { verifyPassword } from '../utils/util.encrypt'
 import { expressValidator } from '../utils/util.validator'
+import { signAccessToken } from '../utils/util.jwt'
 
 export const loginController = async (req: Request, res: Response): Promise<void> => {
 	const errors = expressValidator(req)
@@ -21,10 +22,11 @@ export const loginController = async (req: Request, res: Response): Promise<void
 		if (statusCode >= 400) {
 			streamBox(res, statusCode, {
 				method: req.method,
-				statusCode: statusCode,
-				message: message
+				status: statusCode,
+				message
 			})
 		} else {
+			const accessToken = signAccessToken()(res, { id: data._id, email: data.email }, { expiresIn: '1d' })
 			verifyPassword(req.body.password, data.password)
 				.then((success: boolean): void => {
 					if (!success) {
@@ -37,7 +39,8 @@ export const loginController = async (req: Request, res: Response): Promise<void
 						streamBox(res, statusCode, {
 							method: req.method,
 							status: statusCode,
-							message: data.message
+							message,
+							accessToken
 						})
 					}
 				})

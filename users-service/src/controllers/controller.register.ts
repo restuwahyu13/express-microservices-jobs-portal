@@ -16,8 +16,8 @@ export const registerController = async (req: Request, res: Response): Promise<v
 
 	if (errors.length > 0) {
 		streamBox(res, 400, {
-			status: 400,
 			method: req.method,
+			status: 400,
 			errors
 		})
 	} else {
@@ -29,8 +29,8 @@ export const registerController = async (req: Request, res: Response): Promise<v
 		if (statusCode >= 400) {
 			streamBox(res, statusCode, {
 				method: req.method,
-				statusCode: statusCode,
-				message: message
+				status: statusCode,
+				message
 			})
 		} else {
 			const { accessToken }: IJwt = signAccessToken()(res, { id: data.id, email: data.email }, { expiresIn: '5m' })
@@ -41,14 +41,14 @@ export const registerController = async (req: Request, res: Response): Promise<v
 			if (!sgResponse) {
 				streamBox(res, 500, {
 					method: req.method,
-					statusCode: 500,
+					status: 500,
 					message: 'Server error failed to sending email activation'
 				})
 			} else {
 				streamBox(res, statusCode, {
 					method: req.method,
 					status: statusCode,
-					message: message
+					message
 				})
 			}
 		}

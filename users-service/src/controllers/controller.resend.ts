@@ -5,38 +5,49 @@ import { setResendPublisher } from '../services/publisher/service.resend'
 import { getResendSubscriber } from '../services/subscriber/service.resend'
 import { streamBox } from '../utils/util.stream'
 import { signAccessToken } from '../utils/util.jwt'
+import { expressValidator } from '../utils/util.validator'
 import { tempMailResend } from '../templates/template.resend'
 import { IRegisterMail } from '../interface/iterface.tempmail'
 import { IJwt } from '../interface/interface.jwt'
 
 export const resendController = async (req: Request, res: Response): Promise<void> => {
-	await setResendPublisher({ email: req.body.email })
-	const { statusCode, message, data } = await getResendSubscriber()
+	const errors = expressValidator(req)
 
-	if (statusCode >= 400) {
-		streamBox(res, statusCode, {
+	if (errors.length > 0) {
+		streamBox(res, 400, {
 			method: req.method,
-			statusCode: statusCode,
-			message: message
+			status: 400,
+			errors
 		})
 	} else {
-		const { accessToken }: IJwt = signAccessToken()(res, { id: data._id, email: data.email }, { expiresIn: '5m' })
-		const template: IRegisterMail = tempMailResend(data.email, accessToken)
+		await setResendPublisher({ email: req.body.email })
+		const { statusCode, message, data } = await getResendSubscriber()
 
-		sgMail.setApiKey(process.env.SG_API_KEY)
-		const sgResponse: [ClientResponse, any] = await sgMail.send(template)
-		if (!sgResponse) {
-			streamBox(res, 500, {
-				method: req.method,
-				statusCode: 500,
-				message: 'Server error failed to sending email activation'
-			})
-		} else {
+		if (statusCode >= 400) {
 			streamBox(res, statusCode, {
 				method: req.method,
 				status: statusCode,
-				message: message
+				message
 			})
+		} else {
+			const { accessToken }: IJwt = signAccessToken()(res, { id: data._id, email: data.email }, { expiresIn: '5m' })
+			const template: IRegisterMail = tempMailResend(data.email, accessToken)
+
+			sgMail.setApiKey(process.env.SG_API_KEY)
+			const sgResponse: [ClientResponse, any] = await sgMail.send(template)
+			if (!sgResponse) {
+				streamBox(res, 500, {
+					method: req.method,
+					status: 500,
+					message: 'Server error failed to sending email activation'
+				})
+			} else {
+				streamBox(res, statusCode, {
+					method: req.method,
+					status: statusCode,
+					message
+				})
+			}
 		}
 	}
 }
