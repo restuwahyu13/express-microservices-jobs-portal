@@ -31,7 +31,7 @@ export const getActivationSubscriber = (): Promise<Record<string, any>> => {
 					updatedAt: new Date()
 				})
 
-				if (updateActivation) {
+				if (!updateActivation) {
 					resolve({
 						statusCode: 403,
 						message: 'activation account failed, please resend new token'
