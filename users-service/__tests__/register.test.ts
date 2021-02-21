@@ -38,12 +38,13 @@ describe('REGISTER.ts', () => {
 			})
 			.set('Content-Type', 'application/json')
 
-		getUniqueEmail = uniqueEmail
-		getUniquePhone = uniquePhone
-
 		expect(res.body.method).toBe('POST')
 		expect(res.body.status).toEqual(201)
 		expect(res.body.message).toEqual(`create new account successfully, please check your email ${uniqueEmail}`)
+
+		getUniqueEmail = uniqueEmail
+		getUniquePhone = uniquePhone
+
 		done()
 	})
 
