@@ -6,9 +6,7 @@ export const mongooseConnection = (): void => {
 	mongoose.Promise = q.Promise
 
 	mongoose.connect(process.env.MONGO_URI, {
-		minPoolSize: 1,
-		maxPoolSize: 20,
-		compression: { compressors: ['zlib'] },
+		poolSize: 10,
 		useUnifiedTopology: true,
 		useNewUrlParser: true,
 		useFindAndModify: false,
