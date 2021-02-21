@@ -6,9 +6,9 @@ import { pluginMiddleware } from './middlewares/middleware.plugin'
 
 const app = express() as Express
 
-pluginMiddleware(app)
 mongooseConnection()
 bullDashboardMonitor()
+pluginMiddleware(app)
 routeMiddleware(app)
 
 export default app
