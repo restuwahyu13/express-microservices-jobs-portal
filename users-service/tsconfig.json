@@ -17,6 +17,6 @@
 		"noUnusedParameters": false,
 		"typeRoots": ["node_modules/@types/"]
 	},
-	"include": ["src/**/*.ts"],
+	"include": ["src/**/*", "server.ts"],
 	"exclude": ["node_modules", "dist", "__tests__/**/*.{test.ts,spec.ts}"]
 }

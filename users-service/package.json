@@ -8,7 +8,8 @@
 	],
 	"scripts": {
 		"cleanup": "rimraf dist",
-		"build": "tsc --pretty",
+		"compile": "tsc --pretty",
+		"build": "npm run cleanup && npm run compile",
 		"start": "node dist/server.js",
 		"dev": "nodemon -w 'src/**/*.ts' -x ts-node --files -H -T server.ts",
 		"format": "prettier ./src/**/*.{ts,spect.ts,test.ts} --write",
