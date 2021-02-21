@@ -19,13 +19,13 @@ describe('FORGOT.ts', () => {
 	it('get statusCode email is valid and forgot password successfully', async (done) => {
 		const res: Response = await request(app)
 			.post(`/api/v1/user/forgot-password`)
-			.send({ email: 'restuwahyu13#zetmail.com' })
+			.send({ email: 'restuwahyu13@zetmail.com' })
 			.set('Content-Type', 'application/json')
 			.expect(200)
 
 		expect(res.body.method).toEqual('POST')
 		expect(res.body.status).toEqual(200)
-		expect(res.body.message).toEqual('change new password successfully, please login')
+		expect(res.body.message).toMatch(/restuwahyu13@zetmail.com/)
 		done()
 	})
 
@@ -39,6 +39,20 @@ describe('FORGOT.ts', () => {
 		expect(res.body.method).toEqual('POST')
 		expect(res.body.status).toEqual(400)
 		expect(res.body.errors[0].msg).toEqual('email is not valid')
+		done()
+	})
+
+	it('get statusCode email is empty', async (done) => {
+		const res: Response = await request(app)
+			.post(`/api/v1/user/forgot-password`)
+			.send({ email: '' })
+			.set('Content-Type', 'application/json')
+			.expect(400)
+
+		expect(res.body.method).toEqual('POST')
+		expect(res.body.status).toEqual(400)
+		expect(res.body.errors[0].msg).toEqual('email is required')
+		expect(res.body.errors[1].msg).toEqual('email is not valid')
 		done()
 	})
 })
