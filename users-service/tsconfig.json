@@ -15,7 +15,7 @@
 		"strict": false,
 		"alwaysStrict": false,
 		"noUnusedParameters": false,
-		"typeRoots": ["./node_modules/@types"]
+		"typeRoots": ["node_modules/@types/"]
 	},
 	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules", "dist", "__tests__/**/*.{test.ts,spec.ts}"]

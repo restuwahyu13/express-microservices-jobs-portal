@@ -1,14 +1,20 @@
 import request, { Response } from 'supertest'
 import { Base64 } from 'js-base64'
+import mongoose from 'mongoose'
+import { QueueEvents, Worker } from 'bullmq'
 import app from '../src/app'
 
-describe('CONTROLLER.LOGIN.ts', () => {
+describe('LOGIN.ts', () => {
 	beforeEach(() => {
 		jest.setTimeout(50000)
 	})
 
-	afterEach(() => {
+	afterAll(async (done) => {
 		jest.clearAllTimers()
+		await mongoose.connection.close()
+		await new Worker('login').close()
+		await new QueueEvents('login').close()
+		done()
 	})
 
 	it('get login success statusCode', async (done) => {

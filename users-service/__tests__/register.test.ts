@@ -1,13 +1,14 @@
 import request, { Response } from 'supertest'
-import { Base64 } from 'js-base64'
+import mongoose from 'mongoose'
+import { QueueEvents, Worker } from 'bullmq'
 import app from '../src/app'
 
-describe('CONTROLLER.REGISTER.ts', () => {
+describe('REGISTER.ts', () => {
 	let randomNumber
 	let uniqueEmail
 	let uniquePhone
-	let getUniqueEmail
-	let getUniquePhone
+	let getUniqueEmail = ''
+	let getUniquePhone = ''
 
 	beforeEach(() => {
 		jest.setTimeout(50000)
@@ -16,11 +17,15 @@ describe('CONTROLLER.REGISTER.ts', () => {
 		uniquePhone = `0821568941${randomNumber}`
 	})
 
-	afterEach(() => {
+	afterAll(async (done) => {
 		jest.clearAllTimers()
+		await mongoose.connection.close()
+		await new Worker('register').close()
+		await new QueueEvents('register').close()
+		done()
 	})
 
-	it('get register success statusCode', async (done) => {
+	it('get register statusCode create new account success', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/register')
 			.send({
@@ -33,13 +38,13 @@ describe('CONTROLLER.REGISTER.ts', () => {
 			})
 			.set('Content-Type', 'application/json')
 
+		getUniqueEmail = uniqueEmail
+		getUniquePhone = uniquePhone
+
 		expect(res.body.method).toBe('POST')
 		expect(res.body.status).toEqual(201)
 		expect(res.body.message).toEqual(`create new account successfully, please check your email ${uniqueEmail}`)
-		getUniqueEmail = uniqueEmail
-		getUniquePhone = uniquePhone
 		done()
-		console.log(getUniqueEmail)
 	})
 
 	it('get register failed statusCode account already exist', async (done) => {
@@ -48,10 +53,10 @@ describe('CONTROLLER.REGISTER.ts', () => {
 			.send({
 				firstName: 'jamal',
 				lastName: 'mirdad',
-				email: `${getUniqueEmail}`,
+				email: getUniqueEmail,
 				password: 'bukopin12',
 				location: 'indonesia',
-				phone: `${getUniquePhone}`
+				phone: getUniquePhone
 			})
 			.set('Content-Type', 'application/json')
 
