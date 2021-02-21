@@ -18,7 +18,7 @@ const customLogger = (req: Request, res: Response, serviceName: string) => {
 					'[Logger]:',
 					JSON.stringify({
 						serviceName: serviceName,
-						ipAddress: req.ip || req.headers['x-forwarded-host'] || req.connection.remoteAddress,
+						ipAddress: req.ip || req.headers['x-forwarded-host'] || res.connection.remoteAddress,
 						path: req.url,
 						method: req.method,
 						status: res.statusCode,
@@ -32,7 +32,7 @@ const customLogger = (req: Request, res: Response, serviceName: string) => {
 					'[Logger]:',
 					JSON.stringify({
 						serviceName: serviceName,
-						ipAddress: req.ip || req.headers['x-forwarded-host'] || req.connection.remoteAddress,
+						ipAddress: req.ip || req.headers['x-forwarded-host'] || res.connection.remoteAddress,
 						path: req.url,
 						method: req.method,
 						status: res.statusCode,
