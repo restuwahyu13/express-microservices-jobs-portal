@@ -15,11 +15,11 @@ describe('CONNECTION.TS', () => {
 		done()
 	})
 
-	it('connection status is connected', () => {
+	it('get response if connection status is connected', () => {
 		expect(mongoose.STATES.connected === 1).toBeTruthy()
 	})
 
-	it('connection status is disconnected', () => {
+	it('get response if connection status is disconnected', () => {
 		mongoose.disconnect()
 		expect(mongoose.STATES.disconnected === 0).toBeTruthy()
 	})

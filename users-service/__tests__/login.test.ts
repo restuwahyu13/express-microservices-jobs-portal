@@ -17,7 +17,7 @@ describe('LOGIN.ts', () => {
 		done()
 	})
 
-	it('get login success statusCode', async (done) => {
+	it('get response if login successfully', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/login')
 			.send({ email: 'aldikhan13@grr.la', password: 'aldikhan13' })
@@ -29,7 +29,7 @@ describe('LOGIN.ts', () => {
 		done()
 	})
 
-	it('get login failed statusCode account is not found', async (done) => {
+	it('get response if account is not exist', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/login')
 			.send({ email: 'aldikhan131@grr.la', password: 'aldikhan13' })
@@ -41,7 +41,7 @@ describe('LOGIN.ts', () => {
 		done()
 	})
 
-	it('get login failed statusCode password is wrong', async (done) => {
+	it('get response if password is wrong', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/login')
 			.send({ email: 'aldikhan13@grr.la', password: 'aldikhan131' })
@@ -53,7 +53,7 @@ describe('LOGIN.ts', () => {
 		done()
 	})
 
-	it('check header response is json', async (done) => {
+	it('get response if response header is json', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/login')
 			.send({ email: 'aldikhan13@grr.la', password: 'aldikhan13' })
@@ -64,7 +64,7 @@ describe('LOGIN.ts', () => {
 		done()
 	})
 
-	it('check accessToken and refreshToken is valid', async (done) => {
+	it('get response if accessToken and refreshToken is valid', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/login')
 			.send({ email: 'aldikhan13@grr.la', password: 'aldikhan13' })

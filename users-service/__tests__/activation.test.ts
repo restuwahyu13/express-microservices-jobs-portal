@@ -23,19 +23,23 @@ describe('ACTIVATION.ts', () => {
 		done()
 	})
 
-	it('get statusCode account has been active', async (done) => {
+	it('get response if account has been active', async (done) => {
 		const res: Response = await request(app)
 			.get(`/api/v1/user/activation/${newAccessToken}`)
 			.set('Content-Type', 'application/json')
+			.expect(400)
 
 		expect(res.body.method).toBe('GET')
-		expect(res.body.status).toEqual(200)
+		expect(res.body.status).toEqual(400)
 		expect(res.body.message).toEqual('user account has been active, please login')
 		done()
 	})
 
-	it('get statusCode activation token expired or invalid token', async (done) => {
-		const res: Response = await request(app).get(`/api/v1/user/activation/${accessToken}`).set('Content-Type', 'application/json')
+	it('get response if activation token expired or invalid token', async (done) => {
+		const res: Response = await request(app)
+			.get(`/api/v1/user/activation/${accessToken}`)
+			.set('Content-Type', 'application/json')
+			.expect(401)
 
 		expect(res.body.method).toBe('GET')
 		expect(res.body.status).toEqual(401)
@@ -43,8 +47,11 @@ describe('ACTIVATION.ts', () => {
 		done()
 	})
 
-	it('check header response is json', async (done) => {
-		const res: Response = await request(app).get(`/api/v1/user/activation/${accessToken}`).set('Content-Type', 'application/json')
+	it('get response if header response is json', async (done) => {
+		const res: Response = await request(app)
+			.get(`/api/v1/user/activation/${accessToken}`)
+			.set('Content-Type', 'application/json')
+			.expect(401)
 
 		expect(res.body.status).toEqual(401)
 		expect(res.header['content-type']).toMatch(/json/)

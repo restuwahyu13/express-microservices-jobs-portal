@@ -25,7 +25,7 @@ describe('REGISTER.ts', () => {
 		done()
 	})
 
-	it('get register statusCode create new account success', async (done) => {
+	it('get response if create new account successfully', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/register')
 			.send({
@@ -48,7 +48,7 @@ describe('REGISTER.ts', () => {
 		done()
 	})
 
-	it('get register failed statusCode account already exist', async (done) => {
+	it('get response failed if account already exist', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/register')
 			.send({
@@ -67,7 +67,7 @@ describe('REGISTER.ts', () => {
 		done()
 	})
 
-	it('get register failed statusCode request body is not valid', async (done) => {
+	it('get response failed if request body is not valid', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/register')
 			.send({
@@ -89,7 +89,7 @@ describe('REGISTER.ts', () => {
 		done()
 	})
 
-	it('check header response is json', async (done) => {
+	it('get response if response header is json', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/register')
 			.send({

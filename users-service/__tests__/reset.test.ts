@@ -20,7 +20,7 @@ describe('RESET.ts', () => {
 		done()
 	})
 
-	it('get statusCode change new password successfully', async (done) => {
+	it('get response if change new password successfully', async (done) => {
 		const res: Response = await request(app)
 			.post(`/api/v1/user/reset-password/${accessToken}`)
 			.send({ password: 'qwerty123', cpassword: 'qwerty123' })
@@ -33,7 +33,7 @@ describe('RESET.ts', () => {
 		done()
 	})
 
-	it('get statusCode cpassword and password is empty', async (done) => {
+	it('get response if cpassword and password is empty', async (done) => {
 		const res: Response = await request(app)
 			.post(`/api/v1/user/reset-password/${accessToken}`)
 			.send({ password: '', cpassword: '' })
@@ -49,7 +49,7 @@ describe('RESET.ts', () => {
 		done()
 	})
 
-	it('get statusCode cpassword is not match with password', async (done) => {
+	it('get response if cpassword is not match with password', async (done) => {
 		const res: Response = await request(app)
 			.post(`/api/v1/user/reset-password/${accessToken}`)
 			.send({ password: 'qwerty123', cpassword: 'qwerty1234' })
@@ -59,6 +59,17 @@ describe('RESET.ts', () => {
 		expect(res.body.method).toEqual('POST')
 		expect(res.body.status).toEqual(400)
 		expect(res.body.errors[0].msg).toEqual('confirm password is not match with password')
+		done()
+	})
+
+	it('get response if response header is json', async (done) => {
+		const res: Response = await request(app)
+			.post('/api/v1/user/login')
+			.send({ email: 'aldikhan13@grr.la', password: 'aldikhan13' })
+			.set('Content-Type', 'application/json')
+
+		expect(res.status).toEqual(200)
+		expect(res.header['content-type']).toMatch(/json/)
 		done()
 	})
 })

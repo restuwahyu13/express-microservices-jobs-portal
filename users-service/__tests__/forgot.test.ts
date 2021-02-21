@@ -16,7 +16,7 @@ describe('FORGOT.ts', () => {
 		done()
 	})
 
-	it('get statusCode email is valid and forgot password successfully', async (done) => {
+	it('get response if email is valid and forgot password successfully', async (done) => {
 		const res: Response = await request(app)
 			.post(`/api/v1/user/forgot-password`)
 			.send({ email: 'restuwahyu13@zetmail.com' })
@@ -29,7 +29,7 @@ describe('FORGOT.ts', () => {
 		done()
 	})
 
-	it('get statusCode email is not valid', async (done) => {
+	it('get response if email is not valid', async (done) => {
 		const res: Response = await request(app)
 			.post(`/api/v1/user/forgot-password`)
 			.send({ email: 'restuwahyu13#zetmail.com' })
@@ -42,7 +42,7 @@ describe('FORGOT.ts', () => {
 		done()
 	})
 
-	it('get statusCode email is empty', async (done) => {
+	it('get response if email is empty', async (done) => {
 		const res: Response = await request(app)
 			.post(`/api/v1/user/forgot-password`)
 			.send({ email: '' })
