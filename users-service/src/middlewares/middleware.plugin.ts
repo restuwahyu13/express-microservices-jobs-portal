@@ -31,6 +31,7 @@ export const pluginMiddleware = (app: Express): void => {
 	app.use(
 		slowDown({
 			windowMs: 60 * 1000 * 3,
+			delayAfter: 1000,
 			delayMs: 3000
 		})
 	)
