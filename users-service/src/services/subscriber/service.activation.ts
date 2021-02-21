@@ -21,7 +21,7 @@ export const getActivationSubscriber = (): Promise<Record<string, any>> => {
 
 				if (checkUser.active == true) {
 					resolve({
-						statusCode: 400,
+						statusCode: 200,
 						message: 'user account has been active, please login'
 					})
 				}

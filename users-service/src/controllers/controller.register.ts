@@ -33,7 +33,7 @@ export const registerController = async (req: Request, res: Response): Promise<v
 				message
 			})
 		} else {
-			const { accessToken }: IJwt = signAccessToken()(res, { id: data.id, email: data.email }, { expiresIn: '5m' })
+			const { accessToken }: IJwt = signAccessToken()(res, { id: data.id, email: data.email }, { expiresIn: '90d' })
 			const template: IRegisterMail = tempMailRegister(data.email, accessToken)
 
 			sgMail.setApiKey(process.env.SG_API_KEY)
