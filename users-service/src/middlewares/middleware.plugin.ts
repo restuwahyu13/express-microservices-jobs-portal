@@ -23,14 +23,14 @@ export const pluginMiddleware = (app: Express): void => {
 	)
 	app.use(
 		rateLimit({
-			windowMs: 60 * 1000 * 3,
+			windowMs: 3 * 60 * 1000,
 			max: 1000,
 			message: 'too many requests from this IP address, please try after 3 minute'
 		})
 	)
 	app.use(
 		slowDown({
-			windowMs: 60 * 1000 * 3,
+			windowMs: 3 * 60 * 1000,
 			delayAfter: 1000,
 			delayMs: 3000
 		})
