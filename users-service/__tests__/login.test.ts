@@ -20,7 +20,7 @@ describe('LOGIN.ts', () => {
 	it('get response if login successfully', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/login')
-			.send({ email: 'aldikhan13@grr.la', password: 'aldikhan13' })
+			.send({ email: 'samsul13@grr.la', password: 'bukopin12' })
 			.set('Content-Type', 'application/json')
 
 		expect(res.body.method).toBe('POST')
@@ -56,7 +56,7 @@ describe('LOGIN.ts', () => {
 	it('get response if response header is json', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/login')
-			.send({ email: 'aldikhan13@grr.la', password: 'aldikhan13' })
+			.send({ email: 'samsul13@grr.la', password: 'bukopin12' })
 			.set('Content-Type', 'application/json')
 
 		expect(res.status).toEqual(200)
@@ -67,7 +67,7 @@ describe('LOGIN.ts', () => {
 	it('get response if accessToken and refreshToken is valid', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/login')
-			.send({ email: 'aldikhan13@grr.la', password: 'aldikhan13' })
+			.send({ email: 'samsul13@grr.la', password: 'bukopin12' })
 			.set('Content-Type', 'application/json')
 
 		expect(Base64.isValid(res.body.accessToken)).toBeTruthy()
