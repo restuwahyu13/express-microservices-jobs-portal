@@ -1,13 +1,10 @@
 import http, { Server } from 'http'
-import cluster from 'cluster'
+import cluster, { Worker } from 'cluster'
 import { cpus, CpuInfo } from 'os'
 import consola from 'consola'
 import chalk from 'chalk'
 import app from './src/app'
 
-const server = http.createServer(app) as Server
-const host: any = process.env.HOST
-const port: any = process.env.PORT
 const coreThread: CpuInfo[] = cpus()
 
 if (cluster.isMaster) {
@@ -21,7 +18,7 @@ if (cluster.isMaster) {
 	}
 
 	workersTread.forEach(
-		async (pid: number, _: any): Promise<void> => {
+		async (pid: number, _: number): Promise<void> => {
 			await cluster.workers[pid].send({
 				from: 'isMaster',
 				type: 'SIGKILL',
@@ -31,13 +28,13 @@ if (cluster.isMaster) {
 	)
 
 	if (process.env.NODE_ENV !== 'production') {
-		cluster.on('online', (worker: any): void => {
+		cluster.on('online', (worker: Worker): void => {
 			if (worker.isConnected()) {
 				console.info(`${chalk.greenBright('worker active pid')}: ${worker.process.pid}`)
 			}
 		})
 
-		cluster.on('exit', (worker: any, code: any, signal: any): void => {
+		cluster.on('exit', (worker: Worker, code: number, signal: string): void => {
 			if (worker.isDead()) {
 				console.info(`${chalk.redBright('worker dead pid')}: ${worker.process.pid}`)
 			}
@@ -45,5 +42,8 @@ if (cluster.isMaster) {
 		})
 	}
 } else {
+	const server = http.createServer(app) as Server
+	const host: any = process.env.HOST
+	const port: any = process.env.PORT
 	server.listen(port, host, (): void => consola.success(`server is running on ${port}`))
 }
