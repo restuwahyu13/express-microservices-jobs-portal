@@ -1,28 +1,22 @@
 import 'dotenv/config'
 import { Express } from 'express'
 import bodyParser from 'body-parser'
-import path from 'path'
 import zlib from 'zlib'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import slowDown from 'express-slow-down'
-import httpAuth from 'http-auth'
-import httpBasic from 'http-auth-connect'
+import httpAuthConnect from 'http-auth-connect'
 import { router } from 'bull-board'
-
-const basic = httpAuth.basic({
-	realm: 'Users Service',
-	file: path.resolve(__dirname, '../../user.htpasswd')
-})
+import { basicAuth } from '../utils/util.basic'
 
 export const pluginMiddleware = (app: Express): void => {
 	app.use(bodyParser.json({ limit: '5mb' }))
 	app.use(bodyParser.urlencoded({ extended: false }))
 	app.use(cors())
 	app.use(helmet())
-	app.use('/bullmq/dashboard', [httpBasic(basic), router])
+	app.use('/bullmq/dashboard', [httpAuthConnect(basicAuth()), router])
 	app.use(
 		compression({
 			level: zlib.constants.Z_BEST_COMPRESSION,
