@@ -37,6 +37,7 @@ describe('REGISTER.ts', () => {
 				phone: uniquePhone
 			})
 			.set('Content-Type', 'application/json')
+			.expect(201)
 
 		expect(res.body.method).toBe('POST')
 		expect(res.body.status).toEqual(201)
@@ -60,6 +61,7 @@ describe('REGISTER.ts', () => {
 				phone: getUniquePhone
 			})
 			.set('Content-Type', 'application/json')
+			.expect(409)
 
 		expect(res.body.method).toBe('POST')
 		expect(res.body.status).toEqual(409)
@@ -79,6 +81,7 @@ describe('REGISTER.ts', () => {
 				phone: '083845229122'
 			})
 			.set('Content-Type', 'application/json')
+			.expect(400)
 
 		expect(res.body.method).toBe('POST')
 		expect(res.body.status).toEqual(400)
@@ -101,6 +104,7 @@ describe('REGISTER.ts', () => {
 				phone: '083845229122'
 			})
 			.set('Content-Type', 'application/json')
+			.expect(400)
 
 		expect(res.header['content-type']).toMatch(/json/)
 		done()
