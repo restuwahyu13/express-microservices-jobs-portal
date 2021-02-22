@@ -71,9 +71,10 @@ describe('RESEND.ts', () => {
 
 	it('get response if response header is json', async (done) => {
 		const res: Response = await request(app)
-			.post('/api/v1/user/login')
-			.send({ email: 'aldikhan13@grr.la', password: 'aldikhan13' })
+			.post(`/api/v1/user/resend-token`)
+			.send({ email: 'jamal96@zetmail.com' })
 			.set('Content-Type', 'application/json')
+			.expect(200)
 
 		expect(res.status).toEqual(200)
 		expect(res.header['content-type']).toMatch(/json/)

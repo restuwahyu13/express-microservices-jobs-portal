@@ -9,7 +9,7 @@ describe('RESET.ts', () => {
 	beforeEach(() => {
 		jest.setTimeout(50000)
 		accessToken =
-			'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBaQ0k2SWpZd016SXdNV1V5T0RBMk1UZG1ObUZtWm1Jd01qRmxZeUlzSW1WdFlXbHNJam9pYTJGdFlXd3hNMEJuY25JdWJHRWlMQ0pwWVhRaU9qRTJNVE00T1RBd01UZ3NJbVY0Y0NJNk1UWXlNVFkyTmpBeE9IMC5oVzY0ZERHTlRtc1lOMUFfRGU3bEhaUW40VHRoX3M0NTgwbVIzbkdjMno0'
+			'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBaQ0k2SWpZd016RXhaRFkwWXpWaVpqbGpNMkZoTjJVMVlqYzFNaUlzSW1WdFlXbHNJam9pWVd4a2FXdG9ZVzR4TTBCbmNuSXViR0VpTENKcFlYUWlPakUyTVRNNU56ZzBPVEFzSW1WNGNDSTZNVFkwTlRVek5qQTVNSDAub2FIV2ZzZzliV3VFZVFsYXh4WjRmOVFtTWNUclU4WURYdGl5aGxtemFWaw=='
 	})
 
 	afterAll(async (done) => {
@@ -64,9 +64,10 @@ describe('RESET.ts', () => {
 
 	it('get response if response header is json', async (done) => {
 		const res: Response = await request(app)
-			.post('/api/v1/user/login')
-			.send({ email: 'aldikhan13@grr.la', password: 'aldikhan13' })
+			.post(`/api/v1/user/reset-password/${accessToken}`)
+			.send({ password: 'qwerty123', cpassword: 'qwerty123' })
 			.set('Content-Type', 'application/json')
+			.expect(200)
 
 		expect(res.status).toEqual(200)
 		expect(res.header['content-type']).toMatch(/json/)

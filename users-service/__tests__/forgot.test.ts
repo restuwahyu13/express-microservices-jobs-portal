@@ -55,4 +55,17 @@ describe('FORGOT.ts', () => {
 		expect(res.body.errors[1].msg).toEqual('email is not valid')
 		done()
 	})
+
+	it('get response if response header is json', async (done) => {
+		const res: Response = await request(app)
+			.post(`/api/v1/user/forgot-password`)
+			.send({ email: 'restuwahyu13@zetmail.com' })
+			.set('Content-Type', 'application/json')
+			.expect(200)
+
+		expect(res.status).toEqual(200)
+		expect(res.header['content-type']).toMatch(/json/)
+		done()
+	})
+
 })
