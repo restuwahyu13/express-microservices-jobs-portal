@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose'
+import mongoose, { Model } from 'mongoose'
 import shortId from 'shortid'
 import { ProfilesDTO } from '../dto/dto.profile'
 
@@ -256,4 +256,4 @@ const JobSchema: mongoose.Schema = new mongoose.Schema({
 	]
 })
 
-export const ProfileSchema = mongoose.model<ProfilesDTO>('profilesService', JobSchema)
+export const ProfileSchema: Model<ProfilesDTO> = mongoose.model('profilesService', JobSchema)
