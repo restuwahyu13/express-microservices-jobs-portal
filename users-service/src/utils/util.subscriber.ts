@@ -17,7 +17,7 @@ export class Subscriber {
 	}
 
 	private _worker(): void {
-		const clusterClient = new Redis.Cluster(this.connections)
+		const clusterConnection = new Redis.Cluster(this.connections) as Redis.Cluster
 		new Worker(
 			this.serviceName,
 			async (job) => {
@@ -26,7 +26,7 @@ export class Subscriber {
 					return job.name
 				}
 			},
-			{ prefix: `${clusterClient}`, limiter: { duration: 1000, max: 25 } }
+			{ connection: clusterConnection, prefix: '{bullMQ}', limiter: { duration: 1000, max: 25 } }
 		) as Worker<any, any, string>
 	}
 

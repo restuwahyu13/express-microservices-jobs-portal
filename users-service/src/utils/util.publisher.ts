@@ -14,8 +14,12 @@ export class Publisher {
 	}
 
 	queue(): InstanceType<typeof Queue> {
-		const clusterClient = new Redis.Cluster(this.connections)
-		const serviceName = new Queue(this.serviceName, { connection: clusterClient, prefix: '{active}' }) as Queue<any, any, string>
+		const clusterConnection = new Redis.Cluster(this.connections) as Redis.Cluster
+		const serviceName = new Queue(this.serviceName, {
+			connection: clusterConnection,
+			prefix: '{bullMQ}',
+			limister: { duration: 1000, max: 25 }
+		}) as Queue<any, any, string>
 		return serviceName
 	}
 
