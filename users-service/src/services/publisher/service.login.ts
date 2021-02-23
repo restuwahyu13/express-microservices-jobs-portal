@@ -1,11 +1,13 @@
 import { Publisher } from '../../utils/util.publisher'
 
-let PORT = process.env.REDIS_PORT || 6380 || 6381 || 6382
-
 export const loginPublisher = new Publisher({
 	serviceName: 'login',
 	speakerName: 'login:speaker',
-	options: { host: '127.0.0.1', port: PORT }
+	connections: [
+		{ host: '127.0.0.1', port: 6379 },
+		{ host: '127.0.0.1', port: 6380 },
+		{ host: '127.0.0.1', port: 6381 }
+	]
 })
 
 export const setLoginPublisher = async (data: Record<string, any>): Promise<any> => {

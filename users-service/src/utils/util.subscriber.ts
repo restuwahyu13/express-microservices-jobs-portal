@@ -7,17 +7,17 @@ export class Subscriber {
 	private serviceName: string
 	private listenerName: string
 	private queueEvent: InstanceType<typeof QueueEvents>
-	private options: Record<string, any>
+	private connections: Array<Record<string, any>>
 
 	constructor(option: Readonly<ISubscriber>) {
 		this.serviceName = option.serviceName
 		this.listenerName = option.listenerName
-		this.options = option.options
+		this.connections = option.connections
 		this.queueEvent = new QueueEvents(this.serviceName)
 	}
 
 	private _worker(): void {
-		const connection = new Redis(this.options.port, this.options.host) as Redis.Redis
+		const clusterClient = new Redis.Cluster(this.connections)
 		new Worker(
 			this.serviceName,
 			async (job) => {
@@ -26,7 +26,7 @@ export class Subscriber {
 					return job.name
 				}
 			},
-			{ connection, limiter: { duration: 1000, max: 25 } }
+			{ prefix: `${clusterClient}`, limiter: { duration: 1000, max: 25 } }
 		) as Worker<any, any, string>
 	}
 
@@ -47,5 +47,3 @@ export class Subscriber {
 		})
 	}
 }
-
-module.exports = { Subscriber }

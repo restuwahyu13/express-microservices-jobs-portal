@@ -5,17 +5,17 @@ import { IPublisher } from '../interface/interface.publisher'
 export class Publisher {
 	private serviceName: string
 	private speakerName: string
-	private options: Record<string, any>
+	private connections: Array<Record<string, any>>
 
 	constructor(option: Readonly<IPublisher>) {
 		this.serviceName = option.serviceName
 		this.speakerName = option.speakerName
-		this.options = option.options
+		this.connections = option.connections
 	}
 
 	queue(): InstanceType<typeof Queue> {
-		const connection = new Redis(this.options.port, this.options.host) as Redis.Redis
-		const serviceName = new Queue(this.serviceName, { connection }) as Queue<any, any, string>
+		const clusterClient = new Redis.Cluster(this.connections)
+		const serviceName = new Queue(this.serviceName, { connection: clusterClient, prefix: '{active}' }) as Queue<any, any, string>
 		return serviceName
 	}
 

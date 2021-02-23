@@ -3,12 +3,14 @@ import { userSchema } from '../../models/model.user'
 import { UsersDTO } from '../../dto/dto.users'
 import { IUser } from '../../interface/interface.user'
 
-let PORT = process.env.REDIS_PORT || 6380 || 6381 || 6382
-
 const activationSubscriber = new Subscriber({
 	serviceName: 'activation',
 	listenerName: 'activation:speaker',
-	options: { host: '127.0.0.1', port: PORT }
+	connections: [
+		{ host: '127.0.0.1', port: 6379 },
+		{ host: '127.0.0.1', port: 6380 },
+		{ host: '127.0.0.1', port: 6381 }
+	]
 })
 
 export const getActivationSubscriber = (): Promise<Record<string, any>> => {
