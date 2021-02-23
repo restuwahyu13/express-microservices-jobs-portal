@@ -1,4 +1,4 @@
-import { Queue } from 'bullmq'
+import { Queue, ConnectionOptions } from 'bullmq'
 import Redis from 'ioredis'
 import { IPublisher } from '../interface/interface.publisher'
 
@@ -14,11 +14,10 @@ export class Publisher {
 	}
 
 	queue(): InstanceType<typeof Queue> {
-		const clusterConnection = new Redis.Cluster(this.connections) as Redis.Cluster
+		const clusterConnection = new Redis.Cluster(this.connections) as ConnectionOptions
 		const serviceName = new Queue(this.serviceName, {
 			connection: clusterConnection,
-			prefix: '{bullMQ}',
-			limister: { duration: 1000, max: 25 }
+			prefix: '{bullMQ}'
 		}) as Queue<any, any, string>
 		return serviceName
 	}

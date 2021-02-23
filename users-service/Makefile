@@ -9,3 +9,6 @@ dev:
 
 prod:
 	${NPM} ${FLAGS} start
+
+build:
+	${NPM} ${FLAGS} build

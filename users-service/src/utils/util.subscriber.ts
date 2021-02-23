@@ -1,5 +1,5 @@
 import Redis from 'ioredis'
-import { Worker, QueueEvents } from 'bullmq'
+import { Worker, QueueEvents, ConnectionOptions } from 'bullmq'
 import consola from 'consola'
 import { ISubscriber } from '../interface/interface.subscriber'
 
@@ -17,7 +17,7 @@ export class Subscriber {
 	}
 
 	private _worker(): void {
-		const clusterConnection = new Redis.Cluster(this.connections) as Redis.Cluster
+		const clusterConnection = new Redis.Cluster(this.connections) as ConnectionOptions
 		new Worker(
 			this.serviceName,
 			async (job) => {
