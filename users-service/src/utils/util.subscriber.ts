@@ -1,3 +1,4 @@
+import Redis from 'ioredis'
 import { Worker, QueueEvents } from 'bullmq'
 import consola from 'consola'
 import { ISubscriber } from '../interface/interface.subscriber'
@@ -6,14 +7,17 @@ export class Subscriber {
 	private serviceName: string
 	private listenerName: string
 	private queueEvent: InstanceType<typeof QueueEvents>
+	private options: Record<string, any>
 
-	constructor(options: Readonly<ISubscriber>) {
-		this.serviceName = options.serviceName
-		this.listenerName = options.listenerName
+	constructor(option: Readonly<ISubscriber>) {
+		this.serviceName = option.serviceName
+		this.listenerName = option.listenerName
+		this.options = option.options
 		this.queueEvent = new QueueEvents(this.serviceName)
 	}
 
 	private _worker(): void {
+		const connection = new Redis(this.options.port, this.options.host) as Redis.Redis
 		new Worker(
 			this.serviceName,
 			async (job) => {
@@ -22,8 +26,8 @@ export class Subscriber {
 					return job.name
 				}
 			},
-			{ limiter: { duration: 1000, max: 25 } }
-		)
+			{ connection, limiter: { duration: 1000, max: 25 } }
+		) as Worker<any, any, string>
 	}
 
 	private async _notifications(): Promise<void> {
@@ -37,7 +41,7 @@ export class Subscriber {
 	async listener(): Promise<Record<string, any>> {
 		await this._notifications()
 		return new Promise((resolve, _) => {
-			this.queueEvent.once(this.listenerName, async (data) => {
+			this.queueEvent.on(this.listenerName, async (data) => {
 				resolve(JSON.parse(data).data)
 			})
 		})

@@ -21,7 +21,7 @@ export class Subscriber {
 					this.queueEvent.emit(this.listenerName, JSON.stringify({ data: job.data }))
 				}
 			},
-			{ limiter: { duration: 3000, max: 25 } }
+			{ limiter: { duration: 1000, max: 25 } }
 		)
 	}
 
@@ -36,7 +36,7 @@ export class Subscriber {
 	listener(): Promise<Record<string, any>> {
 		this._notifications()
 		return new Promise((resolve, _) => {
-			this.queueEvent.once(this.listenerName, async (data) => {
+			this.queueEvent.on(this.listenerName, (data) => {
 				resolve(JSON.parse(data).data)
 			})
 		})

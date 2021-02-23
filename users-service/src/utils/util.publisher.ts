@@ -1,17 +1,21 @@
 import { Queue } from 'bullmq'
+import Redis from 'ioredis'
 import { IPublisher } from '../interface/interface.publisher'
 
 export class Publisher {
 	private serviceName: string
 	private speakerName: string
+	private options: Record<string, any>
 
-	constructor(options: Readonly<IPublisher>) {
-		this.serviceName = options.serviceName
-		this.speakerName = options.speakerName
+	constructor(option: Readonly<IPublisher>) {
+		this.serviceName = option.serviceName
+		this.speakerName = option.speakerName
+		this.options = option.options
 	}
 
 	queue(): InstanceType<typeof Queue> {
-		const serviceName = new Queue(this.serviceName)
+		const connection = new Redis(this.options.port, this.options.host) as Redis.Redis
+		const serviceName = new Queue(this.serviceName, { connection }) as Queue<any, any, string>
 		return serviceName
 	}
 
