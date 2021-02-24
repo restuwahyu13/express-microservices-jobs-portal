@@ -8,7 +8,6 @@ import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import slowDown from 'express-slow-down'
 import httpAuthConnect from 'http-auth-connect'
-import { router } from 'bull-board'
 import { basicAuth } from '../utils/util.basic'
 
 export const pluginMiddleware = (app: Express): void => {
@@ -16,7 +15,7 @@ export const pluginMiddleware = (app: Express): void => {
 	app.use(bodyParser.urlencoded({ extended: false }))
 	app.use(cors())
 	app.use(helmet())
-	app.use('/bullmq/dashboard', [httpAuthConnect(basicAuth()), router])
+	// app.use('/bullmq/dashboard', [httpAuthConnect(basicAuth()), router])
 	app.use(
 		compression({
 			level: zlib.constants.Z_BEST_COMPRESSION,
