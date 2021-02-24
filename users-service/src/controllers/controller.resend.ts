@@ -25,7 +25,6 @@ export const resendController = async (req: Request, res: Response): Promise<voi
 		await setResendPublisher({ email: req.body.email })
 		await initResendSubscriber()
 		const { status, message, data } = await getResponseSubscriber()
-		const { _id, email } = toObject(data)
 
 		if (status >= 400) {
 			streamBox(res, status, {
@@ -34,6 +33,7 @@ export const resendController = async (req: Request, res: Response): Promise<voi
 				message
 			})
 		} else {
+			const { _id, email } = toObject(data)
 			const { accessToken }: IJwt = signAccessToken()(res, { id: _id, email: email }, { expiresIn: '5m' })
 			const template: IRegisterMail = tempMailResend(email, accessToken)
 

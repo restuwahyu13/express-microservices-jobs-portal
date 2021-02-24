@@ -27,7 +27,6 @@ export const registerController = async (req: Request, res: Response): Promise<v
 		await setRegisterPublisher({ firstName, lastName, email, password, location, phone })
 		await initRegisterSubscriber()
 		const { status, message, data } = await getResponseSubscriber()
-		const response = toObject(data)
 
 		if (status >= 400) {
 			streamBox(res, status, {
@@ -36,8 +35,9 @@ export const registerController = async (req: Request, res: Response): Promise<v
 				message
 			})
 		} else {
-			const { accessToken }: IJwt = signAccessToken()(res, { id: response._id, email: response.email }, { expiresIn: '5m' })
-			const template: IRegisterMail = tempMailRegister(response.email, accessToken)
+			const rsp = toObject(data)
+			const { accessToken }: IJwt = signAccessToken()(res, { id: rsp._id, email: rsp.email }, { expiresIn: '5m' })
+			const template: IRegisterMail = tempMailRegister(rsp.email, accessToken)
 
 			sgMail.setApiKey(process.env.SG_API_KEY)
 			const sgResponse: [ClientResponse, any] = await sgMail.send(template)

@@ -25,7 +25,6 @@ export const forgotController = async (req: Request, res: Response): Promise<voi
 		await setForgotPublisher({ email: req.body.email })
 		await initForgotSubscriber()
 		const { status, message, data } = await getResponseSubscriber()
-		const { _id, email } = toObject(data)
 
 		if (status >= 400) {
 			streamBox(res, status, {
@@ -34,6 +33,7 @@ export const forgotController = async (req: Request, res: Response): Promise<voi
 				message
 			})
 		} else {
+			const { _id, email } = toObject(data)
 			const { accessToken }: IJwt = signAccessToken()(res, { id: _id, email: email }, { expiresIn: '5m' })
 			const template: IRegisterMail = tempMailReset(email, accessToken)
 
