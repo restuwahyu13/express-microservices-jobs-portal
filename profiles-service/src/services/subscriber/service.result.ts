@@ -5,9 +5,9 @@ import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 import { IProfile } from '../../interface/interface.profile'
 
-export const initUpdateSubscriber = async (): Promise<void> => {
-	const updateSubscriber = new Subscriber({ key: 'Update' })
-	const { userId }: IProfile = await updateSubscriber.getMap('update:service')
+export const initResultSubscriber = async (): Promise<void> => {
+	const resultSubscriber = new Subscriber({ key: 'Result' })
+	const { userId }: IProfile = await resultSubscriber.getMap('result:service')
 	try {
 		const checkUser: ProfilesDTO = await profileSchema.findOne({ userId })
 

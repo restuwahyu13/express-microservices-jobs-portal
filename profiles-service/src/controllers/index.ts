@@ -1,5 +1,11 @@
-import { controllerId } from './controller.id'
+import { createController } from './controller.create'
+import { resultController } from './controller.result'
+import { deleteController } from './controller.delete'
+import { updateController } from './controller.update'
 
 export const controller = {
-	controllerId
+	createController,
+	resultController,
+	deleteController,
+	updateController
 }
