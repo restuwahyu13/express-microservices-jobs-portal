@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { setActivationPublisher } from '../services/publisher/service.activation'
-import { getActivationSubscriber } from '../services/subscriber/service.activation'
+import { initActivationSubscriber } from '../services/subscriber/service.activation'
+import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
 import { verifySignAccessToken } from '../utils/util.jwt'
 import { expressValidator } from '../utils/util.validator'
@@ -25,18 +26,19 @@ export const activationController = async (req: Request, res: Response): Promise
 			})
 		} else {
 			await setActivationPublisher({ ...activationToken })
-			const { statusCode, message } = await getActivationSubscriber()
+			await initActivationSubscriber()
+			const { status, message } = await getResponseSubscriber()
 
-			if (statusCode >= 400) {
-				streamBox(res, statusCode, {
+			if (status >= 400) {
+				streamBox(res, status, {
 					method: req.method,
-					status: statusCode,
+					status,
 					message
 				})
 			} else {
-				streamBox(res, statusCode, {
+				streamBox(res, status, {
 					method: req.method,
-					status: statusCode,
+					status,
 					message
 				})
 			}

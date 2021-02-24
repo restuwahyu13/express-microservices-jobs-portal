@@ -1,9 +1,10 @@
 import { Request, Response } from 'express'
 import { setResetPublisher } from '../services/publisher/service.reset'
-import { getResetSubscriber } from '../services/subscriber/service.reset'
+import { initResetSubscriber } from '../services/subscriber/service.reset'
 import { streamBox } from '../utils/util.stream'
 import { verifySignAccessToken } from '../utils/util.jwt'
 import { expressValidator } from '../utils/util.validator'
+import { getResponseSubscriber } from '../utils/util.message'
 
 export const resetController = async (req: Request, res: Response): Promise<void> => {
 	const errors = expressValidator(req)
@@ -16,6 +17,7 @@ export const resetController = async (req: Request, res: Response): Promise<void
 		})
 	} else {
 		const activationToken = verifySignAccessToken()(req.params.token)
+
 		if (!activationToken) {
 			streamBox(res, 401, {
 				method: req.method,
@@ -24,17 +26,19 @@ export const resetController = async (req: Request, res: Response): Promise<void
 			})
 		} else {
 			await setResetPublisher({ id: activationToken.id, password: req.body.password })
-			const { statusCode, message } = await getResetSubscriber()
-			if (statusCode >= 400) {
-				streamBox(res, statusCode, {
+			await initResetSubscriber()
+			const { status, message } = await getResponseSubscriber()
+
+			if (status >= 400) {
+				streamBox(res, status, {
 					method: req.method,
-					status: statusCode,
+					status,
 					message
 				})
 			} else {
-				streamBox(res, statusCode, {
+				streamBox(res, status, {
 					method: req.method,
-					status: statusCode,
+					status,
 					message
 				})
 			}

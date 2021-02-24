@@ -1,54 +1,44 @@
 import { Subscriber } from '../../utils/util.subscriber'
+import { setResponsePublisher } from '../../utils/util.message'
+import { toJson } from '../../utils/util.parse'
 import { userSchema } from '../../models/model.user'
 import { UsersDTO } from '../../dto/dto.users'
 import { IUser } from '../../interface/interface.user'
 
-const loginSubscriber = new Subscriber({
-	serviceName: 'login',
-	listenerName: 'login:speaker',
-	connections: [
-		{ host: '127.0.0.1', port: 6379 },
-		{ host: '127.0.0.1', port: 6380 },
-		{ host: '127.0.0.1', port: 6381 }
-	]
-})
+export const initLoginSubscriber = async (): Promise<void> => {
+	const createSubscriber = new Subscriber({ key: 'Login' })
+	const { email }: IUser = await createSubscriber.getMap('login:service')
+	try {
+		const checkUser: UsersDTO = await userSchema.findOne({ email })
 
-export const getLoginSubscriber = (): Promise<Record<string, any>> => {
-	return new Promise((resolve, reject) => {
-		loginSubscriber.listener().then(async (res: IUser) => {
-			try {
-				const checkUser: UsersDTO = await userSchema.findOne({ email: res.email })
+		if (!checkUser) {
+			await setResponsePublisher({
+				status: 404,
+				message: 'user account is not exist, please register new account'
+			})
+		}
 
-				if (!checkUser) {
-					resolve({
-						statusCode: 404,
-						message: 'user account is not exist, please register new account'
-					})
-				}
+		if (checkUser.active == false) {
+			await setResponsePublisher({
+				status: 400,
+				message: 'user account is not active, please resend new activation token'
+			})
+		}
 
-				if (checkUser.active == false) {
-					resolve({
-						statusCode: 400,
-						message: 'user account is not active, please resend new activation token'
-					})
-				}
-
-				await userSchema.findByIdAndUpdate(checkUser._id, {
-					firstLogin: new Date(),
-					updatedAt: new Date()
-				})
-
-				resolve({
-					statusCode: 200,
-					message: 'login successfully',
-					data: checkUser
-				})
-			} catch (err) {
-				reject({
-					statusCode: 500,
-					message: 'internal server error'
-				})
-			}
+		await userSchema.findByIdAndUpdate(checkUser._id, {
+			firstLogin: new Date(),
+			updatedAt: new Date()
 		})
-	})
+
+		await setResponsePublisher({
+			status: 200,
+			message: 'login successfully',
+			data: toJson(checkUser)
+		})
+	} catch (err) {
+		await setResponsePublisher({
+			status: 500,
+			message: 'internal server error'
+		})
+	}
 }

@@ -1,19 +1,10 @@
 import { Publisher } from '../../utils/util.publisher'
 
-export const registerPublisher = new Publisher({
-	serviceName: 'register',
-	speakerName: 'register:speaker',
-	connections: [
-		{ host: '127.0.0.1', port: 6379 },
-		{ host: '127.0.0.1', port: 6380 },
-		{ host: '127.0.0.1', port: 6381 }
-	]
-})
-
-export const setRegisterPublisher = async (data: Record<string, any>): Promise<any> => {
+export const setRegisterPublisher = async (data: Record<string, any>): Promise<void> => {
+	const registerPublisher = new Publisher({ key: 'Register' })
 	if (Object.keys(data).length > 0 && data) {
-		await registerPublisher.speaker({ ...data }, { removeOnComplete: 1000, removeOnFail: 1000 })
+		await registerPublisher.setMap('register:service', { ...data })
 	} else {
-		await registerPublisher.speaker({}, {})
+		await registerPublisher.setMap('register:service', {})
 	}
 }
