@@ -12,8 +12,7 @@ export const mongooseConnection = (): void => {
 		useFindAndModify: false,
 		useCreateIndex: true,
 		socketTimeoutMS: 60000,
-		serverSelectionTimeoutMS: 60000,
-		loggerLevel: 'error'
+		serverSelectionTimeoutMS: 60000
 	})
 
 	mongoose.connection.on('connecting', () => consola.info('database connecting'))

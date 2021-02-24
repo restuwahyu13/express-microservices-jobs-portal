@@ -21,7 +21,6 @@ export const loginController = async (req: Request, res: Response): Promise<void
 		await setLoginPublisher({ email: req.body.email })
 		await initLoginSubscriber()
 		const { status, message, data } = await getResponseSubscriber()
-		const { _id, email, password } = toObject(data)
 
 		if (status >= 400) {
 			streamBox(res, status, {
@@ -30,6 +29,7 @@ export const loginController = async (req: Request, res: Response): Promise<void
 				message
 			})
 		} else {
+			const { _id, email, password } = toObject(data)
 			const accessToken = signAccessToken()(res, { id: _id, email: email }, { expiresIn: '1d' })
 			
 			verifyPassword(req.body.password, password)
