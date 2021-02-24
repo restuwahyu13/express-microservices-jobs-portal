@@ -38,6 +38,7 @@ export const registerController = async (req: Request, res: Response): Promise<v
 			const rsp = toObject(data)
 			const { accessToken }: IJwt = signAccessToken()(res, { id: rsp._id, email: rsp.email }, { expiresIn: '5m' })
 			const template: IRegisterMail = tempMailRegister(rsp.email, accessToken)
+			console.log(accessToken)
 
 			sgMail.setApiKey(process.env.SG_API_KEY)
 			const sgResponse: [ClientResponse, any] = await sgMail.send(template)
