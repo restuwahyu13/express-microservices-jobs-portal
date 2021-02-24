@@ -1,4 +1,3 @@
 export interface ISubscriber {
-	serviceName: string
-	listenerName: string
+	key: string
 }

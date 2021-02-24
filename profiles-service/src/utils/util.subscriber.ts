@@ -1,46 +1,79 @@
-import { Worker, QueueEvents } from 'bullmq'
-import consola from 'consola'
+import IORedis, { Redis } from 'ioredis'
+import chalk from 'chalk'
+import { Publisher } from '../utils/util.publisher'
 import { ISubscriber } from '../interface/interface.subscriber'
 
 export class Subscriber {
-	private serviceName: string
-	private listenerName: string
-	private queueEvent: InstanceType<typeof QueueEvents>
+	private keyTo: string
+	private keyFrom: string
 
-	constructor(options: Readonly<ISubscriber>) {
-		this.serviceName = options.serviceName
-		this.listenerName = options.listenerName
-		this.queueEvent = new QueueEvents(this.serviceName)
+	constructor(config: Readonly<ISubscriber>) {
+		this.keyTo = config.key
+		this.keyFrom = Publisher.get()
 	}
 
-	private _worker(): void {
-		new Worker(
-			this.serviceName,
-			async (job) => {
-				if (job.name == this.listenerName) {
-					this.queueEvent.emit(this.listenerName, JSON.stringify({ data: job.data }))
-				}
-			},
-			{ limiter: { duration: 1000, max: 25 } }
-		)
+	private redisConnect(): Redis {
+		const ioRedis = new IORedis({
+			host: '127.0.0.1',
+			port: 6379,
+			maxRetriesPerRequest: 50,
+			connectTimeout: 5000,
+			enableReadyCheck: true,
+			enableAutoPipelining: true
+		}) as Redis
+
+		return ioRedis
 	}
 
-	private _notifications(): void {
-		this._worker()
-		this.queueEvent.on('completed', (job) => consola.success(`${this.listenerName} completed ${job.jobId}`))
-		this.queueEvent.on('waiting', (job) => consola.info(`${this.listenerName} waiting ${job.jobId}`))
-		this.queueEvent.on('active', (job) => consola.info(`${this.listenerName} active ${job.jobId}`))
-		this.queueEvent.on('failed', (job) => consola.error(`${this.listenerName} failed ${job.jobId}`))
+	public async getString(keyName: string): Promise<any> {
+		if (this.keyTo == this.keyFrom) {
+			const ioRedis = this.redisConnect() as Redis
+			const response: string = await ioRedis.get(keyName)
+			await ioRedis.expire(keyName, 60)
+			if (response) {
+				return Promise.resolve(response)
+			}
+			return {}
+		} else {
+			return Promise.reject(chalk.red(new Error(`invalid key Subscriber: ${this.keyTo} and Publisher: ${this.keyFrom}`)))
+		}
 	}
 
-	listener(): Promise<Record<string, any>> {
-		this._notifications()
-		return new Promise((resolve, _) => {
-			this.queueEvent.on(this.listenerName, (data) => {
-				resolve(JSON.parse(data).data)
-			})
-		})
+	public async getMap(keyName: string): Promise<any> {
+		if (this.keyTo == this.keyFrom) {
+			const ioRedis = this.redisConnect() as Redis
+			const response: Record<string, any> = await ioRedis.hgetall(keyName)
+			await ioRedis.expire(keyName, 60)
+			if (response) {
+				return Promise.resolve(response)
+			}
+			return {}
+		} else {
+			return Promise.reject(chalk.red(new Error(`invalid key Subscriber: ${this.keyTo} and Publisher: ${this.keyFrom}`)))
+		}
+	}
+
+	public async getArray(keyName: string): Promise<any> {
+		if (this.keyTo == this.keyFrom) {
+			const ioRedis = this.redisConnect() as Redis
+			const response: Record<string, any> = await ioRedis.hgetall(keyName)
+			await ioRedis.expire(keyName, 60)
+			if (response) {
+				return Promise.resolve(response)
+			}
+			return {}
+		} else {
+			return Promise.reject(chalk.red(new Error(`invalid key Subscriber: ${this.keyTo} and Publisher: ${this.keyFrom}`)))
+		}
+	}
+
+	public async getResponse(): Promise<any> {
+		const ioRedis = this.redisConnect() as Redis
+		const response: Record<string, any> = await ioRedis.hgetall('message:speaker')
+		await ioRedis.expire('message:speaker', 30)
+		if (response) {
+			return Promise.resolve(response)
+		}
+		return {}
 	}
 }
-
-module.exports = { Subscriber }
