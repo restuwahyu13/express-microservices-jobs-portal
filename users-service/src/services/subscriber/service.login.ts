@@ -22,18 +22,19 @@ export const initLoginSubscriber = async (): Promise<void> => {
 					status: 400,
 					message: 'user account is not active, please resend new activation token'
 				})
+			} else {
+
+				await userSchema.findByIdAndUpdate(checkUser._id, {
+					firstLogin: new Date(),
+					updatedAt: new Date()
+				})
+
+				await setResponsePublisher({
+					status: 200,
+					message: 'login successfully',
+					data: toJson(checkUser)
+				})
 			}
-
-			await userSchema.findByIdAndUpdate(checkUser._id, {
-				firstLogin: new Date(),
-				updatedAt: new Date()
-			})
-
-			await setResponsePublisher({
-				status: 200,
-				message: 'login successfully',
-				data: toJson(checkUser)
-			})
 		}
 	} catch (err) {
 		await setResponsePublisher({

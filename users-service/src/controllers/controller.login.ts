@@ -31,6 +31,7 @@ export const loginController = async (req: Request, res: Response): Promise<void
 			})
 		} else {
 			const accessToken = signAccessToken()(res, { id: _id, email: email }, { expiresIn: '1d' })
+			
 			verifyPassword(req.body.password, password)
 				.then((success: boolean): void => {
 					if (!success) {
