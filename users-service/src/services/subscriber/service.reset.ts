@@ -16,24 +16,24 @@ export const initResetSubscriber = async (): Promise<void> => {
 				status: 404,
 				message: 'userId is not exist for this users, please create new account'
 			})
-		}
-
-		const changePassword: UsersDTO = await userSchema.findByIdAndUpdate(checkUser._id, {
-			password: hashPassword(password),
-			updatedAt: new Date()
-		})
-
-		if (!changePassword) {
-			await setResponsePublisher({
-				status: 403,
-				message: 'change new password failed, please try again'
+		} else {
+			const changePassword: UsersDTO = await userSchema.findByIdAndUpdate(checkUser._id, {
+				password: hashPassword(password),
+				updatedAt: new Date()
 			})
-		}
 
-		await setResponsePublisher({
-			status: 200,
-			message: 'change new password successfully, please login'
-		})
+			if (!changePassword) {
+				await setResponsePublisher({
+					status: 403,
+					message: 'change new password failed, please try again'
+				})
+			} else {
+				await setResponsePublisher({
+					status: 200,
+					message: 'change new password successfully, please login'
+				})
+			}
+		}
 	} catch (err) {
 		await setResponsePublisher({
 			status: 500,

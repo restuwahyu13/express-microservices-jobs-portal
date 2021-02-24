@@ -1,6 +1,5 @@
 import request, { Response } from 'supertest'
 import mongoose from 'mongoose'
-import { QueueEvents, Worker } from 'bullmq'
 import app from '../src/app'
 
 describe('RESEND.ts', () => {
@@ -11,8 +10,6 @@ describe('RESEND.ts', () => {
 	afterAll(async (done) => {
 		jest.clearAllTimers()
 		await mongoose.connection.close()
-		await new Worker('resend').close()
-		await new QueueEvents('resend').close()
 		done()
 	})
 
@@ -24,7 +21,7 @@ describe('RESEND.ts', () => {
 			.expect(200)
 
 		expect(res.body.method).toEqual('POST')
-		expect(res.body.status).toEqual(200)
+		expect(+res.body.status).toEqual(200)
 		expect(res.body.message).toMatch(/jamal96@zetmail.com/)
 		done()
 	})
@@ -32,7 +29,7 @@ describe('RESEND.ts', () => {
 	it('get response if resend new token failed', async (done) => {
 		const res: Response = await request(app)
 			.post(`/api/v1/user/resend-token`)
-			.send({ email: 'restuwahyu13@zetmail.com' })
+			.send({ email: 'aldikhan13@grr.la' })
 			.set('Content-Type', 'application/json')
 			.expect(400)
 
@@ -72,7 +69,7 @@ describe('RESEND.ts', () => {
 	it('get response if response header is json', async (done) => {
 		const res: Response = await request(app)
 			.post(`/api/v1/user/resend-token`)
-			.send({ email: 'jamal96@zetmail.com' })
+			.send({ email: 'marley@grr.la' })
 			.set('Content-Type', 'application/json')
 			.expect(200)
 

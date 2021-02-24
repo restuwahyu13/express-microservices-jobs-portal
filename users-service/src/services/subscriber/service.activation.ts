@@ -15,31 +15,31 @@ export const initActivationSubscriber = async (): Promise<void> => {
 				status: 404,
 				message: 'userId is not exist for this users, please create new account'
 			})
+		} else {
+			if (checkUser.active == true) {
+				await setResponsePublisher({
+					status: 400,
+					message: 'user account has been active, please login'
+				})
+			} else {
+				const updateActivation: UsersDTO = await userSchema.findByIdAndUpdate(checkUser._id, {
+					active: true,
+					updatedAt: new Date()
+				})
+
+				if (!updateActivation) {
+					await setResponsePublisher({
+						status: 403,
+						message: 'activation account failed, please resend new token'
+					})
+				}
+
+				await setResponsePublisher({
+					status: 200,
+					message: 'activation account successfully, please login'
+				})
+			}
 		}
-
-		if (checkUser.active == true) {
-			await setResponsePublisher({
-				status: 400,
-				message: 'user account has been active, please login'
-			})
-		}
-
-		const updateActivation: UsersDTO = await userSchema.findByIdAndUpdate(checkUser._id, {
-			active: true,
-			updatedAt: new Date()
-		})
-
-		if (!updateActivation) {
-			await setResponsePublisher({
-				status: 403,
-				message: 'activation account failed, please resend new token'
-			})
-		}
-
-		await setResponsePublisher({
-			status: 200,
-			message: 'activation account successfully, please login'
-		})
 	} catch (err) {
 		await setResponsePublisher({
 			status: 500,

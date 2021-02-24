@@ -1,7 +1,6 @@
 import request, { Response } from 'supertest'
 import { Base64 } from 'js-base64'
 import mongoose from 'mongoose'
-import { QueueEvents, Worker } from 'bullmq'
 import app from '../src/app'
 
 describe('LOGIN.ts', () => {
@@ -12,8 +11,6 @@ describe('LOGIN.ts', () => {
 	afterAll(async (done) => {
 		jest.clearAllTimers()
 		await mongoose.connection.close()
-		await new Worker('login').close()
-		await new QueueEvents('login').close()
 		done()
 	})
 
@@ -24,7 +21,7 @@ describe('LOGIN.ts', () => {
 			.set('Content-Type', 'application/json')
 
 		expect(res.body.method).toBe('POST')
-		expect(res.body.status).toEqual(200)
+		expect(+res.body.status).toEqual(200)
 		expect(res.body.message).toEqual('login successfully')
 		done()
 	})
@@ -32,11 +29,11 @@ describe('LOGIN.ts', () => {
 	it('get response if account is not exist', async (done) => {
 		const res: Response = await request(app)
 			.post('/api/v1/user/login')
-			.send({ email: 'aldikhan131@grr.la', password: 'aldikhan13' })
+			.send({ email: 'samsul131@grr.la', password: 'bukopin12' })
 			.set('Content-Type', 'application/json')
 
 		expect(res.body.method).toBe('POST')
-		expect(res.body.status).toEqual(404)
+		expect(+res.body.status).toEqual(404)
 		expect(res.body.message).toEqual('user account is not exist, please register new account')
 		done()
 	})

@@ -1,6 +1,5 @@
 import request, { Response } from 'supertest'
 import mongoose from 'mongoose'
-import { QueueEvents, Worker } from 'bullmq'
 import app from '../src/app'
 
 describe('FORGOT.ts', () => {
@@ -11,8 +10,6 @@ describe('FORGOT.ts', () => {
 	afterAll(async (done) => {
 		jest.clearAllTimers()
 		await mongoose.connection.close()
-		await new Worker('forgot').close()
-		await new QueueEvents('forgot').close()
 		done()
 	})
 
@@ -67,5 +64,4 @@ describe('FORGOT.ts', () => {
 		expect(res.header['content-type']).toMatch(/json/)
 		done()
 	})
-
 })

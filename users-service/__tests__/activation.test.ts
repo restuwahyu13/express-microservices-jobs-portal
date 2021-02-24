@@ -1,6 +1,5 @@
 import request, { Response } from 'supertest'
 import mongoose from 'mongoose'
-import { QueueEvents, Worker } from 'bullmq'
 import app from '../src/app'
 
 describe('ACTIVATION.ts', () => {
@@ -12,14 +11,12 @@ describe('ACTIVATION.ts', () => {
 		accessToken =
 			'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBaQ0k2SWpZd016RXhaRFkwWXpWaVpqbGpNMkZoTjJVMVlqYzFNaUlzSW1WdFlXbHNJam9pWVd4a2FXdG9ZVzR4TTBCbmNuSXViR0VpTENKcFlYUWlPakUyTVRNNE16azFOemtzSW1WNGNDSTZNVFl4TXpnek9UZzNPWDAubHIwclRCdmZKdEVsN3VaeGFaUldWQ2xjdGc0c05saTg2MTZSbUZHOGtZcw=='
 		newAccessToken =
-			'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBaQ0k2SWpZd016RXhaRFkwWXpWaVpqbGpNMkZoTjJVMVlqYzFNaUlzSW1WdFlXbHNJam9pWVd4a2FXdG9ZVzR4TTBCbmNuSXViR0VpTENKcFlYUWlPakUyTVRNNU56ZzBPVEFzSW1WNGNDSTZNVFkwTlRVek5qQTVNSDAub2FIV2ZzZzliV3VFZVFsYXh4WjRmOVFtTWNUclU4WURYdGl5aGxtemFWaw=='
+			'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBaQ0k2SWpZd016WTJOR1l6Wm1ZNVpESTROemN4Wm1JeVlqUmpNU0lzSW1WdFlXbHNJam9pYldGeWJHVjVRR2R5Y2k1c1lTSXNJbWxoZENJNk1UWXhOREUzTnpVeU15d2laWGh3SWpveE5qUTFOek0xTVRJemZRLjJaWWJhdE9iVGRpakRwTG5tNUlCMmFmUkZfVFhOU003aHRpWElHLTIyckU='
 	})
 
 	afterAll(async (done) => {
 		jest.clearAllTimers()
 		await mongoose.connection.close()
-		await new Worker('activation').close()
-		await new QueueEvents('activation').close()
 		done()
 	})
 
@@ -30,7 +27,7 @@ describe('ACTIVATION.ts', () => {
 			.expect(400)
 
 		expect(res.body.method).toBe('GET')
-		expect(res.body.status).toEqual(400)
+		expect(+res.body.status).toEqual(400)
 		expect(res.body.message).toEqual('user account has been active, please login')
 		done()
 	})

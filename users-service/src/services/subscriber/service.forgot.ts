@@ -1,5 +1,6 @@
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
+import { toJson } from '../../utils/util.parse'
 import { userSchema } from '../../models/model.user'
 import { UsersDTO } from '../../dto/dto.users'
 import { IUser } from '../../interface/interface.user'
@@ -15,13 +16,13 @@ export const initForgotSubscriber = async (): Promise<void> => {
 				statusCode: 404,
 				message: 'user is not exist for this email, please register new account'
 			})
+		} else {
+			await setResponsePublisher({
+				statusCode: 200,
+				message: `reset password successfully, please check your email ${checkUser.email}`,
+				data: toJson(checkUser)
+			})
 		}
-
-		await setResponsePublisher({
-			statusCode: 200,
-			message: `reset password successfully, please check your email ${checkUser.email}`,
-			data: checkUser
-		})
 	} catch (err) {
 		await setResponsePublisher({
 			statusCode: 500,

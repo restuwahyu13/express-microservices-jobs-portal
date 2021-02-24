@@ -7,8 +7,8 @@ export class Subscriber {
 	private keyTo: string
 	private keyFrom: string
 
-	constructor(configs: Readonly<ISubscriber>) {
-		this.keyTo = configs.key
+	constructor(config: Readonly<ISubscriber>) {
+		this.keyTo = config.key
 		this.keyFrom = Publisher.get()
 	}
 
@@ -68,16 +68,12 @@ export class Subscriber {
 	}
 
 	public async getResponse(): Promise<any> {
-		if (this.keyTo == this.keyFrom) {
-			const ioRedis = this.redisConnect() as Redis
-			const response: Record<string, any> = await ioRedis.hgetall('message:speaker')
-			await ioRedis.expire('message:speaker', 60)
-			if (response) {
-				return Promise.resolve(response)
-			}
-			return {}
-		} else {
-			return Promise.reject(chalk.red(new Error(`invalid key Subscriber: ${this.keyTo} and Publisher: ${this.keyFrom}`)))
+		const ioRedis = this.redisConnect() as Redis
+		const response: Record<string, any> = await ioRedis.hgetall('message:speaker')
+		await ioRedis.expire('message:speaker', 5)
+		if (response) {
+			return Promise.resolve(response)
 		}
+		return {}
 	}
 }

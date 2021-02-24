@@ -8,39 +8,39 @@ import { IUser } from '../../interface/interface.user'
 
 export const initRegisterSubscriber = async (): Promise<void> => {
 	const registerSubscriber = new Subscriber({ key: 'Register' })
-	const { firstName, lastName, email, password, location, phone }: IUser = await registerSubscriber.getMap('register:service')
+	const res: IUser = await registerSubscriber.getMap('register:service')
 	try {
-		const checkUser: UsersDTO = await userSchema.findOne({ email }).lean()
+		const checkUser: UsersDTO = await userSchema.findOne({ email: res.email }).lean()
 
 		if (checkUser) {
 			await setResponsePublisher({
 				status: 409,
 				message: 'email already taken, please try again'
 			})
-		}
-
-		const createNewAccount: UsersDTO = await userSchema.create({
-			firstName,
-			lastName,
-			email,
-			password: hashPassword(password),
-			location,
-			phone,
-			createdAt: new Date()
-		})
-
-		if (!createNewAccount) {
-			await setResponsePublisher({
-				status: 403,
-				message: 'create new account failed, please try again'
+		} else {
+			const createNewAccount = await userSchema.create({
+				firstName: res.firstName,
+				lastName: res.lastName,
+				email: res.email,
+				password: hashPassword(res.password),
+				location: res.location,
+				phone: res.phone,
+				createdAt: new Date()
 			})
-		}
 
-		await setResponsePublisher({
-			status: 201,
-			message: `create new account successfully, please check your email ${email}`,
-			data: toJson(createNewAccount)
-		})
+			if (!createNewAccount) {
+				await setResponsePublisher({
+					status: 403,
+					message: 'create new account failed, please try again'
+				})
+			} else {
+				await setResponsePublisher({
+					status: 201,
+					message: `create new account successfully, please check your email ${res.email}`,
+					data: toJson(createNewAccount)
+				})
+			}
+		}
 	} catch (err) {
 		await setResponsePublisher({
 			status: 500,

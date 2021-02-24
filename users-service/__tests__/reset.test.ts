@@ -1,6 +1,5 @@
 import request, { Response } from 'supertest'
 import mongoose from 'mongoose'
-import { QueueEvents, Worker } from 'bullmq'
 import app from '../src/app'
 
 describe('RESET.ts', () => {
@@ -9,14 +8,12 @@ describe('RESET.ts', () => {
 	beforeEach(() => {
 		jest.setTimeout(50000)
 		accessToken =
-			'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBaQ0k2SWpZd016RXhaRFkwWXpWaVpqbGpNMkZoTjJVMVlqYzFNaUlzSW1WdFlXbHNJam9pWVd4a2FXdG9ZVzR4TTBCbmNuSXViR0VpTENKcFlYUWlPakUyTVRNNU56ZzBPVEFzSW1WNGNDSTZNVFkwTlRVek5qQTVNSDAub2FIV2ZzZzliV3VFZVFsYXh4WjRmOVFtTWNUclU4WURYdGl5aGxtemFWaw=='
+			'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBaQ0k2SWpZd016WTJOR016TWpnNVpXVmxOemN4T0RZNVltTmxaaUlzSW1WdFlXbHNJam9pYjI1MFlURXpRR2R5Y2k1c1lTSXNJbWxoZENJNk1UWXhOREUzTnpRM05Td2laWGh3SWpveE5qUTFOek0xTURjMWZRLjBqMlJKRFhnNExPa1ZNMDVTU2swNm84MUxzR0gyZ1lwTTk5S3JIcmFMY0E='
 	})
 
 	afterAll(async (done) => {
 		jest.clearAllTimers()
 		await mongoose.connection.close()
-		await new Worker('reset').close()
-		await new QueueEvents('reset').close()
 		done()
 	})
 
@@ -28,7 +25,7 @@ describe('RESET.ts', () => {
 			.expect(200)
 
 		expect(res.body.method).toEqual('POST')
-		expect(res.body.status).toEqual(200)
+		expect(+res.body.status).toEqual(200)
 		expect(res.body.message).toEqual('change new password successfully, please login')
 		done()
 	})

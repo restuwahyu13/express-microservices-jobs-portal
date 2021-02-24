@@ -1,6 +1,5 @@
 import { mongooseConnection } from '../src/utils/util.connection'
 import mongoose from 'mongoose'
-import { QueueEvents, Worker } from 'bullmq'
 
 describe('CONNECTION.TS', () => {
 	beforeEach((done) => {
@@ -10,8 +9,6 @@ describe('CONNECTION.TS', () => {
 
 	afterAll(async (done) => {
 		await mongoose.connection.close()
-		await new Worker('activation').close()
-		await new QueueEvents('activation').close()
 		done()
 	})
 
