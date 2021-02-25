@@ -5,7 +5,7 @@ import { fileUpload } from '../utils/util.upload'
 const router = express.Router() as Router
 
 // router.get('/user/:id/me', controller.createController)
-router.post('/users/:id/profile', fileUpload.single('photo'), controller.createController)
+router.post('/users/:id/profile', fileUpload.fields([{ name: 'image' }, { name: 'document' }]), controller.createController)
 // router.post('/user/:id/education', controller.createController)
 // router.post('/user/:id/work-experince', controller.createController)
 // router.post('/user/:id/skills', controller.createController)

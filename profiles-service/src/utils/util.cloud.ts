@@ -14,7 +14,7 @@ export const cloudStorage = (filename: string): Promise<Record<string, any>> => 
 		})
 
 		cloudinary.uploader
-			.upload(filename)
+			.upload(filename, { resource_type: 'auto' })
 			.then((response: UploadApiResponse) => resolve(response))
 			.catch((error) => reject(error))
 	})

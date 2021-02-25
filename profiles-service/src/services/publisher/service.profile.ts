@@ -1,10 +1,10 @@
 import { Publisher } from '../../utils/util.publisher'
 
-export const setCreatePublisher = async (data: Record<string, any>): Promise<void> => {
-	const createPublisher = new Publisher({ key: 'Create' })
+export const setCreateProfilePublisher = async (data: Record<string, any>): Promise<void> => {
+	const createProfilePublisher = new Publisher({ key: 'Profile' })
 	if (Object.keys(data).length > 0 && data) {
-		await createPublisher.setMap('create:service', { ...data })
+		await createProfilePublisher.setMap('cprofile:service', { ...data })
 	} else {
-		await createPublisher.setMap('create:service', {})
+		await createProfilePublisher.setMap('cprofile:service', {})
 	}
 }

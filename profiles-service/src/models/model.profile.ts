@@ -146,7 +146,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			default: []
 		}
 	},
-	portofolio: {
+	socialNetwork: {
 		facebook: {
 			type: String,
 			trim: true,

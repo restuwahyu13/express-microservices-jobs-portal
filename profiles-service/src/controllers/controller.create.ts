@@ -1,18 +1,34 @@
 import { Request, Response } from 'express'
 import { cloudStorage, UploadApiResponse } from '../utils/util.cloud'
-import { IBasic, IWorkExperince, IEducation } from '../interface/interface.payload'
+import { initCreateProfileSubscriber } from '../services/subscriber/service.profile'
+import { setCreateProfilePublisher } from '../services/publisher/service.profile'
+import { getResponseSubscriber } from '../utils/util.message'
+import { IRequest } from '../interface/interface.payload'
 
 export const createController = async (req: Request, res: Response): Promise<any> => {
-	const photo = (await cloudStorage(req.file.path)) as UploadApiResponse
-	const payloadBody: Partial<IBasic | IWorkExperince | IEducation> = {
+	const urls: UploadApiResponse[] = []
+	const image = req.files.image
+	const document = req.files.document
+	const files = image.concat(document)
+
+	for (let file of files) {
+		try {
+			const response = (await cloudStorage(file.path)) as UploadApiResponse
+			urls.push(response)
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
+	const payloadBody: IRequest = {
 		userId: req.params.id,
-		photo: photo.secure_url,
+		photo: urls[0].secure_url,
 		birthDate: req.body.birthDate,
 		gender: req.body.gender,
 		status: req.body.status,
 		nationality: req.body.nationality,
 		aboutme: req.body.aboutme,
-		resume: req.body.resume,
+		resume: urls[1].secure_url,
 		skills: req.body.skills,
 		workExperience: req.body.workExperience,
 		education: req.body.education
