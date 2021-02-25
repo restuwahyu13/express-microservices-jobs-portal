@@ -45,21 +45,7 @@ export class Subscriber {
 			const response: Record<string, any> = await ioRedis.hgetall(keyName)
 			await ioRedis.expire(keyName, 60)
 			if (response) {
-				return Promise.resolve(response)
-			}
-			return {}
-		} else {
-			return Promise.reject(chalk.red(new Error(`invalid key Subscriber: ${this.keyTo} and Publisher: ${this.keyFrom}`)))
-		}
-	}
-
-	public async getArray(keyName: string): Promise<any> {
-		if (this.keyTo == this.keyFrom) {
-			const ioRedis = this.redisConnect() as Redis
-			const response: Record<string, any> = await ioRedis.hgetall(keyName)
-			await ioRedis.expire(keyName, 60)
-			if (response) {
-				return Promise.resolve(response)
+				return Promise.resolve(JSON.parse(response.payload))
 			}
 			return {}
 		} else {

@@ -13,19 +13,19 @@ export const initForgotSubscriber = async (): Promise<void> => {
 
 		if (!checkUser) {
 			await setResponsePublisher({
-				statusCode: 404,
+				status: 404,
 				message: 'user is not exist for this email, please register new account'
 			})
 		} else {
 			await setResponsePublisher({
-				statusCode: 200,
+				status: 200,
 				message: `reset password successfully, please check your email ${checkUser.email}`,
-				data: toJson(checkUser)
+				data: checkUser
 			})
 		}
 	} catch (err) {
 		await setResponsePublisher({
-			statusCode: 500,
+			status: 500,
 			message: 'internal server error'
 		})
 	}

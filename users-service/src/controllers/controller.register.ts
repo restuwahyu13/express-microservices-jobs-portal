@@ -11,7 +11,6 @@ import { expressValidator } from '../utils/util.validator'
 import { IRegisterMail } from '../interface/iterface.tempmail'
 import { IUser } from '../interface/interface.user'
 import { IJwt } from '../interface/interface.jwt'
-import { toObject } from '../utils/util.parse'
 
 export const registerController = async (req: Request, res: Response): Promise<void> => {
 	const errors = expressValidator(req)
@@ -35,10 +34,8 @@ export const registerController = async (req: Request, res: Response): Promise<v
 				message
 			})
 		} else {
-			const rsp = toObject(data)
-			const { accessToken }: IJwt = signAccessToken()(res, { id: rsp._id, email: rsp.email }, { expiresIn: '5m' })
-			const template: IRegisterMail = tempMailRegister(rsp.email, accessToken)
-			console.log(accessToken)
+			const { accessToken }: IJwt = signAccessToken()(res, { id: data._id, email: data.email }, { expiresIn: '5m' })
+			const template: IRegisterMail = tempMailRegister(data.email, accessToken)
 
 			sgMail.setApiKey(process.env.SG_API_KEY)
 			const sgResponse: [ClientResponse, any] = await sgMail.send(template)

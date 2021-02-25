@@ -6,7 +6,6 @@ import { initForgotSubscriber } from '../services/subscriber/service.forgot'
 import { streamBox } from '../utils/util.stream'
 import { signAccessToken } from '../utils/util.jwt'
 import { expressValidator } from '../utils/util.validator'
-import { toObject } from '../utils/util.parse'
 import { getResponseSubscriber } from '../utils/util.message'
 import { tempMailReset } from '../templates/template.reset'
 import { IRegisterMail } from '../interface/iterface.tempmail'
@@ -33,13 +32,10 @@ export const forgotController = async (req: Request, res: Response): Promise<voi
 				message
 			})
 		} else {
-			const { _id, email } = toObject(data)
-			const { accessToken }: IJwt = signAccessToken()(res, { id: _id, email: email }, { expiresIn: '5m' })
-			const template: IRegisterMail = tempMailReset(email, accessToken)
-
+			const { accessToken }: IJwt = signAccessToken()(res, { id: data._id, email: data.email }, { expiresIn: '5m' })
+			const template: IRegisterMail = tempMailReset(data.email, accessToken)
 			sgMail.setApiKey(process.env.SG_API_KEY)
 			const sgResponse: [ClientResponse, any] = await sgMail.send(template)
-
 			if (!sgResponse) {
 				streamBox(res, 500, {
 					method: req.method,

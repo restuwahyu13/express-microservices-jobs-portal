@@ -1,7 +1,6 @@
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { hashPassword } from '../../utils/util.encrypt'
-import { toJson } from '../../utils/util.parse'
 import { userSchema } from '../../models/model.user'
 import { UsersDTO } from '../../dto/dto.users'
 import { IUser } from '../../interface/interface.user'
@@ -37,7 +36,7 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 				await setResponsePublisher({
 					status: 201,
 					message: `create new account successfully, please check your email ${res.email}`,
-					data: toJson(createNewAccount)
+					data: createNewAccount
 				})
 			}
 		}

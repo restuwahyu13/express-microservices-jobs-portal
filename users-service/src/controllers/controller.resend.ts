@@ -7,7 +7,6 @@ import { streamBox } from '../utils/util.stream'
 import { signAccessToken } from '../utils/util.jwt'
 import { expressValidator } from '../utils/util.validator'
 import { getResponseSubscriber } from '../utils/util.message'
-import { toObject } from '../utils/util.parse'
 import { tempMailResend } from '../templates/template.resend'
 import { IRegisterMail } from '../interface/iterface.tempmail'
 import { IJwt } from '../interface/interface.jwt'
@@ -33,9 +32,8 @@ export const resendController = async (req: Request, res: Response): Promise<voi
 				message
 			})
 		} else {
-			const { _id, email } = toObject(data)
-			const { accessToken }: IJwt = signAccessToken()(res, { id: _id, email: email }, { expiresIn: '5m' })
-			const template: IRegisterMail = tempMailResend(email, accessToken)
+			const { accessToken }: IJwt = signAccessToken()(res, { id: data._id, email: data.email }, { expiresIn: '5m' })
+			const template: IRegisterMail = tempMailResend(data.email, accessToken)
 
 			sgMail.setApiKey(process.env.SG_API_KEY)
 			const sgResponse: [ClientResponse, any] = await sgMail.send(template)

@@ -1,6 +1,5 @@
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
-import { toJson } from '../../utils/util.parse'
 import { userSchema } from '../../models/model.user'
 import { UsersDTO } from '../../dto/dto.users'
 import { IUser } from '../../interface/interface.user'
@@ -26,7 +25,7 @@ export const initResendSubscriber = async (): Promise<void> => {
 				await setResponsePublisher({
 					status: 200,
 					message: `resend new token successfully, please check your email ${checkUser.email}`,
-					data: toJson(checkUser)
+					data: checkUser
 				})
 			}
 		}
