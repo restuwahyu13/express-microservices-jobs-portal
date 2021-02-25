@@ -7,9 +7,9 @@ import { IRequest } from '../interface/interface.payload'
 
 export const createController = async (req: Request, res: Response): Promise<any> => {
 	const urls: UploadApiResponse[] = []
-	const image = req.files.image
-	const document = req.files.document
-	const files = image.concat(document)
+	const image: any = req.files['image']
+	const document: any = req.files['document']
+	const files: Array<Record<string, any>> = image.concat(document)
 
 	for (let file of files) {
 		try {
