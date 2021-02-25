@@ -15,8 +15,8 @@ export const createController = async (req: Request, res: Response): Promise<any
 		try {
 			const response = (await cloudStorage(file.path)) as UploadApiResponse
 			urls.push(response)
-		} catch (err) {
-			console.log(err)
+		} catch (error) {
+			throw new Error(error)
 		}
 	}
 
