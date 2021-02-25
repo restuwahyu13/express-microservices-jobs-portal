@@ -34,5 +34,9 @@ export const createController = async (req: Request, res: Response): Promise<any
 		education: req.body.education
 	}
 
+	await setCreateProfilePublisher({ ...payloadBody })
+	await initCreateProfileSubscriber()
+	const { status, message } = await getResponseSubscriber()
+
 	return res.status(200).json(payloadBody)
 }
