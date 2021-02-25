@@ -1,0 +1,36 @@
+Arguments: 
+  /var/lib/snapd/snap/node/3792/bin/node /snap/node/3792/bin/yarn.js global dir --json
+
+PATH: 
+  /home/antimalware/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/opt/cxoffice/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin:/home/antimalware/.yarn/bin
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  15.10.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: EACCES: permission denied, write
+      at writeSync (node:fs:736:3)
+      at SyncWriteStream._write (node:internal/fs/sync_write_stream:25:3)
+      at writeOrBuffer (node:internal/streams/writable:395:12)
+      at SyncWriteStream.Writable.write (node:internal/streams/writable:340:10)
+      at JSONReporter._dump (/var/lib/snapd/snap/node/3792/lib/cli.js:49772:12)
+      at JSONReporter.log (/var/lib/snapd/snap/node/3792/lib/cli.js:49800:10)
+      at dir (/var/lib/snapd/snap/node/3792/lib/cli.js:36256:14)
+      at Object.<anonymous> (/var/lib/snapd/snap/node/3792/lib/cli.js:25940:25)
+      at Generator.next (<anonymous>)
+      at step (/var/lib/snapd/snap/node/3792/lib/cli.js:310:30)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

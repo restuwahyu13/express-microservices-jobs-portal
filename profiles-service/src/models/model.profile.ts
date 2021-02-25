@@ -56,7 +56,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		trim: true,
 		default: []
 	},
-	workExperience: [
+	workExperiences: [
 		{
 			companyName: {
 				type: String,
@@ -86,7 +86,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			}
 		}
 	],
-	education: [
+	educations: [
 		{
 			institutionName: {
 				type: String,
@@ -122,19 +122,19 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		}
 	],
 	jobPreferences: {
-		jobInterest: {
+		jobInterests: {
 			type: Array,
 			unique: true,
 			trim: true,
 			default: []
 		},
-		workType: {
+		workTypes: {
 			type: Array,
 			unique: true,
 			trim: true,
 			default: []
 		},
-		salaryExpectations: {
+		salaryExpectation: {
 			type: Number,
 			trim: true,
 			default: 0
@@ -146,7 +146,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			default: []
 		}
 	},
-	socialNetwork: {
+	socialNetworks: {
 		facebook: {
 			type: String,
 			trim: true,
@@ -201,9 +201,14 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			type: String,
 			trim: true,
 			default: null
+		},
+		website: {
+			type: String,
+			trim: true,
+			default: null
 		}
 	},
-	appreciation: [
+	appreciations: [
 		{
 			awardTitle: {
 				type: String,
@@ -229,7 +234,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			}
 		}
 	],
-	volunteerExperience: [
+	volunteerExperiences: [
 		{
 			organizationName: {
 				type: String,
