@@ -3,9 +3,8 @@ import { cloudStorage, UploadApiResponse } from '../utils/util.cloud'
 import { initCreateProfileSubscriber } from '../services/subscriber/service.profile'
 import { setCreateProfilePublisher } from '../services/publisher/service.profile'
 import { getResponseSubscriber } from '../utils/util.message'
-import { IRequest } from '../interface/interface.payload'
 
-export const createController = async (req: Request, res: Response): Promise<any> => {
+export const createController = async (req: Request, res: Response): Promise<Response<any>> => {
 	const urls: UploadApiResponse[] = []
 	const image: any = req.files['image']
 	const document: any = req.files['document']
@@ -20,7 +19,7 @@ export const createController = async (req: Request, res: Response): Promise<any
 		}
 	}
 
-	const payloadBody: IRequest = {
+	await setCreateProfilePublisher({
 		userId: req.params.id,
 		photo: urls[0].secure_url,
 		birthDate: req.body.birthDate,
@@ -32,11 +31,13 @@ export const createController = async (req: Request, res: Response): Promise<any
 		skills: req.body.skills,
 		workExperience: req.body.workExperience,
 		education: req.body.education
-	}
-
-	await setCreateProfilePublisher({ ...payloadBody })
+	})
 	await initCreateProfileSubscriber()
 	const { status, message } = await getResponseSubscriber()
 
-	return res.status(200).json(payloadBody)
+	return res.status(status).json({
+		method: req.method,
+		status,
+		message
+	})
 }

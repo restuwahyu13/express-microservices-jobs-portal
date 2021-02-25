@@ -9,10 +9,11 @@ export class ProfilesDTO extends Document {
 	readonly nationality?: string
 	readonly aboutme?: string
 	readonly resume?: string
-	readonly workExperience?: number
-	readonly education?: Record<string, any>
-	readonly skills?: string[]
+	readonly skills?: Array<string>
+	readonly workExperience?: Array<Record<string, any>>
+	readonly education?: Array<Record<string, any>>
+	readonly jobPreferences?: Record<string, any>
 	readonly socialNetwork?: Record<string, any>
-	readonly appreciation?: Record<string, any>
-	readonly volunteerExperience?: Record<string, any>
+	readonly appreciation?: Array<Record<string, any>>
+	readonly volunteerExperience?: Array<Record<string, any>>
 }

@@ -6,9 +6,10 @@ import { IRequest } from '../../interface/interface.payload'
 
 export const initCreateProfileSubscriber = async (): Promise<void> => {
 	const createProfileSubscriber = new Subscriber({ key: 'Profile' })
-	const res: IRequest = await createProfileSubscriber.getMap('cprofile:service')
+	const { payload }: any = await createProfileSubscriber.getMap('cprofile:service')
+	const res: IRequest = JSON.parse(payload)
 	try {
-		const checkUserId: ProfilesDTO = await profileSchema.findById({ userId: res.userId }).lean()
+		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
 		if (checkUserId) {
 			await setResponsePublisher({
 				status: 404,
@@ -29,19 +30,19 @@ export const initCreateProfileSubscriber = async (): Promise<void> => {
 				education: res.education
 			})
 
-			if (saveProfile) {
+			if (!saveProfile) {
 				await setResponsePublisher({
 					status: 403,
-					message: `add new profile for userId ${checkUserId.userId} failed, please try again`
+					message: 'add new profile failed, please try again'
 				})
 			} else {
 				await setResponsePublisher({
-					status: 404,
-					message: `add new profile for userId ${checkUserId.userId} successfully`
+					status: 200,
+					message: 'add new profile successfully'
 				})
 			}
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
 			message: 'internal server error'

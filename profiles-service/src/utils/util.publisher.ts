@@ -40,9 +40,9 @@ export class Publisher {
 		await ioRedis.hmset(keyName, { ...data })
 	}
 
-	public async setArray(keyName: string, data: Array<Record<string, any>>): Promise<void> {
+	public async setArrayMap(keyName: string, data: Record<string, any>): Promise<void> {
 		const ioRedis = this.redisConnect() as Redis
-		await ioRedis.hmset(keyName, JSON.stringify({ data: data }))
+		await ioRedis.hmset(keyName, { payload: JSON.stringify(data) })
 	}
 
 	public async setResponse(data: Record<string, any>): Promise<void> {

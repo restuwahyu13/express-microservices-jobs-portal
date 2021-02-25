@@ -51,7 +51,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		default: null
 	},
 	skills: {
-		type: mongoose.Types.Array,
+		type: Array,
 		unique: true,
 		trim: true,
 		default: []
@@ -123,13 +123,13 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	],
 	jobPreferences: {
 		jobInterest: {
-			type: mongoose.Types.Array,
+			type: Array,
 			unique: true,
 			trim: true,
 			default: []
 		},
 		workType: {
-			type: mongoose.Types.Array,
+			type: Array,
 			unique: true,
 			trim: true,
 			default: []
@@ -140,7 +140,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			default: 0
 		},
 		workCityPreferences: {
-			type: mongoose.Types.Array,
+			type: Array,
 			unique: true,
 			trim: true,
 			default: []
