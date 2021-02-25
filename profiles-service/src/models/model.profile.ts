@@ -20,6 +20,11 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		trim: true,
 		default: 'default.jpg'
 	},
+	gender: {
+		type: String,
+		trim: true,
+		default: null
+	},
 	birthDate: {
 		type: Date,
 		trim: true,
@@ -40,16 +45,16 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		trim: true,
 		default: null
 	},
+	resume: {
+		type: String,
+		trim: true,
+		default: null
+	},
 	skills: {
 		type: mongoose.Types.Array,
 		unique: true,
 		trim: true,
 		default: []
-	},
-	resume: {
-		type: String,
-		trim: true,
-		default: null
 	},
 	workExperience: [
 		{
@@ -177,7 +182,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			trim: true,
 			default: null
 		},
-		codePen: {
+		codepen: {
 			type: String,
 			trim: true,
 			default: null

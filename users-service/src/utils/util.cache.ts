@@ -1,6 +1,6 @@
 import IORedis, { Redis } from 'ioredis'
 
-export const setStoreCacheId = async (id: string): Promise<void> => {
+export const setStoreCache = async (data: Record<string, any>): Promise<void> => {
 	const ioRedis = new IORedis({
 		host: '127.0.0.1',
 		port: 6379,
@@ -10,6 +10,6 @@ export const setStoreCacheId = async (id: string): Promise<void> => {
 		enableAutoPipelining: true
 	}) as Redis
 
-	await ioRedis.set('userId', id)
-	await ioRedis.expire('userId', 60 * 10)
+	await ioRedis.hmset('user:cache', data)
+	await ioRedis.expire('user:cache', 24 * 60 * 1000)
 }

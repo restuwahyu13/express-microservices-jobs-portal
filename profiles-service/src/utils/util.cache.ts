@@ -1,6 +1,6 @@
 import IORedis, { Redis } from 'ioredis'
 
-export const getStoreCacheId = async (): Promise<string> => {
+export const getStoreCache = async (): Promise<string> => {
 	return new Promise((resolve, _) => {
 		const ioRedis = new IORedis({
 			host: '127.0.0.1',
@@ -11,6 +11,6 @@ export const getStoreCacheId = async (): Promise<string> => {
 			enableAutoPipelining: true
 		}) as Redis
 
-		ioRedis.get('userId').then((res: string) => resolve(res))
+		ioRedis.hgetall('user:cache').then((res: any) => resolve(res))
 	})
 }

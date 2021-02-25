@@ -45,6 +45,7 @@
 	"homepage": "https://github.com/restuwahyu13/express-microservices-jobs-portal#readme",
 	"dependencies": {
 		"@sendgrid/mail": "^7.4.2",
+		"axios": "^0.21.1",
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.19.0",
 		"bullmq": "^1.14.4",
@@ -67,6 +68,7 @@
 		"streambox-collection": "0.0.6"
 	},
 	"devDependencies": {
+		"@types/axios": "^0.14.0",
 		"@types/bcryptjs": "^2.4.2",
 		"@types/body-parser": "^1.19.0",
 		"@types/bull-board": "^0.6.0",

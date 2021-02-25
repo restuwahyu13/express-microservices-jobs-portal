@@ -55,6 +55,11 @@ export const tokenValidator = (): ValidationChain[] => [
 	check('token').isBase64().withMessage('token is not valid')
 ]
 
+export const idValidator = (): ValidationChain[] => [
+	check('token').notEmpty().withMessage('token is required'),
+	check('token').isMongoId().withMessage('token is not valid')
+]
+
 export const passwordValidator = (): ValidationChain[] => [
 	check('password').notEmpty().withMessage('password is required'),
 	check('password').isLength({ min: 8 }).withMessage('password must be at least 8 characters'),

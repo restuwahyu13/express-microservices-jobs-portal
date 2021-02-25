@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { setLoginPublisher } from '../services/publisher/service.login'
-import { setStoreCacheId } from '../utils/util.id'
+import { setStoreCache } from '../utils/util.cache'
 import { initLoginSubscriber } from '../services/subscriber/service.login'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
@@ -30,8 +30,8 @@ export const loginController = async (req: Request, res: Response): Promise<void
 				message
 			})
 		} else {
+			await setStoreCache(toObject(data))
 			const { _id, email, password } = toObject(data)
-			await setStoreCacheId(_id)
 			const accessToken = signAccessToken()(res, { id: _id, email: email }, { expiresIn: '1d' })
 
 			verifyPassword(req.body.password, password)

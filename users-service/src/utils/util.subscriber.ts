@@ -70,7 +70,6 @@ export class Subscriber {
 	public async getResponse(): Promise<any> {
 		const ioRedis = this.redisConnect() as Redis
 		const response: Record<string, any> = await ioRedis.hgetall('message:speaker')
-		await ioRedis.expire('message:speaker', 30)
 		if (response) {
 			return Promise.resolve(response)
 		}

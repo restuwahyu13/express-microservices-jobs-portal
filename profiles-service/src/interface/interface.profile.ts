@@ -1,11 +1,12 @@
 export interface IProfile {
 	readonly profileId?: string
-	readonly userId: string
+	readonly userId?: string
 	readonly photo?: string
+	readonly gender?: string
 	readonly birthDate?: any
 	readonly status?: string
 	readonly nationality?: string
-	readonly aboutMe?: string
+	readonly aboutme?: string
 	readonly workExperience?: number
 	readonly education?: Record<string, any>
 	readonly skills?: string[]
