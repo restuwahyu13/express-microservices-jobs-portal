@@ -80,10 +80,12 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 					'socialNetworks.vimeo': vimeo,
 					'socialNetworks.youtube': youtube,
 					'socialNetworks.pinterest': pinterest,
-					'socialNetworks.website': website,
-					'jobPreferences.jobInterests': { $addToSet: { $each: jobInterests } },
-					'jobPreferences.workTypes': { $addToSet: { $each: workType } },
-					'jobPreferences.workCityPreferences': { $addToSet: { $each: workCityPreferences } }
+					'socialNetworks.website': website
+				},
+				$push: {
+					'jobPreferences.jobInterests': { $each: jobInterests },
+					'jobPreferences.workTypes': { $each: workType },
+					'jobPreferences.workCityPreferences': { $each: workCityPreferences }
 				},
 				$addToSet: {
 					skills: { $each: res.skills },
@@ -94,8 +96,6 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 				}
 			}
 		)
-
-		console.log(addSubProfile)
 
 		if (!addSubProfile) {
 			await setResponsePublisher({
