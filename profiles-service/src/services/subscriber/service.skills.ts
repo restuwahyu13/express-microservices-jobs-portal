@@ -3,7 +3,7 @@ import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 
-export const initCreateSkillsSubscriber = async (): Promise<void> => {
+export const initCtrSkillsSubscriber = async (): Promise<void> => {
 	const createSkillsSubscriber = new Subscriber({ key: 'Profile' })
 	const { id, skills }: any = await createSkillsSubscriber.getMap('cskills:service')
 	try {

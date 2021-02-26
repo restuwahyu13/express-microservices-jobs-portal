@@ -16,9 +16,9 @@ type Education = {
 }
 
 type JobPreferences = {
-	readonly jobInterest: string[]
+	readonly jobInterests: string[]
 	readonly workType: string[]
-	readonly salaryExpectations: number
+	readonly salaryExpectation: number
 	readonly workCityPreferences: string[]
 }
 
@@ -34,6 +34,7 @@ type SocialNetwork = {
 	readonly vimeo: string
 	readonly youtube: string
 	readonly pinterest: string
+	readonly website: string
 }
 
 type Appreciation = {
@@ -67,10 +68,10 @@ export interface IRequest {
 	readonly aboutme?: string
 	readonly resume?: string
 	readonly skills?: string[]
-	readonly workExperience?: WorkExperince
-	readonly education?: Education
+	readonly workExperiences?: WorkExperince
+	readonly educations?: Education
 	readonly jobPreferences?: JobPreferences
-	readonly socialNetwork?: SocialNetwork
-	readonly appreciation?: Appreciation
-	readonly volunteerExperience?: VolunteerExperience
+	readonly socialNetworks?: SocialNetwork
+	readonly appreciations?: Appreciation
+	readonly volunteerExperiences?: VolunteerExperience
 }
