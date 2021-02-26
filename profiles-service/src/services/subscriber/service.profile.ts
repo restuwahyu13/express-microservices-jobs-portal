@@ -64,7 +64,7 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 
 	try {
 		const getUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
-		const addNewProfile: ProfilesDTO = await profileSchema.updateOne(
+		const addSubProfile: ProfilesDTO = await profileSchema.updateOne(
 			{ _id: getUserId._id },
 			{
 				$set: {
@@ -80,28 +80,29 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 					'socialNetworks.vimeo': vimeo,
 					'socialNetworks.youtube': youtube,
 					'socialNetworks.pinterest': pinterest,
-					'socialNetworks.website': website
+					'socialNetworks.website': website,
+					'jobPreferences.jobInterests': { $addToSet: { $each: jobInterests } },
+					'jobPreferences.workTypes': { $addToSet: { $each: workType } },
+					'jobPreferences.workCityPreferences': { $addToSet: { $each: workCityPreferences } }
 				},
 				$addToSet: {
-					'jobPreferences.jobInterests': { $each: jobInterests },
-					'jobPreferences.workTypes': { $each: workType },
-					'jobPreferences.workCityPreferences': { $each: workCityPreferences },
-					'skills': { $each: res.skills },
-					'educations': { $each: res.educations },
-					'volunteerExperiences': { $each: res.volunteerExperiences },
-					'workExperiences': { $each: res.workExperiences },
-					'appreciations': { $each: res.appreciations }
+					skills: { $each: res.skills },
+					educations: { $each: res.educations },
+					volunteerExperiences: { $each: res.volunteerExperiences },
+					workExperiences: { $each: res.workExperiences },
+					appreciations: { $each: res.appreciations }
 				}
 			}
 		)
 
-		if (!addNewProfile) {
+		console.log(addSubProfile)
+
+		if (!addSubProfile) {
 			await setResponsePublisher({
 				status: 403,
 				message: 'add new sub profile failed, please try again'
 			})
 		} else {
-			console.log(res)
 			await setResponsePublisher({
 				status: 200,
 				message: 'add new sub profile successfully'
