@@ -6,41 +6,32 @@ import { IRequest } from '../../interface/interface.payload'
 
 export const initCreateProfileSubscriber = async (): Promise<void> => {
 	const createProfileSubscriber = new Subscriber({ key: 'Profile' })
-	const { payload }: any = await createProfileSubscriber.getMap('cprofile:service')
-	const res: IRequest = JSON.parse(payload)
+	const res: IRequest = await createProfileSubscriber.getMap('cprofile:service')
 	try {
-		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
-		if (checkUserId) {
+		const saveProfile: ProfilesDTO = await profileSchema.create({
+			userId: res.userId,
+			photo: res.photo,
+			birthDate: res.birthDate,
+			gender: res.gender,
+			status: res.status,
+			nationality: res.nationality,
+			aboutme: res.aboutme,
+			resume: res.resume,
+			skills: res.skills,
+			workExperience: res.workExperience,
+			education: res.education
+		})
+
+		if (!saveProfile) {
 			await setResponsePublisher({
-				status: 404,
-				message: 'userId is not exist for this users, please create new account'
+				status: 403,
+				message: 'add new profile failed, please try again'
 			})
 		} else {
-			const saveProfile: ProfilesDTO = await profileSchema.create({
-				userId: res.userId,
-				photo: res.photo,
-				birthDate: res.birthDate,
-				gender: res.gender,
-				status: res.status,
-				nationality: res.nationality,
-				aboutme: res.aboutme,
-				resume: res.resume,
-				skills: res.skills,
-				workExperience: res.workExperience,
-				education: res.education
+			await setResponsePublisher({
+				status: 200,
+				message: 'add new profile successfully'
 			})
-
-			if (!saveProfile) {
-				await setResponsePublisher({
-					status: 403,
-					message: 'add new profile failed, please try again'
-				})
-			} else {
-				await setResponsePublisher({
-					status: 200,
-					message: 'add new profile successfully'
-				})
-			}
 		}
 	} catch (error) {
 		await setResponsePublisher({

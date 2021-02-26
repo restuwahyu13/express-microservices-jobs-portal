@@ -3,7 +3,7 @@ import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 
-export const initVolunteersProfileSubscriber = async (): Promise<void> => {
+export const initCreateVolunteersSubscriber = async (): Promise<void> => {
 	const createVolunteersSubscriber = new Subscriber({ key: 'Profile' })
 	const { id, volunteerExperiences }: any = await createVolunteersSubscriber.getMap('cvolunteers:service')
 	try {

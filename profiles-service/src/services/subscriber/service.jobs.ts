@@ -3,7 +3,7 @@ import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 
-export const initJobsProfileSubscriber = async (): Promise<void> => {
+export const initCreateJobsSubscriber = async (): Promise<void> => {
 	const createJobsSubscriber = new Subscriber({ key: 'Profile' })
 	const { id, jobPreferences }: any = await createJobsSubscriber.getMap('cjobs:service')
 	const { jobInterests, workType, salaryExpectation, workCityPreferences } = jobPreferences

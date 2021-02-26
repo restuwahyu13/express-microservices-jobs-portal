@@ -3,7 +3,7 @@ import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 
-export const initSocialsProfileSubscriber = async (): Promise<void> => {
+export const initCreateSocialsSubscriber = async (): Promise<void> => {
 	const createSocialsSubscriber = new Subscriber({ key: 'Profile' })
 	const { id, socialNetworks }: any = await createSocialsSubscriber.getMap('csocials:service')
 	const {
