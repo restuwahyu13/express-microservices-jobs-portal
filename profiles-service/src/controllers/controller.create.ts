@@ -5,7 +5,7 @@ import { cloudStorage, UploadApiResponse } from '../utils/util.cloud'
 // import { setCreateEducationPublisher } from '../services/publisher/service.education'
 // import { initCreateJobsSubscriber } from '../services/subscriber/service.jobs'
 // import { setCreateJobsPublisher } from '../services/publisher/service.jobs'
-import { initCreateProfileSubscriber } from '../services/subscriber/service.profile'
+import { initCreateProfileSubscriber, initCreateSubProfileSubscriber } from '../services/subscriber/service.profile'
 import { setCreateProfilePublisher, setCreateSubProfilePublisher } from '../services/publisher/service.profile'
 // import { initCreateSkillsSubscriber } from '../services/subscriber/service.skills'
 // import { setCreateSkillsPublisher } from '../services/publisher/service.skills'
@@ -33,7 +33,7 @@ export const createController = async (req: Request, res: Response): Promise<voi
 			appreciations: req.body.appreciations,
 			volunteerExperiences: req.body.volunteerExperiences
 		})
-		await initCreateProfileSubscriber()
+		await initCreateSubProfileSubscriber()
 		const { status, message } = await getResponseSubscriber()
 
 		if (status >= 400) {

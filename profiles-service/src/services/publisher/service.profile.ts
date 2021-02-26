@@ -10,7 +10,7 @@ export const setCreateProfilePublisher = async (data: Record<string, any>): Prom
 }
 
 export const setCreateSubProfilePublisher = async (data: Record<string, any>): Promise<void> => {
-	const createSubProfilePublisher = new Publisher({ key: 'Profile' })
+	const createSubProfilePublisher = new Publisher({ key: 'Sub Profile' })
 	if (Object.keys(data).length > 0 && data) {
 		await createSubProfilePublisher.setMap('csubprofile:service', data)
 	} else {
