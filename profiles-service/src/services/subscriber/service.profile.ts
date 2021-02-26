@@ -64,7 +64,7 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 
 	try {
 		const getUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
-		const addNewProfile: ProfilesDTO = await profileSchema.findByIdAndUpdate(
+		const addNewProfile: ProfilesDTO = await profileSchema.updateOne(
 			{ _id: getUserId._id },
 			{
 				$set: {
@@ -83,13 +83,14 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 					'socialNetworks.website': website
 				},
 				$addToSet: {
-					'educations': { $each: res.educations },
 					'jobPreferences.jobInterests': { $each: jobInterests },
 					'jobPreferences.workTypes': { $each: workType },
 					'jobPreferences.workCityPreferences': { $each: workCityPreferences },
 					'skills': { $each: res.skills },
+					'educations': { $each: res.educations },
 					'volunteerExperiences': { $each: res.volunteerExperiences },
-					'workExperience': { $each: res.workExperiences }
+					'workExperiences': { $each: res.workExperiences },
+					'appreciations': { $each: res.appreciations }
 				}
 			}
 		)
@@ -100,6 +101,7 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 				message: 'add new sub profile failed, please try again'
 			})
 		} else {
+			console.log(res)
 			await setResponsePublisher({
 				status: 200,
 				message: 'add new sub profile successfully'

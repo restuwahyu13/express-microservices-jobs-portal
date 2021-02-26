@@ -248,12 +248,12 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 				default: null
 			},
 			startDate: {
-				type: String,
+				type: Date,
 				trim: true,
 				default: null
 			},
 			endDate: {
-				type: String,
+				type: Date,
 				trim: true,
 				default: null
 			},
