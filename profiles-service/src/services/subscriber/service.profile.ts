@@ -46,7 +46,7 @@ export const initCreateProfileSubscriber = async (): Promise<void> => {
 export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 	const createSubProfileSubscriber = new Subscriber({ key: 'Sub Profile' })
 	const res: IRequest = await createSubProfileSubscriber.getMap('csubprofile:service')
-	const { jobInterests, workType, salaryExpectation, workCityPreferences } = res.jobPreferences
+	const { jobInterests, workTypes, salaryExpectation, workCityPreferences } = res.jobPreferences
 	const {
 		facebook,
 		twitter,
@@ -68,7 +68,7 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 			{ _id: getUserId._id },
 			{
 				$set: {
-					'salaryExpectation': salaryExpectation,
+					'jobPreferences.salaryExpectation': salaryExpectation,
 					'socialNetworks.facebook': facebook,
 					'socialNetworks.twitter': twitter,
 					'socialNetworks.instagram': instagram,
@@ -83,9 +83,9 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 					'socialNetworks.website': website
 				},
 				$push: {
-					'jobPreferences.jobInterests': { $each: jobInterests },
-					'jobPreferences.workTypes': { $each: workType },
-					'jobPreferences.workCityPreferences': { $each: workCityPreferences }
+					'jobPreferences.jobInterests': { $each: [...jobInterests] },
+					'jobPreferences.workTypes': { $each: [...workTypes] },
+					'jobPreferences.workCityPreferences': { $each: [...workCityPreferences] }
 				},
 				$addToSet: {
 					skills: { $each: res.skills },

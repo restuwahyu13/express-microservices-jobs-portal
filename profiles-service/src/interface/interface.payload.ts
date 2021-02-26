@@ -17,7 +17,7 @@ type Education = {
 
 type JobPreferences = {
 	readonly jobInterests: string[]
-	readonly workType: string[]
+	readonly workTypes: string[]
 	readonly salaryExpectation: number
 	readonly workCityPreferences: string[]
 }
