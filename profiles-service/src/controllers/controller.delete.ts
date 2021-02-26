@@ -1,12 +1,12 @@
 import { Request, Response } from 'express'
-import { initResultProfileSubscriber } from '../services/subscriber/service.profile'
-import { setResultProfilePublisher } from '../services/publisher/service.profile'
+import { initDeletetSubProfileSubscriber } from '../services/subscriber/service.profile'
+import { setDeleteSubProfilePublisher } from '../services/publisher/service.profile'
 import { getResponseSubscriber } from '../../../users-service/src/utils/util.message'
 import { streamBox } from '../../../users-service/src/utils/util.stream'
 
 export const deleteController = async (req: Request, res: Response): Promise<void> => {
-	await setResultProfilePublisher({ userId: req.params.id })
-	await initResultProfileSubscriber()
+	await setDeleteSubProfilePublisher({ userId: req.params.userId, subId: req.params.subId })
+	await initDeletetSubProfileSubscriber()
 	const { status, message, data } = await getResponseSubscriber()
 
 	if (status >= 400) {
