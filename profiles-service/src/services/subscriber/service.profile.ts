@@ -82,17 +82,15 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 					'socialNetworks.pinterest': pinterest,
 					'socialNetworks.website': website
 				},
-				$push: {
+				$addToSet: {
 					'jobPreferences.jobInterests': { $each: [...jobInterests] },
 					'jobPreferences.workTypes': { $each: [...workTypes] },
-					'jobPreferences.workCityPreferences': { $each: [...workCityPreferences] }
-				},
-				$addToSet: {
-					skills: { $each: res.skills },
-					educations: { $each: res.educations },
-					volunteerExperiences: { $each: res.volunteerExperiences },
-					workExperiences: { $each: res.workExperiences },
-					appreciations: { $each: res.appreciations }
+					'jobPreferences.workCityPreferences': { $each: [...workCityPreferences] },
+					'skills': { $each: res.skills },
+					'educations': { $each: res.educations },
+					'volunteerExperiences': { $each: res.volunteerExperiences },
+					'workExperiences': { $each: res.workExperiences },
+					'appreciations': { $each: res.appreciations }
 				}
 			}
 		)
