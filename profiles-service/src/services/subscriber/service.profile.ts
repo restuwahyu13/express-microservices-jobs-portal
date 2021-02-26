@@ -7,7 +7,8 @@ import { IRequest } from '../../interface/interface.payload'
 export const initCreateProfileSubscriber = async (): Promise<void> => {
 	const createProfileSubscriber = new Subscriber({ key: 'Profile' })
 	const res: IRequest = await createProfileSubscriber.getMap('cprofile:service')
-	const { jobInterests, workType, salaryExpectation, workCityPreferences } = res.jobPreferences
+	const response: IRequest = await createProfileSubscriber.getMap('csubprofile:service')
+	const { jobInterests, workType, salaryExpectation, workCityPreferences } = response.jobPreferences
 	const {
 		facebook,
 		twitter,
@@ -21,10 +22,10 @@ export const initCreateProfileSubscriber = async (): Promise<void> => {
 		youtube,
 		pinterest,
 		website
-	} = res.socialNetworks
+	} = response.socialNetworks
 
 	try {
-		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
+		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: response.userId }).lean()
 		if (checkUserId) {
 			const addNewProfile: ProfilesDTO = await profileSchema.findByIdAndUpdate(
 				{ _id: checkUserId._id },
@@ -45,13 +46,13 @@ export const initCreateProfileSubscriber = async (): Promise<void> => {
 						'socialNetworks.website': website
 					},
 					$addToSet: {
-						'educations': { $each: res.educations },
+						'educations': { $each: response.educations },
 						'jobPreferences.jobInterests': { $each: jobInterests },
 						'jobPreferences.workTypes': { $each: workType },
 						'jobPreferences.workCityPreferences': { $each: workCityPreferences },
-						'skills': { $each: res.skills },
-						'volunteerExperiences': { $each: res.volunteerExperiences },
-						'workExperience': { $each: res.workExperiences }
+						'skills': { $each: response.skills },
+						'volunteerExperiences': { $each: response.volunteerExperiences },
+						'workExperience': { $each: response.workExperiences }
 					}
 				}
 			)

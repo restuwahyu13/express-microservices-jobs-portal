@@ -6,7 +6,7 @@ import { cloudStorage, UploadApiResponse } from '../utils/util.cloud'
 // import { initCreateJobsSubscriber } from '../services/subscriber/service.jobs'
 // import { setCreateJobsPublisher } from '../services/publisher/service.jobs'
 import { initCreateProfileSubscriber } from '../services/subscriber/service.profile'
-import { setCreateProfilePublisher } from '../services/publisher/service.profile'
+import { setCreateProfilePublisher, setCreateSubProfilePublisher } from '../services/publisher/service.profile'
 // import { initCreateSkillsSubscriber } from '../services/subscriber/service.skills'
 // import { setCreateSkillsPublisher } from '../services/publisher/service.skills'
 // import { initCreateSocialsSubscriber } from '../services/subscriber/service.social'
@@ -23,7 +23,7 @@ export const createController = async (req: Request, res: Response): Promise<voi
 	const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: req.params.id }).lean()
 
 	if (checkUserId) {
-		await setCreateProfilePublisher({
+		await setCreateSubProfilePublisher({
 			userId: checkUserId.userId,
 			skills: req.body.skills,
 			workExperiences: req.body.workExperiences,
@@ -35,6 +35,7 @@ export const createController = async (req: Request, res: Response): Promise<voi
 		})
 		await initCreateProfileSubscriber()
 		const { status, message } = await getResponseSubscriber()
+
 		if (status >= 400) {
 			streamBox(res, status, {
 				method: req.method,
@@ -53,6 +54,7 @@ export const createController = async (req: Request, res: Response): Promise<voi
 		const image: any = req.files['image']
 		const document: any = req.files['document']
 		const files: Array<Record<string, any>> = image.concat(document)
+
 		for (let file of files) {
 			try {
 				const response = (await cloudStorage(file.path)) as UploadApiResponse
@@ -61,6 +63,7 @@ export const createController = async (req: Request, res: Response): Promise<voi
 				throw new Error(error)
 			}
 		}
+
 		await setCreateProfilePublisher({
 			userId: req.params.id,
 			photo: urls[0].secure_url,
@@ -76,6 +79,7 @@ export const createController = async (req: Request, res: Response): Promise<voi
 		})
 		await initCreateProfileSubscriber()
 		const { status, message } = await getResponseSubscriber()
+
 		if (status >= 400) {
 			streamBox(res, status, {
 				method: req.method,
