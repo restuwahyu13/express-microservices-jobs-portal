@@ -113,3 +113,57 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 		})
 	}
 }
+
+export const initResultProfileSubscriber = async (): Promise<void> => {
+	const resultProfileSubscriber = new Subscriber({ key: 'Profile' })
+	const res: IRequest = await resultProfileSubscriber.getMap('rprofile:service')
+
+	try {
+		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
+
+		if (!checkUserId) {
+			await setResponsePublisher({
+				status: 404,
+				message: 'user profile is not exist for this id, data not already to use'
+			})
+		} else {
+			await setResponsePublisher({
+				status: 200,
+				message: 'user profile for this id exist, data already to use',
+				data: checkUserId
+			})
+		}
+	} catch (error) {
+		await setResponsePublisher({
+			status: 500,
+			message: 'internal server error'
+		})
+	}
+}
+
+export const initDeletetSubProfileSubscriber = async (): Promise<void> => {
+	const resultProfileSubscriber = new Subscriber({ key: 'Sub Profile' })
+	const res: IRequest = await resultProfileSubscriber.getMap('dsubprofile:service')
+
+	try {
+		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
+
+		if (!checkUserId) {
+			await setResponsePublisher({
+				status: 404,
+				message: 'user profile is not exist for this id, data not already to use'
+			})
+		} else {
+			await setResponsePublisher({
+				status: 200,
+				message: 'user profile for this id exist, data already to use',
+				data: checkUserId
+			})
+		}
+	} catch (error) {
+		await setResponsePublisher({
+			status: 500,
+			message: 'internal server error'
+		})
+	}
+}
