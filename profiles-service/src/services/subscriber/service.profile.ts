@@ -146,9 +146,9 @@ export const initDeletetSubProfileSubscriber = async (): Promise<void> => {
 	const res: IRequest = await resultProfileSubscriber.getMap('dsubprofile:service')
 
 	try {
-		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
+		const checkAndDelete: ProfilesDTO = await profileSchema.updateOne({ _id: res.userId }).lean()
 
-		if (!checkUserId) {
+		if (!checkAndDelete) {
 			await setResponsePublisher({
 				status: 404,
 				message: 'user profile is not exist for this id, data not already to use'
@@ -156,8 +156,7 @@ export const initDeletetSubProfileSubscriber = async (): Promise<void> => {
 		} else {
 			await setResponsePublisher({
 				status: 200,
-				message: 'user profile for this id exist, data already to use',
-				data: checkUserId
+				message: 'user profile for this id exist, data already to use'
 			})
 		}
 	} catch (error) {
