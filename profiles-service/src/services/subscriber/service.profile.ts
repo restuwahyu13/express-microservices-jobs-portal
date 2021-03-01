@@ -94,7 +94,6 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 				}
 			}
 		)
-
 		if (!addSubProfile) {
 			await setResponsePublisher({
 				status: 403,

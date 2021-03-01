@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose'
-import shortId from 'shortid'
+import { v4 as uuid } from 'uuid'
 import { ProfilesDTO } from '../dto/dto.profile'
 
 const ProfileSchema: mongoose.Schema = new mongoose.Schema({
@@ -7,7 +7,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		type: String,
 		unique: true,
 		trim: true,
-		default: shortId()
+		default: uuid()
 	},
 	userId: {
 		type: String,
@@ -58,6 +58,12 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	workExperiences: [
 		{
+			workId: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: uuid()
+			},
 			companyName: {
 				type: String,
 				unique: true,
@@ -88,6 +94,12 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	],
 	educations: [
 		{
+			educationId: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: uuid()
+			},
 			institutionName: {
 				type: String,
 				unique: true,
@@ -122,6 +134,12 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		}
 	],
 	jobPreferences: {
+		jobId: {
+			type: String,
+			unique: true,
+			trim: true,
+			default: uuid()
+		},
 		jobInterests: {
 			type: Array,
 			unique: true,
@@ -210,6 +228,12 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	appreciations: [
 		{
+			appreciationId: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: uuid()
+			},
 			awardTitle: {
 				type: String,
 				unique: true,
@@ -236,6 +260,12 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	],
 	volunteerExperiences: [
 		{
+			volunteerId: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: uuid()
+			},
 			organizationName: {
 				type: String,
 				unique: true,

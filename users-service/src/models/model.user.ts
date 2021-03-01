@@ -51,6 +51,12 @@ const UserSchema: mongoose.Schema = new mongoose.Schema({
 		trim: true,
 		default: false
 	},
+	jobsId: {
+		type: Array,
+		trim: true,
+		ref: 'jobsService',
+		default: []
+	},
 	firstLogin: {
 		type: Date,
 		trim: true,

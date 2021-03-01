@@ -22,6 +22,6 @@ router.post(
 	[serviceLogger('Reset Service'), ...tokenValidator(), ...passwordValidator()],
 	controller.resetController
 )
-router.put('/user/result/:id', [serviceLogger('Get User Service'), ...idValidator()], controller.updateUserController)
+// router.put('/user/result/:id', [serviceLogger('Get User Service'), ...idValidator()], controller.updateUserController)
 
 export default router

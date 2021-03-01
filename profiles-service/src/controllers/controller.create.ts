@@ -1,26 +1,14 @@
 import { Request, Response } from 'express'
 import { profileSchema } from '../models/model.profile'
 import { cloudStorage, UploadApiResponse } from '../utils/util.cloud'
-// import { initCreateEducationsSubscriber } from '../services/subscriber/service.education'
-// import { setCreateEducationPublisher } from '../services/publisher/service.education'
-// import { initCreateJobsSubscriber } from '../services/subscriber/service.jobs'
-// import { setCreateJobsPublisher } from '../services/publisher/service.jobs'
 import { initCreateProfileSubscriber, initCreateSubProfileSubscriber } from '../services/subscriber/service.profile'
 import { setCreateProfilePublisher, setCreateSubProfilePublisher } from '../services/publisher/service.profile'
-// import { initCreateSkillsSubscriber } from '../services/subscriber/service.skills'
-// import { setCreateSkillsPublisher } from '../services/publisher/service.skills'
-// import { initCreateSocialsSubscriber } from '../services/subscriber/service.social'
-// import { setCreateSocialsPublisher } from '../services/publisher/service.social'
-// import { initCreateVolunteersSubscriber } from '../services/subscriber/service.volunteer'
-// import { setCreateVolunteersPublisher } from '../services/publisher/service.volunteer'
-// import { initWorksCreateSubscriber } from '../services/subscriber/service.work'
-// import { setCreateWorksPublisher } from '../services/publisher/service.work'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../../../users-service/src/utils/util.stream'
 import { ProfilesDTO } from '../dto/dto.profile'
 
 export const createController = async (req: Request, res: Response): Promise<void> => {
-	const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: req.params.id }).lean()
+	const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: req.params.userId }).lean()
 
 	if (checkUserId) {
 		await setCreateSubProfilePublisher({
@@ -65,7 +53,7 @@ export const createController = async (req: Request, res: Response): Promise<voi
 		}
 
 		await setCreateProfilePublisher({
-			userId: req.params.id,
+			userId: req.params.userId,
 			photo: urls[0].secure_url,
 			birthDate: req.body.birthDate,
 			gender: req.body.gender,
