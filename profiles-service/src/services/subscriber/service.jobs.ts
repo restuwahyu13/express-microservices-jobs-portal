@@ -2,13 +2,16 @@ import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
+import { IJobs } from '../../interface/interface.service'
 
 export const initDeleteJobsSubscriber = async (): Promise<void> => {
 	const deleteJobsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const { userId, jobsId }: any = await deleteJobsSubscriber.getMap('djobs:service')
+	const res: IJobs = await deleteJobsSubscriber.getMap('djobs:service')
 
 	try {
-		const checkJobsExist: ProfilesDTO = await profileSchema.findOne({ 'userId': userId, 'jobPreferences.jobsId': jobsId })
+		const checkJobsExist: ProfilesDTO = await profileSchema.findOne({
+			'jobPreferences.jobsId': res.jobPreferences.jobsId
+		})
 
 		if (!checkJobsExist) {
 			await setResponsePublisher({
@@ -16,7 +19,9 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 				message: 'jobs is not exist, or deleted from owner'
 			})
 		} else {
-			const deleteJobs: ProfilesDTO = await profileSchema.deleteOne({ 'jobPreferences.jobsId': jobsId })
+			const deleteJobs: ProfilesDTO = await profileSchema.deleteOne({
+				'jobPreferences.jobsId': res.jobPreferences.jobsId
+			})
 
 			if (!deleteJobs) {
 				await setResponsePublisher({
@@ -40,11 +45,10 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 
 export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 	const updateJobsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: ProfilesDTO = await updateJobsSubscriber.getMap('djobs:service')
+	const res: IJobs = await updateJobsSubscriber.getMap('djobs:service')
 
 	try {
 		const checkJobsExist: ProfilesDTO = await profileSchema.findOne({
-			'userId': res.userId,
 			'jobPreferences.jobsId': res.jobPreferences.jobsId
 		})
 
@@ -55,13 +59,13 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const updateJobs: ProfilesDTO = await profileSchema.updateOne(
-				{ userId: res.userId, jobsId: res.jobPreferences.jobsId },
+				{ 'jobPreferences.jobsId': res.jobPreferences.jobsId },
 				{
-					$set: {
-						'jobs.salaryExpectation': res.jobPreferences.salaryExpectation,
-						'jobs.$.jobInterests': res.jobPreferences.jobInterests,
-						'jobs.$.workTypes': res.jobPreferences.workTypes,
-						'jobs.$.workCityPreferences': res.jobPreferences.workCityPreferences
+					$set: { 'jobs.salaryExpectation': res.jobPreferences.salaryExpectation },
+					$addToSet: {
+						'jobs.$.jobInterests': { $each: [...res.jobPreferences.jobInterests] },
+						'jobs.$.workTypes': { $each: [...res.jobPreferences.workTypes] },
+						'jobs.$.workCityPreferences': { $each: [...res.jobPreferences.workCityPreferences] }
 					}
 				}
 			)

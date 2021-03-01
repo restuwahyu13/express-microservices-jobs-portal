@@ -2,13 +2,16 @@ import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
+import { IEducations } from '../../interface/interface.service'
 
 export const initDeleteEducationSubscriber = async (): Promise<void> => {
 	const deleteEducationsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const { userId, educationId }: any = await deleteEducationsSubscriber.getMap('deducations:service')
+	const res: IEducations = await deleteEducationsSubscriber.getMap('deducations:service')
 
 	try {
-		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({ 'educations.$.educationId': educationId })
+		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
+			'educations.$.educationId': res.educations.educationId
+		})
 
 		if (!checkEducationExist) {
 			await setResponsePublisher({
@@ -17,8 +20,8 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const deleteEducations: ProfilesDTO = await profileSchema.updateOne(
-				{ userId: userId },
-				{ $pull: { educations: educationId } }
+				{ 'educations.$.educationId': res.educations.educationId },
+				{ $pull: { 'educations.$.educationId': res.educations.educationId } }
 			)
 
 			if (!deleteEducations) {
@@ -43,10 +46,12 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 
 export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 	const deleteSkillsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: ProfilesDTO = await deleteSkillsSubscriber.getMap('ueducations:service')
+	const res: IEducations = await deleteSkillsSubscriber.getMap('ueducations:service')
 
 	try {
-		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({ 'educations.$.educationId': res.educationId })
+		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
+			'educations.$.educationId': res.educations.educationId
+		})
 
 		if (!checkEducationExist) {
 			await setResponsePublisher({
@@ -55,7 +60,7 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const updateEducations: ProfilesDTO = await profileSchema.updateOne(
-				{ userId: res.userId, educationId: res.educationId },
+				{ 'educations.$.educationId': res.educations.educationId },
 				{
 					$set: {
 						'educations.$.institutionName': res.educations.institutionName,

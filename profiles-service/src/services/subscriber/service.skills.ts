@@ -2,12 +2,13 @@ import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
+import { ISkills } from '../../interface/interface.service'
 
 export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 	const deleteSkillsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const { userId, skill }: any = await deleteSkillsSubscriber.getMap('dskills:service')
+	const { userId, skills }: ISkills = await deleteSkillsSubscriber.getMap('dskills:service')
 	try {
-		const checkSkillExist: number = await profileSchema.findOne({ skills: { $in: [skill] } }).count()
+		const checkSkillExist: number = await profileSchema.findOne({ skills: { $in: [skills] } }).count()
 
 		if (checkSkillExist < 1) {
 			await setResponsePublisher({
@@ -15,9 +16,9 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 				message: 'skills is not exist, or deleted from owner'
 			})
 		} else {
-			const deleteSkills: ProfilesDTO = await profileSchema.updateOne({ userId: userId }, { $pull: { skills: skill } })
+			const deleteSkills: ProfilesDTO = await profileSchema.updateOne({ userId: userId }, { $pull: { skills: skills } })
 
-			if (deleteSkills) {
+			if (!deleteSkills) {
 				await setResponsePublisher({
 					status: 403,
 					message: 'deleted skills failed, please try again'
@@ -39,7 +40,7 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 
 export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 	const updateSkillsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const { userId, skills }: any = await updateSkillsSubscriber.getMap('uskills:service')
+	const { userId, skills }: ISkills = await updateSkillsSubscriber.getMap('uskills:service')
 	try {
 		const checkSkillExist: number = await profileSchema.findOne({ skills: { $in: [...skills] } }).count()
 
@@ -51,10 +52,10 @@ export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 		} else {
 			const updateSkills: ProfilesDTO = await profileSchema.updateOne(
 				{ userId: userId },
-				{ $push: { skills: { $each: [...skills] } } }
+				{ $addToset: { skills: { $each: [...skills] } } }
 			)
 
-			if (updateSkills) {
+			if (!updateSkills) {
 				await setResponsePublisher({
 					status: 403,
 					message: 'updated skills failed, please try again'

@@ -2,13 +2,16 @@ import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
+import { IVolunteers } from '../../interface/interface.service'
 
 export const initDeleteEducationSubscriber = async (): Promise<void> => {
 	const deleteEducationsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const { userId, volunteerId }: any = await deleteEducationsSubscriber.getMap('dvolunteers:service')
+	const res: IVolunteers = await deleteEducationsSubscriber.getMap('dvolunteers:service')
 
 	try {
-		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({ 'volunteers.$.volunteerId': volunteerId })
+		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
+			'volunteers.$.volunteerId': res.volunteer.volunteerId
+		})
 
 		if (!checkEducationExist) {
 			await setResponsePublisher({
@@ -17,8 +20,8 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const deleteEducations: ProfilesDTO = await profileSchema.updateOne(
-				{ userId: userId },
-				{ $pull: { volunteers: volunteerId } }
+				{ 'volunteers.$.volunteerId': res.volunteer.volunteerId },
+				{ $pull: { 'volunteers.$.volunteerId': res.volunteer.volunteerId } }
 			)
 
 			if (!deleteEducations) {
@@ -43,10 +46,12 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 
 export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 	const deleteSkillsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: ProfilesDTO = await deleteSkillsSubscriber.getMap('uvolunteers:service')
+	const res: IVolunteers = await deleteSkillsSubscriber.getMap('uvolunteers:service')
 
 	try {
-		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({ 'volunteers.$.volunteerId': res.volunteerId })
+		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
+			'volunteers.$.volunteerId': res.volunteer.volunteerId
+		})
 
 		if (!checkEducationExist) {
 			await setResponsePublisher({
@@ -55,15 +60,14 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const updateEducations: ProfilesDTO = await profileSchema.updateOne(
-				{ userId: res.userId, volunteerId: res.volunteerId },
+				{ 'volunteers.$.volunteerId': res.volunteer.volunteerId },
 				{
 					$set: {
-						'volunteers.$.organizationName': res.educations.institutionName,
-						'volunteers.$.organizationPosition': res.educations.educationDegree,
-						'volunteers$.startDate': res.educations.fieldStudy,
-						'volunteers$.endDate': res.educations.startDate,
-						'volunteers$.endDate': res.educations.endDate,
-						'volunteers$.educationInformation': res.educations.educationInformation
+						'volunteers.$.organizationName': res.volunteer.organizationName,
+						'volunteers.$.organizationPosition': res.volunteer.organizationPosition,
+						'volunteers$.startDate': res.volunteer.startDate,
+						'volunteers$.endDate': res.volunteer.endDate,
+						'volunteers$.organizationInformation': res.volunteer.organizationInformation
 					}
 				}
 			)
