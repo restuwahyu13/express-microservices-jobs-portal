@@ -45,8 +45,8 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 }
 
 export const initUpdateEducationsSubscriber = async (): Promise<void> => {
-	const deleteSkillsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IEducations = await deleteSkillsSubscriber.getMap('ueducations:service')
+	const deleteEducationsSubscriber = new Subscriber({ key: 'Sub Profile' })
+	const res: IEducations = await deleteEducationsSubscriber.getMap('ueducations:service')
 
 	try {
 		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
@@ -56,7 +56,7 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 		if (!checkEducationExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'skills is not exist, or deleted from owner'
+				message: 'education is not exist, or deleted from owner'
 			})
 		} else {
 			const updateEducations: ProfilesDTO = await profileSchema.updateOne(
@@ -73,15 +73,15 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 				}
 			)
 
-			if (updateEducations) {
+			if (!updateEducations) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'updated educations failed, please try again'
+					message: 'updated education failed, please try again'
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'updated educations successfully'
+					message: 'updated education successfully'
 				})
 			}
 		}

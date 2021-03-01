@@ -4,35 +4,35 @@ import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 import { IVolunteers } from '../../interface/interface.service'
 
-export const initDeleteEducationSubscriber = async (): Promise<void> => {
-	const deleteEducationsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IVolunteers = await deleteEducationsSubscriber.getMap('dvolunteers:service')
+export const initDeleteVolunteersSubscriber = async (): Promise<void> => {
+	const deleteVolunteersSubscriber = new Subscriber({ key: 'Sub Profile' })
+	const res: IVolunteers = await deleteVolunteersSubscriber.getMap('dvolunteers:service')
 
 	try {
-		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
+		const checkVolunteerExist: ProfilesDTO = await profileSchema.findOne({
 			'volunteers.$.volunteerId': res.volunteer.volunteerId
 		})
 
-		if (!checkEducationExist) {
+		if (!checkVolunteerExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'volunteers is not exist, or deleted from owner'
+				message: 'volunteer is not exist, or deleted from owner'
 			})
 		} else {
-			const deleteEducations: ProfilesDTO = await profileSchema.updateOne(
+			const deleteVolunteer: ProfilesDTO = await profileSchema.updateOne(
 				{ 'volunteers.$.volunteerId': res.volunteer.volunteerId },
 				{ $pull: { 'volunteers.$.volunteerId': res.volunteer.volunteerId } }
 			)
 
-			if (!deleteEducations) {
+			if (!deleteVolunteer) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'deleted education failed, please try again'
+					message: 'deleted volunteer failed, please try again'
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'deleted education successfully'
+					message: 'deleted volunteer successfully'
 				})
 			}
 		}
@@ -44,22 +44,22 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 	}
 }
 
-export const initUpdateEducationsSubscriber = async (): Promise<void> => {
-	const deleteSkillsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IVolunteers = await deleteSkillsSubscriber.getMap('uvolunteers:service')
+export const initUpdateVolunteersSubscriber = async (): Promise<void> => {
+	const updateVolunteerSubscriber = new Subscriber({ key: 'Sub Profile' })
+	const res: IVolunteers = await updateVolunteerSubscriber.getMap('uvolunteers:service')
 
 	try {
-		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
+		const checkVolunteersExist: ProfilesDTO = await profileSchema.findOne({
 			'volunteers.$.volunteerId': res.volunteer.volunteerId
 		})
 
-		if (!checkEducationExist) {
+		if (!checkVolunteersExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'skills is not exist, or deleted from owner'
+				message: 'volunteer is not exist, or deleted from owner'
 			})
 		} else {
-			const updateEducations: ProfilesDTO = await profileSchema.updateOne(
+			const updateVolunter: ProfilesDTO = await profileSchema.updateOne(
 				{ 'volunteers.$.volunteerId': res.volunteer.volunteerId },
 				{
 					$set: {
@@ -72,15 +72,15 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 				}
 			)
 
-			if (updateEducations) {
+			if (!updateVolunter) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'updated volunteers failed, please try again'
+					message: 'updated volunteer failed, please try again'
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'updated volunteers successfully'
+					message: 'updated volunteer successfully'
 				})
 			}
 		}

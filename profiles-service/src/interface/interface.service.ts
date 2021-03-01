@@ -38,3 +38,15 @@ export interface IVolunteers {
 		organizationInformation: string
 	}
 }
+
+export interface IWorks {
+	userId: string
+	works: {
+		workId: string
+		companyName: string
+		jobPosition: string
+		startDate: string
+		endDate: string
+		workInformation: string
+	}
+}

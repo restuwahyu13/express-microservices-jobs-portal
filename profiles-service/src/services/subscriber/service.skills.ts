@@ -13,7 +13,7 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 		if (checkSkillExist < 1) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'skills is not exist, or deleted from owner'
+				message: 'skill is not exist, or deleted from owner'
 			})
 		} else {
 			const deleteSkills: ProfilesDTO = await profileSchema.updateOne({ userId: userId }, { $pull: { skills: skills } })
@@ -21,12 +21,12 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 			if (!deleteSkills) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'deleted skills failed, please try again'
+					message: 'deleted skill failed, please try again'
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'deleted skills successfully'
+					message: 'deleted skill successfully'
 				})
 			}
 		}
@@ -47,7 +47,7 @@ export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 		if (checkSkillExist < 1) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'skills is not exist, or deleted from owner'
+				message: 'skill is not exist, or deleted from owner'
 			})
 		} else {
 			const updateSkills: ProfilesDTO = await profileSchema.updateOne(
@@ -58,12 +58,12 @@ export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 			if (!updateSkills) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'updated skills failed, please try again'
+					message: 'updated skill failed, please try again'
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'updated skills successfully'
+					message: 'updated skill successfully'
 				})
 			}
 		}

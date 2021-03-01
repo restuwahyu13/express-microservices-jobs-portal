@@ -16,7 +16,7 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 		if (!checkJobsExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'jobs is not exist, or deleted from owner'
+				message: 'job is not exist, or deleted from owner'
 			})
 		} else {
 			const deleteJobs: ProfilesDTO = await profileSchema.deleteOne({
@@ -26,12 +26,12 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 			if (!deleteJobs) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'deleted jobs failed, please try again'
+					message: 'deleted job failed, please try again'
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'deleted jobs successfully'
+					message: 'deleted job successfully'
 				})
 			}
 		}
@@ -43,7 +43,7 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 	}
 }
 
-export const initUpdateEducationsSubscriber = async (): Promise<void> => {
+export const initUpdateJobsSubscriber = async (): Promise<void> => {
 	const updateJobsSubscriber = new Subscriber({ key: 'Sub Profile' })
 	const res: IJobs = await updateJobsSubscriber.getMap('djobs:service')
 
@@ -55,7 +55,7 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 		if (!checkJobsExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'jobs is not exist, or deleted from owner'
+				message: 'job is not exist, or deleted from owner'
 			})
 		} else {
 			const updateJobs: ProfilesDTO = await profileSchema.updateOne(
@@ -73,12 +73,12 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 			if (!updateJobs) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'updated jobs failed, please try again'
+					message: 'updated job failed, please try again'
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'updated jobs successfully'
+					message: 'updated job successfully'
 				})
 			}
 		}
