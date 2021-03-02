@@ -11,7 +11,7 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 	try {
 		const checkJobsExist: ProfilesDTO[] = await profileSchema
 			.find({
-				'jobPreferences.jobsId': res.jobPreferences.jobsId,
+				'jobPreferences.jobId': res.jobPreferences.jobsId,
 				'$or': [
 					{ 'jobPreferences.jobInterests': { $in: [res.jobPreferences.jobInterests] } },
 					{ 'jobPreferences.workTypes': { $in: [res.jobPreferences.workTypes] } },
@@ -27,7 +27,7 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const deleteJobs: ProfilesDTO = await profileSchema.updateOne(
-				{ 'jobPreferences.jobsId': res.jobPreferences.jobsId },
+				{ 'jobPreferences.jobId': res.jobPreferences.jobsId },
 				{
 					$pull: {
 						'jobPreferences.jobInterests': res.jobPreferences.jobInterests,
@@ -64,7 +64,7 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 	try {
 		const checkJobsExist: ProfilesDTO[] = await profileSchema
 			.find({
-				'jobPreferences.jobsId': res.jobPreferences.jobsId,
+				'jobPreferences.jobId': res.jobPreferences.jobsId,
 				'$or': [
 					{ 'jobPreferences.jobInterests': { $in: [res.jobPreferences.jobInterests] } },
 					{ 'jobPreferences.workTypes': { $in: [res.jobPreferences.workTypes] } },
@@ -80,7 +80,7 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const updateJobs: ProfilesDTO = await profileSchema.updateOne(
-				{ 'jobPreferences.jobsId': res.jobPreferences.jobsId },
+				{ 'jobPreferences.jobId': res.jobPreferences.jobsId },
 				{
 					$set: { 'jobs.salaryExpectation': res.jobPreferences.salaryExpectation },
 					$addToSet: {
