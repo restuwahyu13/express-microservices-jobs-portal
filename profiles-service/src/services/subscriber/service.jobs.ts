@@ -14,8 +14,8 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 				'jobPreferences.jobsId': res.jobPreferences.jobsId,
 				'$or': [
 					{ 'jobPreferences.jobInterests': { $in: [res.jobPreferences.jobInterests] } },
-					{ 'jobPreferences.workTypes': { $in: [res.jobPreferences.jobInterests] } },
-					{ 'jobPreferences.workCityPreferences': { $in: [res.jobPreferences.jobInterests] } }
+					{ 'jobPreferences.workTypes': { $in: [res.jobPreferences.workTypes] } },
+					{ 'jobPreferences.workCityPreferences': { $in: [res.jobPreferences.workCityPreferences] } }
 				]
 			})
 			.lean()
@@ -23,7 +23,7 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 		if (checkJobsExist.length < 1) {
 			await setResponsePublisher({
 				status: 404,
-				message: `job id ${res.jobPreferences.jobsId} is not exist, or deleted from owner`
+				message: `value is not exist in jobInterests | workTypes | workCityPreferences, or deleted from owner`
 			})
 		} else {
 			const deleteJobs: ProfilesDTO = await profileSchema.updateOne(
@@ -62,14 +62,21 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 	const res: IJobs = await updateJobsSubscriber.getMap('djobs:service')
 
 	try {
-		const checkJobsExist: ProfilesDTO = await profileSchema.findOne({
-			'jobPreferences.jobsId': res.jobPreferences.jobsId
-		})
+		const checkJobsExist: ProfilesDTO[] = await profileSchema
+			.find({
+				'jobPreferences.jobsId': res.jobPreferences.jobsId,
+				'$or': [
+					{ 'jobPreferences.jobInterests': { $in: [res.jobPreferences.jobInterests] } },
+					{ 'jobPreferences.workTypes': { $in: [res.jobPreferences.workTypes] } },
+					{ 'jobPreferences.workCityPreferences': { $in: [res.jobPreferences.workCityPreferences] } }
+				]
+			})
+			.lean()
 
-		if (!checkJobsExist) {
+		if (checkJobsExist.length < 1) {
 			await setResponsePublisher({
 				status: 404,
-				message: `job id ${res.jobPreferences.jobsId} is not exist, or deleted from owner`
+				message: `value is not exist in jobInterests | workTypes | workCityPreferences, or deleted from owner`
 			})
 		} else {
 			const updateJobs: ProfilesDTO = await profileSchema.updateOne(
