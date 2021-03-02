@@ -9,29 +9,43 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 	const res: IJobs = await deleteJobsSubscriber.getMap('djobs:service')
 
 	try {
-		const checkJobsExist: ProfilesDTO = await profileSchema.findOne({
-			'jobPreferences.jobsId': res.jobPreferences.jobsId
-		})
+		const checkJobsExist: ProfilesDTO[] = await profileSchema
+			.find({
+				'jobPreferences.jobsId': res.jobPreferences.jobsId,
+				'$or': [
+					{ 'jobs.jobInterests': { $in: [res.jobPreferences.jobInterests] } },
+					{ 'jobs.workTypes': { $in: [res.jobPreferences.jobInterests] } },
+					{ 'jobs.workCityPreferences': { $in: [res.jobPreferences.jobInterests] } }
+				]
+			})
+			.lean()
 
-		if (!checkJobsExist) {
+		if (checkJobsExist.length < 1) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'job is not exist, or deleted from owner'
+				message: `job id ${res.jobPreferences.jobsId} is not exist, or deleted from owner`
 			})
 		} else {
-			const deleteJobs: ProfilesDTO = await profileSchema.deleteOne({
-				'jobPreferences.jobsId': res.jobPreferences.jobsId
-			})
+			const deleteJobs: ProfilesDTO = await profileSchema.updateOne(
+				{ 'jobPreferences.jobsId': res.jobPreferences.jobsId },
+				{
+					$pull: {
+						'jobs.jobInterests': res.jobPreferences.jobInterests,
+						'jobs.workTypes': res.jobPreferences.workTypes,
+						'jobs.workCityPreferences': res.jobPreferences.workCityPreferences
+					}
+				}
+			)
 
 			if (!deleteJobs) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'deleted job failed, please try again'
+					message: `deleted job id ${res.jobPreferences.jobsId} failed`
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'deleted job successfully'
+					message: `deleted job id ${res.jobPreferences.jobsId} successfully`
 				})
 			}
 		}
@@ -55,7 +69,7 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 		if (!checkJobsExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'job is not exist, or deleted from owner'
+				message: `job id ${res.jobPreferences.jobsId} is not exist, or deleted from owner`
 			})
 		} else {
 			const updateJobs: ProfilesDTO = await profileSchema.updateOne(
@@ -63,9 +77,9 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 				{
 					$set: { 'jobs.salaryExpectation': res.jobPreferences.salaryExpectation },
 					$addToSet: {
-						'jobs.$.jobInterests': { $each: [...res.jobPreferences.jobInterests] },
-						'jobs.$.workTypes': { $each: [...res.jobPreferences.workTypes] },
-						'jobs.$.workCityPreferences': { $each: [...res.jobPreferences.workCityPreferences] }
+						'jobs.jobInterests': { $each: [...res.jobPreferences.jobInterests] },
+						'jobs.workTypes': { $each: [...res.jobPreferences.workTypes] },
+						'jobs.workCityPreferences': { $each: [...res.jobPreferences.workCityPreferences] }
 					}
 				}
 			)
@@ -73,12 +87,12 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 			if (!updateJobs) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'updated job failed, please try again'
+					message: `updated job id ${res.jobPreferences.jobsId} failed`
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'updated job successfully'
+					message: `updated job id ${res.jobPreferences.jobsId} successfully`
 				})
 			}
 		}

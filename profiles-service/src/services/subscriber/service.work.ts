@@ -10,29 +10,29 @@ export const initDeleteWorksSubscriber = async (): Promise<void> => {
 
 	try {
 		const checkWorkExist: ProfilesDTO = await profileSchema.findOne({
-			'works.$.workId': res.works.workId
+			'works.workId': res.works.workId
 		})
 
 		if (!checkWorkExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'work is not exist, or deleted from owner'
+				message: `work id ${res.works.workId} is not exist, or deleted from owner`
 			})
 		} else {
 			const deleteWorks: ProfilesDTO = await profileSchema.updateOne(
-				{ 'works.$.workId': res.works.workId },
-				{ $pull: { 'works.$.workId': res.works.workId } }
+				{ 'works.workId': res.works.workId },
+				{ $pull: { works: { workId: res.works.workId } } }
 			)
 
 			if (!deleteWorks) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'deleted work failed, please try again'
+					message: `deleted work id ${res.works.workId} failed`
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'deleted work successfully'
+					message: `deleted work id ${res.works.workId} successfully`
 				})
 			}
 		}
@@ -50,17 +50,17 @@ export const initUpdateWorksSubscriber = async (): Promise<void> => {
 
 	try {
 		const checkWorkExist: ProfilesDTO = await profileSchema.findOne({
-			'works.$.educationId': res.works.workId
+			'works.workId': res.works.workId
 		})
 
 		if (!checkWorkExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'works is not exist, or deleted from owner'
+				message: `work id ${res.works.workId} is not exist, or deleted from owner`
 			})
 		} else {
 			const updateWorks: ProfilesDTO = await profileSchema.updateOne(
-				{ 'works.$.workId': res.works.workId },
+				{ 'works.workId': res.works.workId },
 				{
 					$set: {
 						'works.$.companyName': res.works.companyName,
@@ -75,12 +75,12 @@ export const initUpdateWorksSubscriber = async (): Promise<void> => {
 			if (!updateWorks) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'updated work failed, please try again'
+					message: `updated work id ${res.works.workId} failed`
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'updated work successfully'
+					message: `updated work id ${res.works.workId} successfully`
 				})
 			}
 		}
