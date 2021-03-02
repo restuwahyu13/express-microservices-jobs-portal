@@ -13,9 +13,9 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 			.find({
 				'jobPreferences.jobsId': res.jobPreferences.jobsId,
 				'$or': [
-					{ 'jobs.jobInterests': { $in: [res.jobPreferences.jobInterests] } },
-					{ 'jobs.workTypes': { $in: [res.jobPreferences.jobInterests] } },
-					{ 'jobs.workCityPreferences': { $in: [res.jobPreferences.jobInterests] } }
+					{ 'jobPreferences.jobInterests': { $in: [res.jobPreferences.jobInterests] } },
+					{ 'jobPreferences.workTypes': { $in: [res.jobPreferences.jobInterests] } },
+					{ 'jobPreferences.workCityPreferences': { $in: [res.jobPreferences.jobInterests] } }
 				]
 			})
 			.lean()
@@ -30,9 +30,9 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 				{ 'jobPreferences.jobsId': res.jobPreferences.jobsId },
 				{
 					$pull: {
-						'jobs.jobInterests': res.jobPreferences.jobInterests,
-						'jobs.workTypes': res.jobPreferences.workTypes,
-						'jobs.workCityPreferences': res.jobPreferences.workCityPreferences
+						'jobPreferences.jobInterests': res.jobPreferences.jobInterests,
+						'jobPreferences.workTypes': res.jobPreferences.workTypes,
+						'jobPreferences.workCityPreferences': res.jobPreferences.workCityPreferences
 					}
 				}
 			)
