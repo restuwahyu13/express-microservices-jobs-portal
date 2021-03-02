@@ -8,5 +8,7 @@ import { volunteersDeleteController, volunteersUpdateController } from './contro
 export const controller = {
 	createController,
 	skillsDeleteController,
-	skillsUpdateController
+	skillsUpdateController,
+	volunteersDeleteController,
+	volunteersUpdateController
 }

@@ -5,7 +5,7 @@ import { getResponseSubscriber } from '../../../users-service/src/utils/util.mes
 import { streamBox } from '../../../users-service/src/utils/util.stream'
 
 export const volunteersDeleteController = async (req: Request, res: Response): Promise<void> => {
-	await setDeleteVolunteersPublisher({ userId: req.params.userId, skills: req.body.skills })
+	await setDeleteVolunteersPublisher({ volunteers: { volunteerId: req.params.volunterId } })
 	await initDeleteVolunteersSubscriber()
 	const { status, message } = await getResponseSubscriber()
 
@@ -26,9 +26,8 @@ export const volunteersDeleteController = async (req: Request, res: Response): P
 
 export const volunteersUpdateController = async (req: Request, res: Response): Promise<void> => {
 	await setUpdateVolunteersPublisher({
-		userId: req.params.userId,
 		volunteers: {
-			volunteerId: req.body.volunteerId,
+			volunteerId: req.params.volunterId,
 			organizationName: req.body.organizationName,
 			organizationPosition: req.body.organizationPosition,
 			startDate: req.body.startDate,

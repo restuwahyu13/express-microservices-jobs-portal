@@ -10,29 +10,29 @@ export const initDeleteVolunteersSubscriber = async (): Promise<void> => {
 
 	try {
 		const checkVolunteerExist: ProfilesDTO = await profileSchema.findOne({
-			'volunteers.$.volunteerId': res.volunteers.volunteerId
+			'volunteerExperiences.volunteerId': res.volunteers.volunteerId
 		})
 
 		if (!checkVolunteerExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'volunteer is not exist, or deleted from owner'
+				message: `volunteer id ${res.volunteers.volunteerId} is not exist, or deleted from owner`
 			})
 		} else {
 			const deleteVolunteer: ProfilesDTO = await profileSchema.updateOne(
-				{ 'volunteers.$.volunteerId': res.volunteers.volunteerId },
-				{ $pull: { 'volunteers.$.volunteerId': res.volunteers.volunteerId } }
+				{ 'volunteerExperiences.volunteerId': res.volunteers.volunteerId },
+				{ $pull: { volunteerExperiences: { volunteerId: res.volunteers.volunteerId } } }
 			)
 
 			if (!deleteVolunteer) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'deleted volunteer failed, please try again'
+					message: `deleted volunteer id ${res.volunteers.volunteerId} failed`
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'deleted volunteer successfully'
+					message: `deleted volunteer id ${res.volunteers.volunteerId} successfully`
 				})
 			}
 		}
@@ -50,24 +50,24 @@ export const initUpdateVolunteersSubscriber = async (): Promise<void> => {
 
 	try {
 		const checkVolunteersExist: ProfilesDTO = await profileSchema.findOne({
-			'volunteers.$.volunteerId': res.volunteers.volunteerId
+			'volunteerExperiences.volunteerId': res.volunteers.volunteerId
 		})
 
 		if (!checkVolunteersExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'volunteer is not exist, or deleted from owner'
+				message: `volunteer id ${res.volunteers.volunteerId} is not exist, or deleted from owner`
 			})
 		} else {
 			const updateVolunter: ProfilesDTO = await profileSchema.updateOne(
-				{ 'volunteers.$.volunteerId': res.volunteers.volunteerId },
+				{ 'volunteerExperiences.volunteerId': res.volunteers.volunteerId },
 				{
 					$set: {
-						'volunteers.$.organizationName': res.volunteers.organizationName,
-						'volunteers.$.organizationPosition': res.volunteers.organizationPosition,
-						'volunteers$.startDate': res.volunteers.startDate,
-						'volunteers$.endDate': res.volunteers.endDate,
-						'volunteers$.organizationInformation': res.volunteers.organizationInformation
+						'volunteerExperiences.$.organizationName': res.volunteers.organizationName,
+						'volunteerExperiences.$.organizationPosition': res.volunteers.organizationPosition,
+						'volunteerExperiences.$.startDate': res.volunteers.startDate,
+						'volunteerExperiences.$.endDate': res.volunteers.endDate,
+						'volunteerExperiences.$.organizationInformation': res.volunteers.organizationInformation
 					}
 				}
 			)
@@ -75,12 +75,12 @@ export const initUpdateVolunteersSubscriber = async (): Promise<void> => {
 			if (!updateVolunter) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'updated volunteer failed, please try again'
+					message: `updated volunteer id ${res.volunteers.volunteerId} failed`
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'updated volunteer successfully'
+					message: `updated volunteer id ${res.volunteers.volunteerId} successfully`
 				})
 			}
 		}
