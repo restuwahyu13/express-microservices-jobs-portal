@@ -38,7 +38,7 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }
@@ -85,7 +85,7 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

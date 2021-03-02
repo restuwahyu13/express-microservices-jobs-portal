@@ -29,7 +29,7 @@ export interface IJobs {
 
 export interface IVolunteers {
 	userId: string
-	volunteer: {
+	volunteers: {
 		volunteerId: string
 		organizationName: string
 		organizationPosition: string
@@ -48,5 +48,16 @@ export interface IWorks {
 		startDate: string
 		endDate: string
 		workInformation: string
+	}
+}
+
+export interface IAppreciations {
+	userId: string
+	appreciations: {
+		appreciationId: string
+		awardTitle: string
+		achievementTitle: string
+		awardYear: string
+		awardInformation: string
 	}
 }

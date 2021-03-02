@@ -8,12 +8,15 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 	const deleteSkillsSubscriber = new Subscriber({ key: 'Sub Profile' })
 	const { userId, skills }: ISkills = await deleteSkillsSubscriber.getMap('dskills:service')
 	try {
-		const checkSkillExist: number = await profileSchema.findOne({ skills: { $in: [skills] } }).count()
+		const checkSkillExist: number = await profileSchema
+			.findOne({ skills: { $in: [skills] } })
+			.lean()
+			.countDocuments()
 
 		if (checkSkillExist < 1) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'skill is not exist, or deleted from owner'
+				message: `${skills} is not exist from skills, or deleted from owner`
 			})
 		} else {
 			const deleteSkills: ProfilesDTO = await profileSchema.updateOne({ userId: userId }, { $pull: { skills: skills } })
@@ -21,12 +24,12 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 			if (!deleteSkills) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'deleted skill failed, please try again'
+					message: 'deleted one skill failed, please try again'
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'deleted skill successfully'
+					message: 'deleted one skill successfully'
 				})
 			}
 		}
@@ -42,17 +45,17 @@ export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 	const updateSkillsSubscriber = new Subscriber({ key: 'Sub Profile' })
 	const { userId, skills }: ISkills = await updateSkillsSubscriber.getMap('uskills:service')
 	try {
-		const checkSkillExist: number = await profileSchema.findOne({ skills: { $in: [...skills] } }).count()
+		const checkUserId: number = await profileSchema.findOne({ userId: userId }).lean().countDocuments()
 
-		if (checkSkillExist < 1) {
+		if (checkUserId < 1) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'skill is not exist, or deleted from owner'
+				message: 'users is not exist for this id, or deleted from owner'
 			})
 		} else {
 			const updateSkills: ProfilesDTO = await profileSchema.updateOne(
 				{ userId: userId },
-				{ $addToset: { skills: { $each: [...skills] } } }
+				{ $addToSet: { skills: { $each: [...skills] } } }
 			)
 
 			if (!updateSkills) {
@@ -70,7 +73,7 @@ export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

@@ -2,15 +2,15 @@ import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
-import { IEducations } from '../../interface/interface.service'
+import { IAppreciations } from '../../interface/interface.service'
 
 export const initDeleteEducationSubscriber = async (): Promise<void> => {
 	const deleteEducationsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IEducations = await deleteEducationsSubscriber.getMap('deducations:service')
+	const res: IAppreciations = await deleteEducationsSubscriber.getMap('deducations:service')
 
 	try {
 		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
-			'educations.$.educationId': res.educations.educationId
+			'appreciations.$.appreciationId': res.appreciations.appreciationId
 		})
 
 		if (!checkEducationExist) {
@@ -20,8 +20,8 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const deleteEducations: ProfilesDTO = await profileSchema.updateOne(
-				{ 'educations.$.educationId': res.educations.educationId },
-				{ $pull: { 'educations.$.educationId': res.educations.educationId } }
+				{ 'appreciations.$.appreciationId': res.appreciations.appreciationId },
+				{ $pull: { 'educations.$.appreciationId': res.appreciations.appreciationId } }
 			)
 
 			if (!deleteEducations) {
@@ -46,42 +46,40 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 
 export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 	const deleteEducationsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IEducations = await deleteEducationsSubscriber.getMap('ueducations:service')
+	const res: IAppreciations = await deleteEducationsSubscriber.getMap('ueducations:service')
 
 	try {
-		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
-			'educations.$.educationId': res.educations.educationId
+		const checkAppreciationsExist: ProfilesDTO = await profileSchema.findOne({
+			'appreciations.$.appreciationId': res.appreciations.appreciationId
 		})
 
-		if (!checkEducationExist) {
+		if (!checkAppreciationsExist) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'education is not exist, or deleted from owner'
+				message: 'appreciation is not exist, or deleted from owner'
 			})
 		} else {
-			const updateEducations: ProfilesDTO = await profileSchema.updateOne(
-				{ 'educations.$.educationId': res.educations.educationId },
+			const updateAppreciations: ProfilesDTO = await profileSchema.updateOne(
+				{ 'appreciations.$.appreciationId': res.appreciations.appreciationId },
 				{
 					$set: {
-						'educations.$.institutionName': res.educations.institutionName,
-						'education.$.educationDegree': res.educations.educationDegree,
-						'education.$.fieldStudy': res.educations.fieldStudy,
-						'education.$.startDate': res.educations.startDate,
-						'education.$.endDate': res.educations.endDate,
-						'education.$.educationInformation': res.educations.educationInformation
+						'appreciations.$.awardTitle': res.appreciations.awardTitle,
+						'appreciations.$.achievementTitle': res.appreciations.achievementTitle,
+						'appreciations.$.awardYear': res.appreciations.awardYear,
+						'appreciations.$.awardInformation': res.appreciations.awardInformation
 					}
 				}
 			)
 
-			if (!updateEducations) {
+			if (!updateAppreciations) {
 				await setResponsePublisher({
 					status: 403,
-					message: 'updated education failed, please try again'
+					message: 'updated appreciation failed, please try again'
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: 'updated education successfully'
+					message: 'updated appreciation successfully'
 				})
 			}
 		}

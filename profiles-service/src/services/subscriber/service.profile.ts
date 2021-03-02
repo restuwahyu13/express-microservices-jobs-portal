@@ -135,7 +135,7 @@ export const initResultProfileSubscriber = async (): Promise<void> => {
 	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }
@@ -161,7 +161,7 @@ export const initDeletetSubProfileSubscriber = async (): Promise<void> => {
 	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

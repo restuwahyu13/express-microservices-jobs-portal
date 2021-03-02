@@ -10,7 +10,7 @@ export const initDeleteVolunteersSubscriber = async (): Promise<void> => {
 
 	try {
 		const checkVolunteerExist: ProfilesDTO = await profileSchema.findOne({
-			'volunteers.$.volunteerId': res.volunteer.volunteerId
+			'volunteers.$.volunteerId': res.volunteers.volunteerId
 		})
 
 		if (!checkVolunteerExist) {
@@ -20,8 +20,8 @@ export const initDeleteVolunteersSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const deleteVolunteer: ProfilesDTO = await profileSchema.updateOne(
-				{ 'volunteers.$.volunteerId': res.volunteer.volunteerId },
-				{ $pull: { 'volunteers.$.volunteerId': res.volunteer.volunteerId } }
+				{ 'volunteers.$.volunteerId': res.volunteers.volunteerId },
+				{ $pull: { 'volunteers.$.volunteerId': res.volunteers.volunteerId } }
 			)
 
 			if (!deleteVolunteer) {
@@ -39,7 +39,7 @@ export const initDeleteVolunteersSubscriber = async (): Promise<void> => {
 	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }
@@ -50,7 +50,7 @@ export const initUpdateVolunteersSubscriber = async (): Promise<void> => {
 
 	try {
 		const checkVolunteersExist: ProfilesDTO = await profileSchema.findOne({
-			'volunteers.$.volunteerId': res.volunteer.volunteerId
+			'volunteers.$.volunteerId': res.volunteers.volunteerId
 		})
 
 		if (!checkVolunteersExist) {
@@ -60,14 +60,14 @@ export const initUpdateVolunteersSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const updateVolunter: ProfilesDTO = await profileSchema.updateOne(
-				{ 'volunteers.$.volunteerId': res.volunteer.volunteerId },
+				{ 'volunteers.$.volunteerId': res.volunteers.volunteerId },
 				{
 					$set: {
-						'volunteers.$.organizationName': res.volunteer.organizationName,
-						'volunteers.$.organizationPosition': res.volunteer.organizationPosition,
-						'volunteers$.startDate': res.volunteer.startDate,
-						'volunteers$.endDate': res.volunteer.endDate,
-						'volunteers$.organizationInformation': res.volunteer.organizationInformation
+						'volunteers.$.organizationName': res.volunteers.organizationName,
+						'volunteers.$.organizationPosition': res.volunteers.organizationPosition,
+						'volunteers$.startDate': res.volunteers.startDate,
+						'volunteers$.endDate': res.volunteers.endDate,
+						'volunteers$.organizationInformation': res.volunteers.organizationInformation
 					}
 				}
 			)
@@ -87,7 +87,7 @@ export const initUpdateVolunteersSubscriber = async (): Promise<void> => {
 	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

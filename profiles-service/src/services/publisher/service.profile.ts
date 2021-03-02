@@ -26,12 +26,3 @@ export const setResultProfilePublisher = async (data: Record<string, any>): Prom
 		await resultProfilePublisher.setMap('rprofile:service', {})
 	}
 }
-
-export const setDeleteSubProfilePublisher = async (data: Record<string, any>): Promise<void> => {
-	const resultProfilePublisher = new Publisher({ key: 'Sub Profile' })
-	if (Object.keys(data).length > 0 && data) {
-		await resultProfilePublisher.setMap('dsubprofile:service', data)
-	} else {
-		await resultProfilePublisher.setMap('dsubprofile:service', {})
-	}
-}

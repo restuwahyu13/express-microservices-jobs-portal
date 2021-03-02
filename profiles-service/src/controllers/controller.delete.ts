@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { initDeletetSubProfileSubscriber } from '../services/subscriber/service.profile'
-import { setDeleteSubProfilePublisher } from '../services/publisher/service.profile'
+import { initDeleteSkillsSubscriber } from '../services/subscriber/service.skills'
+import { setDeleteSkillsPublisher } from '../services/publisher/service.skills'
 import { getResponseSubscriber } from '../../../users-service/src/utils/util.message'
 import { streamBox } from '../../../users-service/src/utils/util.stream'
 
