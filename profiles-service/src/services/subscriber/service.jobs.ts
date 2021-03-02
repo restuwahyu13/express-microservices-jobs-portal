@@ -40,12 +40,12 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 			if (!deleteJobs) {
 				await setResponsePublisher({
 					status: 403,
-					message: `deleted job id ${res.jobPreferences.jobsId} failed`
+					message: `deleted job value in jobInterests | workTypes | workCityPreferences failed`
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: `deleted job id ${res.jobPreferences.jobsId} successfully`
+					message: `deleted job value in jobInterests | workTypes | workCityPreferences successfully`
 				})
 			}
 		}
@@ -94,12 +94,12 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 			if (!updateJobs) {
 				await setResponsePublisher({
 					status: 403,
-					message: `updated job id ${res.jobPreferences.jobsId} failed`
+					message: `updated job value in jobInterests | workTypes | workCityPreferences failed`
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: `updated job id ${res.jobPreferences.jobsId} successfully`
+					message: `updated job value in jobInterests | workTypes | workCityPreferences successfully`
 				})
 			}
 		}
