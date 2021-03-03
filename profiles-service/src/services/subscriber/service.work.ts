@@ -61,7 +61,7 @@ export const initUpdateWorksSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const updateWorks: ProfilesDTO = await profileSchema.updateOne(
-				{ 'works.workId': res.works.workId },
+				{ 'workExperiences.workId': res.works.workId },
 				{
 					$set: {
 						'workExperiences.$.companyName': res.works.companyName,
