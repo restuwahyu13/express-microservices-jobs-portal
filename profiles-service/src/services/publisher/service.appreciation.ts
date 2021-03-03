@@ -12,8 +12,8 @@ export const setDeleteAppreciationsPublisher = async (data: Record<string, any>)
 export const setUpdateAppreciationsPublisher = async (data: Record<string, any>): Promise<void> => {
 	const updateAppreciationsPublisher = new Publisher({ key: 'Sub Profile' })
 	if (Object.keys(data).length > 0 && data) {
-		await updateAppreciationsPublisher.setMap('uappreciation:service', data)
+		await updateAppreciationsPublisher.setMap('uappreciations:service', data)
 	} else {
-		await updateAppreciationsPublisher.setMap('uappreciation:service', {})
+		await updateAppreciationsPublisher.setMap('uappreciations:service', {})
 	}
 }

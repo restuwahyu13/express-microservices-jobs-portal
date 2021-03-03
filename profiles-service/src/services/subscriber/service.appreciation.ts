@@ -7,7 +7,7 @@ import { IAppreciations } from '../../interface/interface.service'
 
 export const initDeleteAppreciationsSubscriber = async (): Promise<void> => {
 	const deleteAppreciationsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IAppreciations = await deleteAppreciationsSubscriber.getMap('deducations:service')
+	const res: IAppreciations = await deleteAppreciationsSubscriber.getMap('dappreciations:service')
 
 	try {
 		const checkAppreciationExist: ProfilesDTO = await profileSchema.findOne({
@@ -47,7 +47,7 @@ export const initDeleteAppreciationsSubscriber = async (): Promise<void> => {
 
 export const initUpdateAppreciationsSubscriber = async (): Promise<void> => {
 	const deleteEducationsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IAppreciations = await deleteEducationsSubscriber.getMap('ueducations:service')
+	const res: IAppreciations = await deleteEducationsSubscriber.getMap('uappreciations:service')
 
 	try {
 		const checkAppreciationsExist: ProfilesDTO = await profileSchema.findOne({
