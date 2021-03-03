@@ -3,6 +3,7 @@ import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 import { IWorks } from '../../interface/interface.service'
+import { uniqueId } from '../../utils/util.unique'
 
 export const initDeleteWorksSubscriber = async (): Promise<void> => {
 	const deleteWorksSubscriber = new Subscriber({ key: 'Sub Profile' })
@@ -14,7 +15,7 @@ export const initDeleteWorksSubscriber = async (): Promise<void> => {
 		})
 
 		if (!checkWorkExist) {
-			await setResponsePublisher({
+			await setResponsePublisher(`works:${uniqueId()}`, {
 				status: 404,
 				message: `work id ${res.works.workId} is not exist, or deleted from owner`
 			})
@@ -25,19 +26,19 @@ export const initDeleteWorksSubscriber = async (): Promise<void> => {
 			)
 
 			if (!deleteWorks) {
-				await setResponsePublisher({
+				await setResponsePublisher(`works:${uniqueId()}`, {
 					status: 403,
 					message: `deleted work id ${res.works.workId} failed`
 				})
 			} else {
-				await setResponsePublisher({
+				await setResponsePublisher(`works:${uniqueId()}`, {
 					status: 200,
 					message: `deleted work id ${res.works.workId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher({
+		await setResponsePublisher(`works:${uniqueId()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
@@ -54,7 +55,7 @@ export const initUpdateWorksSubscriber = async (): Promise<void> => {
 		})
 
 		if (!checkWorkExist) {
-			await setResponsePublisher({
+			await setResponsePublisher(`works:${uniqueId()}`, {
 				status: 404,
 				message: `work id ${res.works.workId} is not exist, or deleted from owner`
 			})
@@ -73,19 +74,19 @@ export const initUpdateWorksSubscriber = async (): Promise<void> => {
 			)
 
 			if (!updateWorks) {
-				await setResponsePublisher({
+				await setResponsePublisher(`works:${uniqueId()}`, {
 					status: 403,
 					message: `updated work id ${res.works.workId} failed`
 				})
 			} else {
-				await setResponsePublisher({
+				await setResponsePublisher(`works:${uniqueId()}`, {
 					status: 200,
 					message: `updated work id ${res.works.workId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher({
+		await setResponsePublisher(`works:${uniqueId()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})

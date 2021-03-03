@@ -3,6 +3,7 @@ import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 import { IJobs } from '../../interface/interface.service'
+import { uniqueId } from '../../utils/util.unique'
 
 export const initDeleteJobsSubscriber = async (): Promise<void> => {
 	const deleteJobsSubscriber = new Subscriber({ key: 'Sub Profile' })
@@ -21,7 +22,7 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 			.lean()
 
 		if (checkJobsExist.length < 1) {
-			await setResponsePublisher({
+			await setResponsePublisher(`jobs:${uniqueId()}`, {
 				status: 404,
 				message: `value is not exist in jobInterests | workTypes | workCityPreferences, or deleted from owner`
 			})
@@ -38,19 +39,19 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 			)
 
 			if (!deleteJobs) {
-				await setResponsePublisher({
+				await setResponsePublisher(`jobs:${uniqueId()}`, {
 					status: 403,
 					message: `deleted job value in jobInterests | workTypes | workCityPreferences failed`
 				})
 			} else {
-				await setResponsePublisher({
+				await setResponsePublisher(`jobs:${uniqueId()}`, {
 					status: 200,
 					message: `deleted job value in jobInterests | workTypes | workCityPreferences successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher({
+		await setResponsePublisher(`jobs:${uniqueId()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
@@ -74,7 +75,7 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 			.lean()
 
 		if (checkJobsExist.length < 1) {
-			await setResponsePublisher({
+			await setResponsePublisher(`jobs:${uniqueId()}`, {
 				status: 404,
 				message: `value is not exist in jobInterests | workTypes | workCityPreferences, or deleted from owner`
 			})
@@ -92,19 +93,19 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 			)
 
 			if (!updateJobs) {
-				await setResponsePublisher({
+				await setResponsePublisher(`jobs:${uniqueId()}`, {
 					status: 403,
 					message: `updated job value in jobInterests | workTypes | workCityPreferences failed`
 				})
 			} else {
-				await setResponsePublisher({
+				await setResponsePublisher(`jobs:${uniqueId()}`, {
 					status: 200,
 					message: `updated job value in jobInterests | workTypes | workCityPreferences successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher({
+		await setResponsePublisher(`jobs:${uniqueId()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})

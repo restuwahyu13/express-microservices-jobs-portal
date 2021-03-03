@@ -3,6 +3,7 @@ import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 import { IRequest } from '../../interface/interface.payload'
+import { uniqueId } from '../../utils/util.unique'
 
 export const initCreateProfileSubscriber = async (): Promise<void> => {
 	const createProfileSubscriber = new Subscriber({ key: 'Profile' })
@@ -24,19 +25,19 @@ export const initCreateProfileSubscriber = async (): Promise<void> => {
 		})
 
 		if (!saveProfile) {
-			await setResponsePublisher({
+			await setResponsePublisher(`me:${uniqueId()}`, {
 				status: 403,
 				message: 'add new profile failed, please try again'
 			})
 		} else {
 			console.log(res)
-			await setResponsePublisher({
+			await setResponsePublisher(`me:${uniqueId()}`, {
 				status: 200,
 				message: 'add new profile successfully'
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher({
+		await setResponsePublisher(`me:${uniqueId()}`, {
 			status: 500,
 			message: 'internal server error'
 		})
@@ -95,18 +96,18 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 			}
 		)
 		if (!addSubProfile) {
-			await setResponsePublisher({
+			await setResponsePublisher(`me:${uniqueId()}`, {
 				status: 403,
 				message: 'add new sub profile failed, please try again'
 			})
 		} else {
-			await setResponsePublisher({
+			await setResponsePublisher(`me:${uniqueId()}`, {
 				status: 200,
 				message: 'add new sub profile successfully'
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher({
+		await setResponsePublisher(`me:${uniqueId()}`, {
 			status: 500,
 			message: 'internal server error'
 		})
@@ -121,19 +122,19 @@ export const initResultProfileSubscriber = async (): Promise<void> => {
 		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
 
 		if (!checkUserId) {
-			await setResponsePublisher({
+			await setResponsePublisher(`me:${uniqueId()}`, {
 				status: 404,
 				message: 'user profile is not exist for this id, data not already to use'
 			})
 		} else {
-			await setResponsePublisher({
+			await setResponsePublisher(`me:${uniqueId()}`, {
 				status: 200,
 				message: 'user profile for this id exist, data already to use',
 				data: checkUserId
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher({
+		await setResponsePublisher(`me:${uniqueId()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
@@ -148,18 +149,18 @@ export const initDeletetSubProfileSubscriber = async (): Promise<void> => {
 		const checkAndDelete: ProfilesDTO = await profileSchema.updateOne({ _id: res.userId }).lean()
 
 		if (!checkAndDelete) {
-			await setResponsePublisher({
+			await setResponsePublisher(`me:${uniqueId()}`, {
 				status: 404,
 				message: 'user profile is not exist for this id, data not already to use'
 			})
 		} else {
-			await setResponsePublisher({
+			await setResponsePublisher(`me:${uniqueId()}`, {
 				status: 200,
 				message: 'user profile for this id exist, data already to use'
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher({
+		await setResponsePublisher(`me:${uniqueId()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
