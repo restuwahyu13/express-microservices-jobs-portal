@@ -1,66 +1,67 @@
+import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 import { IAppreciations } from '../../interface/interface.service'
 
-export const initDeleteEducationSubscriber = async (): Promise<void> => {
-	const deleteEducationsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IAppreciations = await deleteEducationsSubscriber.getMap('deducations:service')
+export const initDeleteAppreciatinsSubscriber = async (): Promise<void> => {
+	const deleteAppreciationsSubscriber = new Subscriber({ key: 'Sub Profile' })
+	const res: IAppreciations = await deleteAppreciationsSubscriber.getMap('deducations:service')
 
 	try {
-		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
-			'appreciations.$.appreciationId': res.appreciations.appreciationId
+		const checkAppreciationExist: ProfilesDTO = await profileSchema.findOne({
+			'appreciations.appreciationId': res.appreciations.appreciationId
 		})
 
-		if (!checkEducationExist) {
-			await setResponsePublisher({
+		if (!checkAppreciationExist) {
+			await setResponsePublisher(`appreciations:${uuid()}`, {
 				status: 404,
-				message: 'education is not exist, or deleted from owner'
+				message: `appreciation id ${res.appreciations.appreciationId} is not exist, or deleted from owner`
 			})
 		} else {
-			const deleteEducations: ProfilesDTO = await profileSchema.updateOne(
-				{ 'appreciations.$.appreciationId': res.appreciations.appreciationId },
-				{ $pull: { 'educations.$.appreciationId': res.appreciations.appreciationId } }
+			const deleteAppreciations: ProfilesDTO = await profileSchema.updateOne(
+				{ 'appreciations.appreciationId': res.appreciations.appreciationId },
+				{ $pull: { appreciations: { appreciationId: res.appreciations.appreciationId } } }
 			)
 
-			if (!deleteEducations) {
-				await setResponsePublisher({
+			if (!deleteAppreciations) {
+				await setResponsePublisher(`appreciations:${uuid()}`, {
 					status: 403,
-					message: 'deleted education failed, please try again'
+					message: `deleted appreciation id ${res.appreciations.appreciationId} successfully`
 				})
 			} else {
-				await setResponsePublisher({
+				await setResponsePublisher(`appreciations:${uuid()}`, {
 					status: 200,
-					message: 'deleted education successfully'
+					message: `deleted appreciation id ${res.appreciations.appreciationId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher({
+		await setResponsePublisher(`appreciations:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
 	}
 }
 
-export const initUpdateEducationsSubscriber = async (): Promise<void> => {
+export const initUpdateAppreciationsSubscriber = async (): Promise<void> => {
 	const deleteEducationsSubscriber = new Subscriber({ key: 'Sub Profile' })
 	const res: IAppreciations = await deleteEducationsSubscriber.getMap('ueducations:service')
 
 	try {
 		const checkAppreciationsExist: ProfilesDTO = await profileSchema.findOne({
-			'appreciations.$.appreciationId': res.appreciations.appreciationId
+			'appreciations.appreciationId': res.appreciations.appreciationId
 		})
 
 		if (!checkAppreciationsExist) {
-			await setResponsePublisher({
+			await setResponsePublisher(`appreciations:${uuid()}`, {
 				status: 404,
-				message: 'appreciation is not exist, or deleted from owner'
+				message: `appreciation id ${res.appreciations.appreciationId} is not exist, or deleted from owner`
 			})
 		} else {
 			const updateAppreciations: ProfilesDTO = await profileSchema.updateOne(
-				{ 'appreciations.$.appreciationId': res.appreciations.appreciationId },
+				{ 'appreciations.appreciationId': res.appreciations.appreciationId },
 				{
 					$set: {
 						'appreciations.$.awardTitle': res.appreciations.awardTitle,
@@ -72,19 +73,19 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 			)
 
 			if (!updateAppreciations) {
-				await setResponsePublisher({
+				await setResponsePublisher(`appreciations:${uuid()}`, {
 					status: 403,
-					message: 'updated appreciation failed, please try again'
+					message: `updated appreciation id ${res.appreciations.appreciationId} failed`
 				})
 			} else {
-				await setResponsePublisher({
+				await setResponsePublisher(`appreciations:${uuid()}`, {
 					status: 200,
-					message: 'updated appreciation successfully'
+					message: `updated appreciation id ${res.appreciations.appreciationId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher({
+		await setResponsePublisher(`appreciations:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
