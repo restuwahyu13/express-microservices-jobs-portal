@@ -1,37 +1,35 @@
 import { Request, Response } from 'express'
-import { setGetUserPublisher } from '../services/publisher/service.resultUser'
-import { initResultUserSubscriber } from '../services/subscriber/service.resultUser'
+import { setUpdateUserPublisher } from '../services/publisher/service.updateUser'
+import { initUpdateUserSubscriber } from '../services/subscriber/service.updateUser'
 import { streamBox } from '../utils/util.stream'
-import { expressValidator } from '../utils/util.validator'
 import { getResponseSubscriber } from '../utils/util.message'
+import { getStoreCache } from '../utils/util.cache'
+import { IUser } from '../interface/interface.user'
 
 export const updateUserController = async (req: Request, res: Response): Promise<void> => {
-	const errors = expressValidator(req)
+	const response = getStoreCache('fromProfile:update') as IUser
+	await setUpdateUserPublisher({
+		userId: response.userId,
+		firstName: response.firstName,
+		lastName: response.lastName,
+		email: response.email,
+		location: response.location,
+		phone: response.phone
+	})
+	await initUpdateUserSubscriber()
+	const { status, message } = await getResponseSubscriber()
 
-	if (errors.length > 0) {
-		streamBox(res, 400, {
+	if (status >= 400) {
+		streamBox(res, status, {
 			method: req.method,
-			status: 400,
-			errors
+			status,
+			message
 		})
 	} else {
-		await setGetUserPublisher({ id: req.params.id })
-		await initResultUserSubscriber()
-		const { status, message, data } = await getResponseSubscriber()
-
-		if (status >= 400) {
-			streamBox(res, status, {
-				method: req.method,
-				status,
-				message
-			})
-		} else {
-			streamBox(res, status, {
-				method: req.method,
-				status,
-				message,
-				data: data
-			})
-		}
+		streamBox(res, status, {
+			method: req.method,
+			status,
+			message
+		})
 	}
 }

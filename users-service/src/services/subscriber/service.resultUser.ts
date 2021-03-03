@@ -10,9 +10,9 @@ export const initResultUserSubscriber = async (): Promise<void> => {
 	const { userId }: IUser = await getUserSubscriber.getMap('users:result:service')
 
 	try {
-		const checkUser: UsersDTO = await userSchema.findOne({ userId: userId }).lean()
+		const checkUserId: UsersDTO = await userSchema.findOne({ userId: userId }).lean()
 
-		if (!checkUser) {
+		if (!checkUserId) {
 			await setResponsePublisher(`users:result:${uuid()}`, {
 				status: 404,
 				message: `users account for this id ${userId} is not exist for this users, please create new account`
@@ -21,7 +21,7 @@ export const initResultUserSubscriber = async (): Promise<void> => {
 			await setResponsePublisher(`users:result:${uuid()}`, {
 				status: 200,
 				message: `users account for this id ${userId}, ready to use`,
-				data: checkUser
+				data: checkUserId
 			})
 		}
 	} catch (err) {

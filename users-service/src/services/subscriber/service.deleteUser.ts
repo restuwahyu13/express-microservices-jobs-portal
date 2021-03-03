@@ -10,24 +10,23 @@ export const initDeleteUserSubscriber = async (): Promise<void> => {
 	const { userId }: IUser = await getUserSubscriber.getMap('users:result:service')
 
 	try {
-		const checkUser: UsersDTO = await userSchema.findOne({ userId: userId }).lean()
+		const checkUserId: UsersDTO = await userSchema.findOneAndDelete({ userId: userId }).lean()
 
-		if (!checkUser) {
-			await setResponsePublisher(`users:getUser:${uuid()}`, {
+		if (!checkUserId) {
+			await setResponsePublisher(`users:delete:${uuid()}`, {
 				status: 404,
 				message: `users account for this id ${userId} is not exist for this users, please create new account`
 			})
 		} else {
-			await setResponsePublisher(`users:getUser:${uuid()}`, {
+			await setResponsePublisher(`users:delete:${uuid()}`, {
 				status: 200,
-				message: `users account for this id ${userId}, ready to use`,
-				data: checkUser
+				message: `deleted users account for this id ${userId} successfully`
 			})
 		}
-	} catch (err) {
-		await setResponsePublisher(`users:getUser:${uuid()}`, {
+	} catch (error) {
+		await setResponsePublisher(`users:delete:${uuid()}`, {
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }
