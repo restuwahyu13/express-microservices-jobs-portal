@@ -5,7 +5,7 @@ import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 import { IAppreciations } from '../../interface/interface.service'
 
-export const initDeleteAppreciatinsSubscriber = async (): Promise<void> => {
+export const initDeleteAppreciationsSubscriber = async (): Promise<void> => {
 	const deleteAppreciationsSubscriber = new Subscriber({ key: 'Sub Profile' })
 	const res: IAppreciations = await deleteAppreciationsSubscriber.getMap('deducations:service')
 

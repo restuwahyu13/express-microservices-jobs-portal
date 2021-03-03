@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
 import { v4 as uuid } from 'uuid'
-import { initDeleteAppreciatinsSubscriber, initUpdateAppreciationsSubscriber } from '../services/subscriber/service.appreciation'
+import { initDeleteAppreciationsSubscriber, initUpdateAppreciationsSubscriber } from '../services/subscriber/service.appreciation'
 import { setDeleteAppreciationsPublisher, setUpdateAppreciationsPublisher } from '../services/publisher/service.appreciation'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
 
 export const appreciationsDeleteController = async (req: Request, res: Response): Promise<void> => {
-	await setDeleteAppreciationsPublisher({ works: { workId: req.params.workId } })
-	await initDeleteAppreciatinsSubscriber()
+	await setDeleteAppreciationsPublisher({ appreciations: { appreciationId: req.params.appreciationId } })
+	await initDeleteAppreciationsSubscriber()
 	const { status, message } = await getResponseSubscriber(`appreciations:${uuid()}`)
 
 	if (status >= 400) {
@@ -27,13 +27,12 @@ export const appreciationsDeleteController = async (req: Request, res: Response)
 
 export const appreciationsUpdateController = async (req: Request, res: Response): Promise<void> => {
 	await setUpdateAppreciationsPublisher({
-		works: {
-			workId: req.params.workId,
-			companyName: req.body.companyName,
-			jobPosition: req.body.jobPosition,
-			startDate: req.body.startDate,
-			endDate: req.body.endDate,
-			workInformation: req.body.workInformation
+		appreciations: {
+			appreciationId: req.params.appreciationId,
+			awardTitle: req.body.awardTitle,
+			achievementTitle: req.body.achievementTitle,
+			awardYear: req.body.awardYear,
+			awardInformation: req.body.awardInformation
 		}
 	})
 	await initUpdateAppreciationsSubscriber()
