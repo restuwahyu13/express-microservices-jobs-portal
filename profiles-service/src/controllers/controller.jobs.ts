@@ -7,7 +7,7 @@ import { streamBox } from '../../../users-service/src/utils/util.stream'
 export const jobsDeleteController = async (req: Request, res: Response): Promise<void> => {
 	await setDeleteJobsPublisher({
 		jobPreferences: {
-			jobsId: req.params.jobsId,
+			jobsId: req.params.jobId,
 			jobInterests: req.body.jobInterests,
 			workTypes: req.body.workTypes,
 			workCityPreferences: req.body.workCityPreferences
@@ -34,7 +34,7 @@ export const jobsDeleteController = async (req: Request, res: Response): Promise
 export const jobsUpdateController = async (req: Request, res: Response): Promise<void> => {
 	await setUpdateJobsPublisher({
 		jobPreferences: {
-			jobsId: req.params.jobsId,
+			jobsId: req.params.jobId,
 			salaryExpectation: req.params.salaryExpectation,
 			jobInterests: req.body.jobInterests,
 			workTypes: req.body.workTypes,
