@@ -7,6 +7,7 @@ import { volunteersDeleteController, volunteersUpdateController } from './contro
 import { jobsDeleteController, jobsUpdateController } from './controller.jobs'
 import { educationsDeleteController, educationsUpdateController } from './controller.educations'
 import { worksDeleteController, worksUpdateController } from './controller.works'
+import { appreciationsDeleteController, appreciationsUpdateController } from './controller.appreciations'
 
 export const controller = {
 	createController,
@@ -19,5 +20,7 @@ export const controller = {
 	educationsDeleteController,
 	educationsUpdateController,
 	worksDeleteController,
-	worksUpdateController
+	worksUpdateController,
+	appreciationsDeleteController,
+	appreciationsUpdateController
 }
