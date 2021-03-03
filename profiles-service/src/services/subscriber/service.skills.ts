@@ -9,15 +9,14 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 	const deleteSkillsSubscriber = new Subscriber({ key: 'Sub Profile' })
 	const { userId, skills }: ISkills = await deleteSkillsSubscriber.getMap('dskills:service')
 	try {
-		const checkSkillExist: number = await profileSchema
-			.findOne({ skills: { $in: [skills] } })
+		const checkSkillExist: ProfilesDTO[] = await profileSchema
+			.find({ userId: userId, $or: [{ skills: { $in: [skills] } }] })
 			.lean()
-			.countDocuments()
 
-		if (checkSkillExist < 1) {
+		if (checkSkillExist.length < 1) {
 			await setResponsePublisher(`skills:${uuid()}`, {
 				status: 404,
-				message: `${skills} is not exist from skills, or deleted from owner`
+				message: `value skills ${skills} is not exist, or deleted from owner`
 			})
 		} else {
 			const deleteSkills: ProfilesDTO = await profileSchema.updateOne({ userId: userId }, { $pull: { skills: skills } })
@@ -25,12 +24,12 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 			if (!deleteSkills) {
 				await setResponsePublisher(`skills:${uuid()}`, {
 					status: 403,
-					message: 'deleted one skill failed, please try again'
+					message: `deleted skill id ${userId} failed`
 				})
 			} else {
 				await setResponsePublisher(`skills:${uuid()}`, {
 					status: 200,
-					message: 'deleted one skill successfully'
+					message: `deleted skill id ${userId} successfully`
 				})
 			}
 		}
@@ -46,12 +45,14 @@ export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 	const updateSkillsSubscriber = new Subscriber({ key: 'Sub Profile' })
 	const { userId, skills }: ISkills = await updateSkillsSubscriber.getMap('uskills:service')
 	try {
-		const checkUserId: number = await profileSchema.findOne({ userId: userId }).lean().countDocuments()
+		const checkSkillExist: ProfilesDTO[] = await profileSchema
+			.find({ userId: userId, $or: [{ skills: { $in: [...skills] } }] })
+			.lean()
 
-		if (checkUserId < 1) {
+		if (checkSkillExist.length > 0) {
 			await setResponsePublisher(`skills:${uuid()}`, {
 				status: 404,
-				message: 'users is not exist for this id, or deleted from owner'
+				message: `value skills ${skills} already exist, or deleted from owner`
 			})
 		} else {
 			const updateSkills: ProfilesDTO = await profileSchema.updateOne(
@@ -62,12 +63,12 @@ export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 			if (!updateSkills) {
 				await setResponsePublisher(`skills:${uuid()}`, {
 					status: 403,
-					message: 'updated skill failed, please try again'
+					message: `updated skill id ${userId} failed`
 				})
 			} else {
 				await setResponsePublisher(`skills:${uuid()}`, {
 					status: 200,
-					message: 'updated skill successfully'
+					message: `updated skill id ${userId} successfully`
 				})
 			}
 		}

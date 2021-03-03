@@ -60,24 +60,24 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 
 export const initUpdateJobsSubscriber = async (): Promise<void> => {
 	const updateJobsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IJobs = await updateJobsSubscriber.getMap('djobs:service')
+	const res: IJobs = await updateJobsSubscriber.getMap('ujobs:service')
 
 	try {
 		const checkJobsExist: ProfilesDTO[] = await profileSchema
 			.find({
 				'jobPreferences.jobId': res.jobPreferences.jobsId,
 				'$or': [
-					{ 'jobPreferences.jobInterests': { $in: [res.jobPreferences.jobInterests] } },
-					{ 'jobPreferences.workTypes': { $in: [res.jobPreferences.workTypes] } },
-					{ 'jobPreferences.workCityPreferences': { $in: [res.jobPreferences.workCityPreferences] } }
+					{ 'jobPreferences.jobInterests': { $in: [...res.jobPreferences.jobInterests] } },
+					{ 'jobPreferences.workTypes': { $in: [...res.jobPreferences.workTypes] } },
+					{ 'jobPreferences.workCityPreferences': { $in: [...res.jobPreferences.workCityPreferences] } }
 				]
 			})
 			.lean()
 
-		if (checkJobsExist.length < 1) {
+		if (checkJobsExist.length > 0) {
 			await setResponsePublisher(`jobs:${uuid()}`, {
-				status: 404,
-				message: `value is not exist in jobInterests | workTypes | workCityPreferences, or deleted from owner`
+				status: 409,
+				message: `value already exist in jobInterests | workTypes | workCityPreferences, or deleted from owner`
 			})
 		} else {
 			const updateJobs: ProfilesDTO = await profileSchema.updateOne(
@@ -85,9 +85,9 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 				{
 					$set: { 'jobs.salaryExpectation': res.jobPreferences.salaryExpectation },
 					$addToSet: {
-						'jobs.jobInterests': { $each: [...res.jobPreferences.jobInterests] },
-						'jobs.workTypes': { $each: [...res.jobPreferences.workTypes] },
-						'jobs.workCityPreferences': { $each: [...res.jobPreferences.workCityPreferences] }
+						'jobPreferences.jobInterests': { $each: [...res.jobPreferences.jobInterests] },
+						'jobPreferences.workTypes': { $each: [...res.jobPreferences.workTypes] },
+						'jobPreferences.workCityPreferences': { $each: [...res.jobPreferences.workCityPreferences] }
 					}
 				}
 			)
