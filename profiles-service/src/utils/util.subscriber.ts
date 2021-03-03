@@ -55,8 +55,9 @@ export class Subscriber {
 
 	public async getResponse(eventName: string): Promise<any> {
 		const ioRedis = this.redisConnect() as Redis
-		const response: Record<string, any> = await ioRedis.hgetall('response:speaker')
-		await ioRedis.expire(`response:speaker:${eventName}`, 30)
+		const getEvent = await ioRedis.get('event')
+		const response: Record<string, any> = await ioRedis.hgetall(`${getEvent}`)
+		await ioRedis.expire(`${getEvent}`, 30)
 		if (response) {
 			return Promise.resolve(JSON.parse(response.response))
 		}

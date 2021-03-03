@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
+import { v4 as uuid } from 'uuid'
 import { initDeleteVolunteersSubscriber, initUpdateVolunteersSubscriber } from '../services/subscriber/service.volunteer'
 import { setDeleteVolunteersPublisher, setUpdateVolunteersPublisher } from '../services/publisher/service.volunteer'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
-import { uniqueId } from '../utils/util.unique'
 
 export const volunteersDeleteController = async (req: Request, res: Response): Promise<void> => {
 	await setDeleteVolunteersPublisher({ volunteers: { volunteerId: req.params.volunterId } })
 	await initDeleteVolunteersSubscriber()
-	const { status, message } = await getResponseSubscriber(`volunteers:${uniqueId()}`)
+	const { status, message } = await getResponseSubscriber(`volunteers:${uuid()}`)
 
 	if (status >= 400) {
 		streamBox(res, status, {
@@ -37,7 +37,7 @@ export const volunteersUpdateController = async (req: Request, res: Response): P
 		}
 	})
 	await initUpdateVolunteersSubscriber()
-	const { status, message } = await getResponseSubscriber(`volunteers:${uniqueId()}`)
+	const { status, message } = await getResponseSubscriber(`volunteers:${uuid()}`)
 
 	if (status >= 400) {
 		streamBox(res, status, {

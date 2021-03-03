@@ -1,8 +1,8 @@
+import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
-import { uniqueId } from '../../utils/util.unique'
 import { IEducations } from '../../interface/interface.service'
 
 export const initDeleteEducationSubscriber = async (): Promise<void> => {
@@ -15,7 +15,7 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 		})
 
 		if (!checkEducationExist) {
-			await setResponsePublisher(`education:${uniqueId()}`, {
+			await setResponsePublisher(`education:${uuid()}`, {
 				status: 404,
 				message: 'education is not exist, or deleted from owner'
 			})
@@ -26,19 +26,19 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 			)
 
 			if (!deleteEducations) {
-				await setResponsePublisher(`education:${uniqueId()}`, {
+				await setResponsePublisher(`education:${uuid()}`, {
 					status: 403,
 					message: 'deleted education failed, please try again'
 				})
 			} else {
-				await setResponsePublisher(`education:${uniqueId()}`, {
+				await setResponsePublisher(`education:${uuid()}`, {
 					status: 200,
 					message: 'deleted education successfully'
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`education:${uniqueId()}`, {
+		await setResponsePublisher(`education:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
@@ -55,7 +55,7 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 		})
 
 		if (!checkEducationExist) {
-			await setResponsePublisher(`education:${uniqueId()}`, {
+			await setResponsePublisher(`education:${uuid()}`, {
 				status: 404,
 				message: 'education is not exist, or deleted from owner'
 			})
@@ -75,19 +75,19 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 			)
 
 			if (!updateEducations) {
-				await setResponsePublisher(`education:${uniqueId()}`, {
+				await setResponsePublisher(`education:${uuid()}`, {
 					status: 403,
 					message: 'updated education failed, please try again'
 				})
 			} else {
-				await setResponsePublisher(`education:${uniqueId()}`, {
+				await setResponsePublisher(`education:${uuid()}`, {
 					status: 200,
 					message: 'updated education successfully'
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`education:${uniqueId()}`, {
+		await setResponsePublisher(`education:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})

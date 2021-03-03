@@ -1,9 +1,9 @@
+import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 import { IVolunteers } from '../../interface/interface.service'
-import { uniqueId } from '../../utils/util.unique'
 
 export const initDeleteVolunteersSubscriber = async (): Promise<void> => {
 	const deleteVolunteersSubscriber = new Subscriber({ key: 'Sub Profile' })
@@ -15,7 +15,7 @@ export const initDeleteVolunteersSubscriber = async (): Promise<void> => {
 		})
 
 		if (!checkVolunteerExist) {
-			await setResponsePublisher(`volunteers:${uniqueId()}`, {
+			await setResponsePublisher(`volunteers:${uuid()}`, {
 				status: 404,
 				message: `volunteer id ${res.volunteers.volunteerId} is not exist, or deleted from owner`
 			})
@@ -26,19 +26,19 @@ export const initDeleteVolunteersSubscriber = async (): Promise<void> => {
 			)
 
 			if (!deleteVolunteer) {
-				await setResponsePublisher(`volunteers:${uniqueId()}`, {
+				await setResponsePublisher(`volunteers:${uuid()}`, {
 					status: 403,
 					message: `deleted volunteer id ${res.volunteers.volunteerId} failed`
 				})
 			} else {
-				await setResponsePublisher(`volunteers:${uniqueId()}`, {
+				await setResponsePublisher(`volunteers:${uuid()}`, {
 					status: 200,
 					message: `deleted volunteer id ${res.volunteers.volunteerId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`volunteers:${uniqueId()}`, {
+		await setResponsePublisher(`volunteers:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
@@ -55,7 +55,7 @@ export const initUpdateVolunteersSubscriber = async (): Promise<void> => {
 		})
 
 		if (!checkVolunteersExist) {
-			await setResponsePublisher(`volunteers:${uniqueId()}`, {
+			await setResponsePublisher(`volunteers:${uuid()}`, {
 				status: 404,
 				message: `volunteer id ${res.volunteers.volunteerId} is not exist, or deleted from owner`
 			})
@@ -74,19 +74,19 @@ export const initUpdateVolunteersSubscriber = async (): Promise<void> => {
 			)
 
 			if (!updateVolunter) {
-				await setResponsePublisher(`volunteers:${uniqueId()}`, {
+				await setResponsePublisher(`volunteers:${uuid()}`, {
 					status: 403,
 					message: `updated volunteer id ${res.volunteers.volunteerId} failed`
 				})
 			} else {
-				await setResponsePublisher(`volunteers:${uniqueId()}`, {
+				await setResponsePublisher(`volunteers:${uuid()}`, {
 					status: 200,
 					message: `updated volunteer id ${res.volunteers.volunteerId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`volunteers:${uniqueId()}`, {
+		await setResponsePublisher(`volunteers:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
+import { v4 as uuid } from 'uuid'
 import { initDeleteJobsSubscriber, initUpdateJobsSubscriber } from '../services/subscriber/service.jobs'
 import { setDeleteJobsPublisher, setUpdateJobsPublisher } from '../services/publisher/service.jobs'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
-import { uniqueId } from '../utils/util.unique'
 
 export const jobsDeleteController = async (req: Request, res: Response): Promise<void> => {
 	await setDeleteJobsPublisher({
@@ -15,7 +15,7 @@ export const jobsDeleteController = async (req: Request, res: Response): Promise
 		}
 	})
 	await initDeleteJobsSubscriber()
-	const { status, message } = await getResponseSubscriber(`jobs:${uniqueId()}`)
+	const { status, message } = await getResponseSubscriber(`jobs:${uuid()}`)
 
 	if (status >= 400) {
 		streamBox(res, status, {
@@ -43,7 +43,7 @@ export const jobsUpdateController = async (req: Request, res: Response): Promise
 		}
 	})
 	await initUpdateJobsSubscriber()
-	const { status, message } = await getResponseSubscriber(`jobs:${uniqueId()}`)
+	const { status, message } = await getResponseSubscriber(`jobs:${uuid()}`)
 
 	if (status >= 400) {
 		streamBox(res, status, {
