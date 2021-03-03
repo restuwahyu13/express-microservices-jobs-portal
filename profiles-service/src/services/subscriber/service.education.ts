@@ -11,29 +11,29 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 
 	try {
 		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
-			'educations.$.educationId': res.educations.educationId
+			'educations.educationId': res.educations.educationId
 		})
 
 		if (!checkEducationExist) {
 			await setResponsePublisher(`education:${uuid()}`, {
 				status: 404,
-				message: 'education is not exist, or deleted from owner'
+				message: `education id ${res.educations.educationId} is not exist, or deleted from owner`
 			})
 		} else {
 			const deleteEducations: ProfilesDTO = await profileSchema.updateOne(
-				{ 'educations.$.educationId': res.educations.educationId },
-				{ $pull: { 'educations.$.educationId': res.educations.educationId } }
+				{ 'educations.educationId': res.educations.educationId },
+				{ $pull: { educations: { educationId: res.educations.educationId } } }
 			)
 
 			if (!deleteEducations) {
 				await setResponsePublisher(`education:${uuid()}`, {
 					status: 403,
-					message: 'deleted education failed, please try again'
+					message: `deleted education id ${res.educations.educationId} failed`
 				})
 			} else {
 				await setResponsePublisher(`education:${uuid()}`, {
 					status: 200,
-					message: 'deleted education successfully'
+					message: `deleted education id ${res.educations.educationId} successfully`
 				})
 			}
 		}
@@ -51,25 +51,25 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 
 	try {
 		const checkEducationExist: ProfilesDTO = await profileSchema.findOne({
-			'educations.$.educationId': res.educations.educationId
+			'educations.educationId': res.educations.educationId
 		})
 
 		if (!checkEducationExist) {
 			await setResponsePublisher(`education:${uuid()}`, {
 				status: 404,
-				message: 'education is not exist, or deleted from owner'
+				message: `education id ${res.educations.educationId} is not exist, or deleted from owner`
 			})
 		} else {
 			const updateEducations: ProfilesDTO = await profileSchema.updateOne(
-				{ 'educations.$.educationId': res.educations.educationId },
+				{ 'educations.educationId': res.educations.educationId },
 				{
 					$set: {
 						'educations.$.institutionName': res.educations.institutionName,
-						'education.$.educationDegree': res.educations.educationDegree,
-						'education.$.fieldStudy': res.educations.fieldStudy,
-						'education.$.startDate': res.educations.startDate,
-						'education.$.endDate': res.educations.endDate,
-						'education.$.educationInformation': res.educations.educationInformation
+						'educations.$.educationDegree': res.educations.educationDegree,
+						'educations.$.fieldStudy': res.educations.fieldStudy,
+						'educations.$.startDate': res.educations.startDate,
+						'educations.$.endDate': res.educations.endDate,
+						'educations.$.educationInformation': res.educations.educationInformation
 					}
 				}
 			)
@@ -77,12 +77,12 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 			if (!updateEducations) {
 				await setResponsePublisher(`education:${uuid()}`, {
 					status: 403,
-					message: 'updated education failed, please try again'
+					message: `updated education id ${res.educations.educationId} failed`
 				})
 			} else {
 				await setResponsePublisher(`education:${uuid()}`, {
 					status: 200,
-					message: 'updated education successfully'
+					message: `updated education id ${res.educations.educationId} successfully`
 				})
 			}
 		}
