@@ -15,7 +15,7 @@ export const initDeleteAppreciationsSubscriber = async (): Promise<void> => {
 		})
 
 		if (!checkAppreciationExist) {
-			await setResponsePublisher(`appreciations:${uuid()}`, {
+			await setResponsePublisher(`appreciations:delete:${uuid()}`, {
 				status: 404,
 				message: `appreciation id ${res.appreciations.appreciationId} is not exist, or deleted from owner`
 			})
@@ -26,19 +26,19 @@ export const initDeleteAppreciationsSubscriber = async (): Promise<void> => {
 			)
 
 			if (!deleteAppreciations) {
-				await setResponsePublisher(`appreciations:${uuid()}`, {
+				await setResponsePublisher(`appreciations:delete:${uuid()}`, {
 					status: 403,
 					message: `deleted appreciation id ${res.appreciations.appreciationId} successfully`
 				})
 			} else {
-				await setResponsePublisher(`appreciations:${uuid()}`, {
+				await setResponsePublisher(`appreciations:delete:${uuid()}`, {
 					status: 200,
 					message: `deleted appreciation id ${res.appreciations.appreciationId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`appreciations:${uuid()}`, {
+		await setResponsePublisher(`appreciations:delete:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
@@ -55,7 +55,7 @@ export const initUpdateAppreciationsSubscriber = async (): Promise<void> => {
 		})
 
 		if (!checkAppreciationsExist) {
-			await setResponsePublisher(`appreciations:${uuid()}`, {
+			await setResponsePublisher(`appreciations:update:${uuid()}`, {
 				status: 404,
 				message: `appreciation id ${res.appreciations.appreciationId} is not exist, or deleted from owner`
 			})
@@ -73,19 +73,19 @@ export const initUpdateAppreciationsSubscriber = async (): Promise<void> => {
 			)
 
 			if (!updateAppreciations) {
-				await setResponsePublisher(`appreciations:${uuid()}`, {
+				await setResponsePublisher(`appreciations:update:${uuid()}`, {
 					status: 403,
 					message: `updated appreciation id ${res.appreciations.appreciationId} failed`
 				})
 			} else {
-				await setResponsePublisher(`appreciations:${uuid()}`, {
+				await setResponsePublisher(`appreciations:update:${uuid()}`, {
 					status: 200,
 					message: `updated appreciation id ${res.appreciations.appreciationId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`appreciations:${uuid()}`, {
+		await setResponsePublisher(`appreciations:update:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})

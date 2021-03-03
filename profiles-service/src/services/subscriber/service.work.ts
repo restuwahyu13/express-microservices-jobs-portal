@@ -15,7 +15,7 @@ export const initDeleteWorksSubscriber = async (): Promise<void> => {
 		})
 
 		if (!checkWorkExist) {
-			await setResponsePublisher(`works:${uuid()}`, {
+			await setResponsePublisher(`works:delete:${uuid()}`, {
 				status: 404,
 				message: `work id ${res.works.workId} is not exist, or deleted from owner`
 			})
@@ -26,19 +26,19 @@ export const initDeleteWorksSubscriber = async (): Promise<void> => {
 			)
 
 			if (!deleteWorks) {
-				await setResponsePublisher(`works:${uuid()}`, {
+				await setResponsePublisher(`works:delete:${uuid()}`, {
 					status: 403,
 					message: `deleted work id ${res.works.workId} failed`
 				})
 			} else {
-				await setResponsePublisher(`works:${uuid()}`, {
+				await setResponsePublisher(`works:delete:${uuid()}`, {
 					status: 200,
 					message: `deleted work id ${res.works.workId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`works:${uuid()}`, {
+		await setResponsePublisher(`works:delete:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
@@ -55,7 +55,7 @@ export const initUpdateWorksSubscriber = async (): Promise<void> => {
 		})
 
 		if (!checkWorkExist) {
-			await setResponsePublisher(`works:${uuid()}`, {
+			await setResponsePublisher(`works:update:${uuid()}`, {
 				status: 404,
 				message: `work id ${res.works.workId} is not exist, or deleted from owner`
 			})
@@ -74,19 +74,19 @@ export const initUpdateWorksSubscriber = async (): Promise<void> => {
 			)
 
 			if (!updateWorks) {
-				await setResponsePublisher(`works:${uuid()}`, {
+				await setResponsePublisher(`works:update:${uuid()}`, {
 					status: 403,
 					message: `updated work id ${res.works.workId} failed`
 				})
 			} else {
-				await setResponsePublisher(`works:${uuid()}`, {
+				await setResponsePublisher(`works:update:${uuid()}`, {
 					status: 200,
 					message: `updated work id ${res.works.workId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`works:${uuid()}`, {
+		await setResponsePublisher(`works:update:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})

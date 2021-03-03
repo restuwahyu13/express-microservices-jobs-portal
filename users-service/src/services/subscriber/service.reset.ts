@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { hashPassword } from '../../utils/util.encrypt'

@@ -8,7 +8,7 @@ import { streamBox } from '../utils/util.stream'
 export const skillsDeleteController = async (req: Request, res: Response): Promise<void> => {
 	await setDeleteSkillsPublisher({ userId: req.params.userId, skills: req.body.skills })
 	await initDeleteSkillsSubscriber()
-	const { status, message } = await getResponseSubscriber(`skills:${uuid()}`)
+	const { status, message } = await getResponseSubscriber(`skills:delete:${uuid()}`)
 
 	if (status >= 400) {
 		streamBox(res, status, {
@@ -28,7 +28,7 @@ export const skillsDeleteController = async (req: Request, res: Response): Promi
 export const skillsUpdateController = async (req: Request, res: Response): Promise<void> => {
 	await setUpdateSkillsPublisher({ userId: req.params.userId, skills: req.body.skills })
 	await initUpdateSkillsSubscriber()
-	const { status, message } = await getResponseSubscriber(`skills:${uuid()}`)
+	const { status, message } = await getResponseSubscriber(`skills:update:${uuid()}`)
 
 	if (status >= 400) {
 		streamBox(res, status, {

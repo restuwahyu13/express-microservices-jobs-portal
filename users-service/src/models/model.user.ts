@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose'
-import shortId from 'shortid'
+import { v4 as uuid } from 'uuid'
 import { UsersDTO } from '../dto/dto.users'
 
 const UserSchema: mongoose.Schema = new mongoose.Schema({
@@ -7,7 +7,7 @@ const UserSchema: mongoose.Schema = new mongoose.Schema({
 		type: String,
 		unique: true,
 		trim: true,
-		default: shortId()
+		default: uuid()
 	},
 	firstName: {
 		type: String,

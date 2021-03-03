@@ -8,7 +8,7 @@ import { streamBox } from '../utils/util.stream'
 export const worksDeleteController = async (req: Request, res: Response): Promise<void> => {
 	await setDeleteWorksPublisher({ works: { workId: req.params.workId } })
 	await initDeleteWorksSubscriber()
-	const { status, message } = await getResponseSubscriber(`works:${uuid()}`)
+	const { status, message } = await getResponseSubscriber(`works:delete:${uuid()}`)
 
 	if (status >= 400) {
 		streamBox(res, status, {
@@ -37,7 +37,7 @@ export const worksUpdateController = async (req: Request, res: Response): Promis
 		}
 	})
 	await initUpdateWorksSubscriber()
-	const { status, message } = await getResponseSubscriber(`works:${uuid()}`)
+	const { status, message } = await getResponseSubscriber(`works:update:${uuid()}`)
 
 	if (status >= 400) {
 		streamBox(res, status, {

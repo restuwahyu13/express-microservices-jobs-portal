@@ -25,19 +25,19 @@ export const initCreateProfileSubscriber = async (): Promise<void> => {
 		})
 
 		if (!saveProfile) {
-			await setResponsePublisher(`me:${uuid()}`, {
+			await setResponsePublisher(`me:create:${uuid()}`, {
 				status: 403,
 				message: 'add new profile failed, please try again'
 			})
 		} else {
 			console.log(res)
-			await setResponsePublisher(`me:${uuid()}`, {
+			await setResponsePublisher(`me:create:${uuid()}`, {
 				status: 200,
 				message: 'add new profile successfully'
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher(`me:${uuid()}`, {
+		await setResponsePublisher(`me:create:${uuid()}`, {
 			status: 500,
 			message: 'internal server error'
 		})
@@ -95,19 +95,20 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 				}
 			}
 		)
+
 		if (!addSubProfile) {
-			await setResponsePublisher(`me:${uuid()}`, {
+			await setResponsePublisher(`me:subcreate${uuid()}`, {
 				status: 403,
 				message: 'add new sub profile failed, please try again'
 			})
 		} else {
-			await setResponsePublisher(`me:${uuid()}`, {
+			await setResponsePublisher(`me:subcreate${uuid()}`, {
 				status: 200,
 				message: 'add new sub profile successfully'
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher(`me:${uuid()}`, {
+		await setResponsePublisher(`me:subcreate:${uuid()}`, {
 			status: 500,
 			message: 'internal server error'
 		})
@@ -116,53 +117,53 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 
 export const initResultProfileSubscriber = async (): Promise<void> => {
 	const resultProfileSubscriber = new Subscriber({ key: 'Profile' })
-	const res: IRequest = await resultProfileSubscriber.getMap('rprofile:service')
+	const { userId }: IRequest = await resultProfileSubscriber.getMap('rprofile:service')
 
 	try {
-		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
+		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: userId }).lean()
 
 		if (!checkUserId) {
-			await setResponsePublisher(`me:${uuid()}`, {
+			await setResponsePublisher(`me:result:${uuid()}`, {
 				status: 404,
-				message: 'user profile is not exist for this id, data not already to use'
+				message: `user profile is not exist for this id ${userId}, data not already to use`
 			})
 		} else {
-			await setResponsePublisher(`me:${uuid()}`, {
+			await setResponsePublisher(`me:result:${uuid()}`, {
 				status: 200,
-				message: 'user profile for this id exist, data already to use',
+				message: `user profile for this id ${userId} exist, data already to use`,
 				data: checkUserId
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher(`me:${uuid()}`, {
+		await setResponsePublisher(`me:result:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})
 	}
 }
 
-export const initDeletetSubProfileSubscriber = async (): Promise<void> => {
-	const resultProfileSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IRequest = await resultProfileSubscriber.getMap('dsubprofile:service')
+// export const initDeletetSubProfileSubscriber = async (): Promise<void> => {
+// 	const resultProfileSubscriber = new Subscriber({ key: 'Sub Profile' })
+// 	const res: IRequest = await resultProfileSubscriber.getMap('dsubprofile:service')
 
-	try {
-		const checkAndDelete: ProfilesDTO = await profileSchema.updateOne({ _id: res.userId }).lean()
+// 	try {
+// 		const checkAndDelete: ProfilesDTO = await profileSchema.updateOne({ _id: res.userId }).lean()
 
-		if (!checkAndDelete) {
-			await setResponsePublisher(`me:${uuid()}`, {
-				status: 404,
-				message: 'user profile is not exist for this id, data not already to use'
-			})
-		} else {
-			await setResponsePublisher(`me:${uuid()}`, {
-				status: 200,
-				message: 'user profile for this id exist, data already to use'
-			})
-		}
-	} catch (error) {
-		await setResponsePublisher(`me:${uuid()}`, {
-			status: 500,
-			message: `internal server error: ${error}`
-		})
-	}
-}
+// 		if (!checkAndDelete) {
+// 			await setResponsePublisher(`me:${uuid()}`, {
+// 				status: 404,
+// 				message: 'user profile is not exist for this id, data not already to use'
+// 			})
+// 		} else {
+// 			await setResponsePublisher(`me:${uuid()}`, {
+// 				status: 200,
+// 				message: 'user profile for this id exist, data already to use'
+// 			})
+// 		}
+// 	} catch (error) {
+// 		await setResponsePublisher(`me:${uuid()}`, {
+// 			status: 500,
+// 			message: `internal server error: ${error}`
+// 		})
+// 	}
+// }

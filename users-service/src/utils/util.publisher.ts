@@ -31,7 +31,7 @@ export class Publisher {
 	}
 
 	public async setString(keyName: string, data: string): Promise<void> {
-		const ioRedis = this.redisConnect()
+		const ioRedis = this.redisConnect() as Redis
 		await ioRedis.set(keyName, data)
 	}
 
@@ -40,8 +40,9 @@ export class Publisher {
 		await ioRedis.hset(keyName, { payload: JSON.stringify(data) })
 	}
 
-	public async setResponse(data: Record<string, any>): Promise<void> {
+	public async setResponse(eventName: string, data: Record<string, any>): Promise<void> {
 		const ioRedis = this.redisConnect() as Redis
-		await ioRedis.hset('response:speaker', { response: JSON.stringify(data) })
+		await ioRedis.setex('event', 10, `response:speaker:${eventName}`)
+		await ioRedis.hset(`response:speaker:${eventName}`, { response: JSON.stringify(data) })
 	}
 }

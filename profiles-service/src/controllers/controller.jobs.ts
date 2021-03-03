@@ -15,7 +15,7 @@ export const jobsDeleteController = async (req: Request, res: Response): Promise
 		}
 	})
 	await initDeleteJobsSubscriber()
-	const { status, message } = await getResponseSubscriber(`jobs:${uuid()}`)
+	const { status, message } = await getResponseSubscriber(`jobs:delete:${uuid()}`)
 
 	if (status >= 400) {
 		streamBox(res, status, {
@@ -43,7 +43,7 @@ export const jobsUpdateController = async (req: Request, res: Response): Promise
 		}
 	})
 	await initUpdateJobsSubscriber()
-	const { status, message } = await getResponseSubscriber(`jobs:${uuid()}`)
+	const { status, message } = await getResponseSubscriber(`jobs:update:${uuid()}`)
 
 	if (status >= 400) {
 		streamBox(res, status, {

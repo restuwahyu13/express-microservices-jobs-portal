@@ -63,8 +63,8 @@
 		"moment": "^2.29.1",
 		"mongoose": "^5.11.15",
 		"q": "^1.5.1",
-		"shortid": "^2.2.16",
-		"streambox-collection": "0.0.6"
+		"streambox-collection": "0.0.6",
+		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
 		"@types/bcryptjs": "^2.4.2",
@@ -89,8 +89,8 @@
 		"@types/node": "^14.14.28",
 		"@types/prettier": "^2.2.1",
 		"@types/q": "^1.5.4",
-		"@types/shortid": "0.0.29",
 		"@types/supertest": "^2.0.10",
+		"@types/uuid": "^8.3.0",
 		"@typescript-eslint/parser": "^4.15.0",
 		"chalk": "^4.1.0",
 		"consola": "^2.15.3",

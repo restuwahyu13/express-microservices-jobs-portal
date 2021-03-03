@@ -14,7 +14,7 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 			.lean()
 
 		if (checkSkillExist.length < 1) {
-			await setResponsePublisher(`skills:${uuid()}`, {
+			await setResponsePublisher(`skills:delete:${uuid()}`, {
 				status: 404,
 				message: `value skills ${skills} is not exist, or deleted from owner`
 			})
@@ -22,19 +22,19 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 			const deleteSkills: ProfilesDTO = await profileSchema.updateOne({ userId: userId }, { $pull: { skills: skills } })
 
 			if (!deleteSkills) {
-				await setResponsePublisher(`skills:${uuid()}`, {
+				await setResponsePublisher(`skills:delete:${uuid()}`, {
 					status: 403,
 					message: `deleted skill id ${userId} failed`
 				})
 			} else {
-				await setResponsePublisher(`skills:${uuid()}`, {
+				await setResponsePublisher(`skills:delete:${uuid()}`, {
 					status: 200,
 					message: `deleted skill id ${userId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`skills:${uuid()}`, {
+		await setResponsePublisher(`skills:delete:${uuid()}`, {
 			status: 500,
 			message: 'internal server error'
 		})
@@ -50,7 +50,7 @@ export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 			.lean()
 
 		if (checkSkillExist.length > 0) {
-			await setResponsePublisher(`skills:${uuid()}`, {
+			await setResponsePublisher(`skills:update:${uuid()}`, {
 				status: 404,
 				message: `value skills ${skills} already exist, or deleted from owner`
 			})
@@ -61,19 +61,19 @@ export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 			)
 
 			if (!updateSkills) {
-				await setResponsePublisher(`skills:${uuid()}`, {
+				await setResponsePublisher(`skills:update:${uuid()}`, {
 					status: 403,
 					message: `updated skill id ${userId} failed`
 				})
 			} else {
-				await setResponsePublisher(`skills:${uuid()}`, {
+				await setResponsePublisher(`skills:update:${uuid()}`, {
 					status: 200,
 					message: `updated skill id ${userId} successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`skills:${uuid()}`, {
+		await setResponsePublisher(`skills:update:${uuid()}`, {
 			status: 500,
 			message: `internal server error: ${error}`
 		})

@@ -4,8 +4,8 @@ import { fileUpload } from '../utils/util.upload'
 
 const router = express.Router() as Router
 
-router.post('/users/:userId/profile', fileUpload.fields([{ name: 'image' }, { name: 'document' }]), controller.createController)
-// router.get('/users/:userId/profile/me', controller.resultController)
+router.post('/users/:userId/profile', fileUpload.fields([{ name: 'image' }, { name: 'document' }]), controller.meCreateController)
+router.get('/users/:userId/profile/me', controller.meResultController)
 // router.delete('/users/:userId/profile/me', controller.deleteController)
 router.post('/users/:userId/profile/skills', controller.skillsDeleteController)
 router.post('/users/:userId/profile/educations/:educationId', controller.educationsDeleteController)

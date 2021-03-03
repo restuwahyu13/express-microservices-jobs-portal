@@ -2,13 +2,21 @@ import { Request, Response } from 'express'
 import { v4 as uuid } from 'uuid'
 import { profileSchema } from '../models/model.profile'
 import { cloudStorage, UploadApiResponse } from '../utils/util.cloud'
-import { initCreateProfileSubscriber, initCreateSubProfileSubscriber } from '../services/subscriber/service.profile'
-import { setCreateProfilePublisher, setCreateSubProfilePublisher } from '../services/publisher/service.profile'
+import {
+	initCreateProfileSubscriber,
+	initCreateSubProfileSubscriber,
+	initResultProfileSubscriber
+} from '../services/subscriber/service.me'
+import {
+	setCreateProfilePublisher,
+	setCreateSubProfilePublisher,
+	setResultProfilePublisher
+} from '../services/publisher/service.me'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
 import { ProfilesDTO } from '../dto/dto.profile'
 
-export const createController = async (req: Request, res: Response): Promise<void> => {
+export const meCreateController = async (req: Request, res: Response): Promise<void> => {
 	const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: req.params.userId }).lean()
 
 	if (checkUserId) {
@@ -23,7 +31,7 @@ export const createController = async (req: Request, res: Response): Promise<voi
 			volunteerExperiences: req.body.volunteerExperiences
 		})
 		await initCreateSubProfileSubscriber()
-		const { status, message } = await getResponseSubscriber(`me:${uuid()}`)
+		const { status, message } = await getResponseSubscriber(`me:subcreate:${uuid()}`)
 
 		if (status >= 400) {
 			streamBox(res, status, {
@@ -67,7 +75,7 @@ export const createController = async (req: Request, res: Response): Promise<voi
 			educations: req.body.educations
 		})
 		await initCreateProfileSubscriber()
-		const { status, message } = await getResponseSubscriber(`me:${uuid()}`)
+		const { status, message } = await getResponseSubscriber(`me:create:${uuid()}`)
 
 		if (status >= 400) {
 			streamBox(res, status, {
@@ -82,5 +90,26 @@ export const createController = async (req: Request, res: Response): Promise<voi
 				message
 			})
 		}
+	}
+}
+
+export const meResultController = async (req: Request, res: Response): Promise<void> => {
+	await setResultProfilePublisher({ userId: req.params.id })
+	await initResultProfileSubscriber()
+	const { status, message, data } = await getResponseSubscriber(`me:result:${uuid()}`)
+
+	if (status >= 400) {
+		streamBox(res, status, {
+			method: req.method,
+			status,
+			message
+		})
+	} else {
+		streamBox(res, status, {
+			method: req.method,
+			status,
+			message,
+			user: data
+		})
 	}
 }
