@@ -11,7 +11,7 @@ export const initDeleteWorksSubscriber = async (): Promise<void> => {
 
 	try {
 		const checkWorkExist: ProfilesDTO = await profileSchema.findOne({
-			'works.workId': res.works.workId
+			'workExperiences.workId': res.works.workId
 		})
 
 		if (!checkWorkExist) {
@@ -21,7 +21,7 @@ export const initDeleteWorksSubscriber = async (): Promise<void> => {
 			})
 		} else {
 			const deleteWorks: ProfilesDTO = await profileSchema.updateOne(
-				{ 'works.workId': res.works.workId },
+				{ 'workExperiences.workId': res.works.workId },
 				{ $pull: { workExperiences: { workId: res.works.workId } } }
 			)
 
@@ -51,7 +51,7 @@ export const initUpdateWorksSubscriber = async (): Promise<void> => {
 
 	try {
 		const checkWorkExist: ProfilesDTO = await profileSchema.findOne({
-			'works.workId': res.works.workId
+			'workExperiences.workId': res.works.workId
 		})
 
 		if (!checkWorkExist) {
