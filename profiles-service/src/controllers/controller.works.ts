@@ -28,7 +28,7 @@ export const worksDeleteController = async (req: Request, res: Response): Promis
 export const worksUpdateController = async (req: Request, res: Response): Promise<void> => {
 	await setUpdateWorksPublisher({
 		works: {
-			workId: req.params.volunterId,
+			workId: req.params.workId,
 			companyName: req.body.companyName,
 			jobPosition: req.body.jobPosition,
 			startDate: req.body.startDate,
