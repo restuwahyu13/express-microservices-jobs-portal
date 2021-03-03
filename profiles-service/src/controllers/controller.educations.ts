@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { v4 as uuid } from 'uuid'
 import { initDeleteEducationSubscriber, initUpdateEducationsSubscriber } from '../services/subscriber/service.education'
 import { setDeleteEducationsPublisher, setUpdateEducationsPublisher } from '../services/publisher/service.education'
 import { getResponseSubscriber } from '../utils/util.message'
@@ -8,7 +7,7 @@ import { streamBox } from '../utils/util.stream'
 export const educationsDeleteController = async (req: Request, res: Response): Promise<void> => {
 	await setDeleteEducationsPublisher({ educations: { educationId: req.params.educationId } })
 	await initDeleteEducationSubscriber()
-	const { status, message } = await getResponseSubscriber(`educations:delete:${uuid()}`)
+	const { status, message } = await getResponseSubscriber()
 
 	if (status >= 400) {
 		streamBox(res, status, {
@@ -38,7 +37,7 @@ export const educationsUpdateController = async (req: Request, res: Response): P
 		}
 	})
 	await initUpdateEducationsSubscriber()
-	const { status, message } = await getResponseSubscriber(`educations:update:${uuid()}`)
+	const { status, message } = await getResponseSubscriber()
 
 	if (status >= 400) {
 		streamBox(res, status, {

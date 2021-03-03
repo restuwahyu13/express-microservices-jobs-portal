@@ -1,9 +1,5 @@
-import axios, { Method } from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 
-export const httpClientRequest = (url: string, method: string, headers?: Record<string, string>) => {
-	return axios({
-		url: url,
-		method: method.toLowerCase() as Method,
-		headers: headers || {}
-	})
+export const httpClientRequest = (url: string, configs?: AxiosRequestConfig): Promise<Record<string, any>> => {
+	return axios.get(url, configs || {})
 }

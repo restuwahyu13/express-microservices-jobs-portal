@@ -8,17 +8,18 @@ import { IUser } from '../../interface/interface.user'
 export const initActivationSubscriber = async (): Promise<void> => {
 	const activationSubscriber = new Subscriber({ key: 'Activation' })
 	const { id }: IUser = await activationSubscriber.getMap('activation:service')
+
 	try {
 		const checkUser: UsersDTO = await userSchema.findById({ _id: id }).lean()
 
 		if (!checkUser) {
-			await setResponsePublisher({
+			await setResponsePublisher(`users:activation:${uuid()}`, {
 				status: 404,
 				message: 'userId is not exist for this users, please create new account'
 			})
 		} else {
 			if (checkUser.active == true) {
-				await setResponsePublisher({
+				await setResponsePublisher(`users:activation:${uuid()}`, {
 					status: 400,
 					message: 'user account has been active, please login'
 				})
@@ -29,20 +30,20 @@ export const initActivationSubscriber = async (): Promise<void> => {
 				})
 
 				if (!updateActivation) {
-					await setResponsePublisher({
+					await setResponsePublisher(`users:activation:${uuid()}`, {
 						status: 403,
 						message: 'activation account failed, please resend new token'
 					})
 				}
 
-				await setResponsePublisher({
+				await setResponsePublisher(`users:activation:${uuid()}`, {
 					status: 200,
 					message: 'activation account successfully, please login'
 				})
 			}
 		}
 	} catch (err) {
-		await setResponsePublisher({
+		await setResponsePublisher(`users:activation:${uuid()}`, {
 			status: 500,
 			message: 'internal server error'
 		})

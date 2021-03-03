@@ -13,7 +13,7 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 		const checkUser: UsersDTO = await userSchema.findOne({ email: res.email }).lean()
 
 		if (checkUser) {
-			await setResponsePublisher({
+			await setResponsePublisher(`users:register:${uuid()}`, {
 				status: 409,
 				message: 'email already taken, please try again'
 			})
@@ -29,12 +29,12 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 			})
 
 			if (!createNewAccount) {
-				await setResponsePublisher({
+				await setResponsePublisher(`users:register:${uuid()}`, {
 					status: 403,
 					message: 'create new account failed, please try again'
 				})
 			} else {
-				await setResponsePublisher({
+				await setResponsePublisher(`users:register:${uuid()}`, {
 					status: 201,
 					message: `create new account successfully, please check your email ${res.email}`,
 					data: createNewAccount
@@ -42,7 +42,7 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 			}
 		}
 	} catch (err) {
-		await setResponsePublisher({
+		await setResponsePublisher(`users:register:${uuid()}`, {
 			status: 500,
 			message: 'internal server error'
 		})

@@ -5,7 +5,7 @@ import { profileSchema } from '../../models/model.profile'
 import { ProfilesDTO } from '../../dto/dto.profile'
 import { IRequest } from '../../interface/interface.payload'
 
-export const initCreateProfileSubscriber = async (): Promise<void> => {
+export const initCreateMeSubscriber = async (): Promise<void> => {
 	const createProfileSubscriber = new Subscriber({ key: 'Profile' })
 	const res: IRequest = await createProfileSubscriber.getMap('cprofile:service')
 
@@ -44,7 +44,7 @@ export const initCreateProfileSubscriber = async (): Promise<void> => {
 	}
 }
 
-export const initCreateSubProfileSubscriber = async (): Promise<void> => {
+export const initCreateSubMeSubscriber = async (): Promise<void> => {
 	const createSubProfileSubscriber = new Subscriber({ key: 'Sub Profile' })
 	const res: IRequest = await createSubProfileSubscriber.getMap('csubprofile:service')
 	const { jobInterests, workTypes, salaryExpectation, workCityPreferences } = res.jobPreferences
@@ -115,7 +115,7 @@ export const initCreateSubProfileSubscriber = async (): Promise<void> => {
 	}
 }
 
-export const initResultProfileSubscriber = async (): Promise<void> => {
+export const initResultMeSubscriber = async (): Promise<void> => {
 	const resultProfileSubscriber = new Subscriber({ key: 'Profile' })
 	const { userId }: IRequest = await resultProfileSubscriber.getMap('rprofile:service')
 
@@ -142,28 +142,28 @@ export const initResultProfileSubscriber = async (): Promise<void> => {
 	}
 }
 
-// export const initDeletetSubProfileSubscriber = async (): Promise<void> => {
-// 	const resultProfileSubscriber = new Subscriber({ key: 'Sub Profile' })
-// 	const res: IRequest = await resultProfileSubscriber.getMap('dsubprofile:service')
+export const initDeletetMeSubscriber = async (): Promise<void> => {
+	const resultProfileSubscriber = new Subscriber({ key: 'Profile' })
+	const { userId }: IRequest = await resultProfileSubscriber.getMap('dprofile:service')
 
-// 	try {
-// 		const checkAndDelete: ProfilesDTO = await profileSchema.updateOne({ _id: res.userId }).lean()
+	try {
+		const checkAndDelete: ProfilesDTO = await profileSchema.findOneAndDelete({ userId: userId }).lean()
 
-// 		if (!checkAndDelete) {
-// 			await setResponsePublisher(`me:${uuid()}`, {
-// 				status: 404,
-// 				message: 'user profile is not exist for this id, data not already to use'
-// 			})
-// 		} else {
-// 			await setResponsePublisher(`me:${uuid()}`, {
-// 				status: 200,
-// 				message: 'user profile for this id exist, data already to use'
-// 			})
-// 		}
-// 	} catch (error) {
-// 		await setResponsePublisher(`me:${uuid()}`, {
-// 			status: 500,
-// 			message: `internal server error: ${error}`
-// 		})
-// 	}
-// }
+		if (!checkAndDelete) {
+			await setResponsePublisher(`me:delete:${uuid()}`, {
+				status: 404,
+				message: `user profile for this id ${userId} is not exist`
+			})
+		} else {
+			await setResponsePublisher(`me:delete:${uuid()}`, {
+				status: 200,
+				message: `deleted user profile for this id ${userId} successfully`
+			})
+		}
+	} catch (error) {
+		await setResponsePublisher(`me:delete:${uuid()}`, {
+			status: 500,
+			message: `internal server error: ${error}`
+		})
+	}
+}

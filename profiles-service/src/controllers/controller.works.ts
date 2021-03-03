@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { v4 as uuid } from 'uuid'
 import { initDeleteWorksSubscriber, initUpdateWorksSubscriber } from '../services/subscriber/service.work'
 import { setDeleteWorksPublisher, setUpdateWorksPublisher } from '../services/publisher/service.work'
 import { getResponseSubscriber } from '../utils/util.message'
@@ -8,7 +7,7 @@ import { streamBox } from '../utils/util.stream'
 export const worksDeleteController = async (req: Request, res: Response): Promise<void> => {
 	await setDeleteWorksPublisher({ works: { workId: req.params.workId } })
 	await initDeleteWorksSubscriber()
-	const { status, message } = await getResponseSubscriber(`works:delete:${uuid()}`)
+	const { status, message } = await getResponseSubscriber()
 
 	if (status >= 400) {
 		streamBox(res, status, {
@@ -37,7 +36,7 @@ export const worksUpdateController = async (req: Request, res: Response): Promis
 		}
 	})
 	await initUpdateWorksSubscriber()
-	const { status, message } = await getResponseSubscriber(`works:update:${uuid()}`)
+	const { status, message } = await getResponseSubscriber()
 
 	if (status >= 400) {
 		streamBox(res, status, {

@@ -1,16 +1,17 @@
 import { Request, Response } from 'express'
-import { v4 as uuid } from 'uuid'
 import { profileSchema } from '../models/model.profile'
 import { cloudStorage, UploadApiResponse } from '../utils/util.cloud'
 import {
-	initCreateProfileSubscriber,
-	initCreateSubProfileSubscriber,
-	initResultProfileSubscriber
+	initCreateMeSubscriber,
+	initCreateSubMeSubscriber,
+	initResultMeSubscriber,
+	initDeletetMeSubscriber
 } from '../services/subscriber/service.me'
 import {
-	setCreateProfilePublisher,
-	setCreateSubProfilePublisher,
-	setResultProfilePublisher
+	setCreateMePublisher,
+	setCreateSubMePublisher,
+	setResultMePublisher,
+	setDeletetMePublisher
 } from '../services/publisher/service.me'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
@@ -20,7 +21,7 @@ export const meCreateController = async (req: Request, res: Response): Promise<v
 	const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: req.params.userId }).lean()
 
 	if (checkUserId) {
-		await setCreateSubProfilePublisher({
+		await setCreateSubMePublisher({
 			userId: checkUserId.userId,
 			skills: req.body.skills,
 			workExperiences: req.body.workExperiences,
@@ -30,8 +31,8 @@ export const meCreateController = async (req: Request, res: Response): Promise<v
 			appreciations: req.body.appreciations,
 			volunteerExperiences: req.body.volunteerExperiences
 		})
-		await initCreateSubProfileSubscriber()
-		const { status, message } = await getResponseSubscriber(`me:subcreate:${uuid()}`)
+		await initCreateSubMeSubscriber()
+		const { status, message } = await getResponseSubscriber()
 
 		if (status >= 400) {
 			streamBox(res, status, {
@@ -61,7 +62,7 @@ export const meCreateController = async (req: Request, res: Response): Promise<v
 			}
 		}
 
-		await setCreateProfilePublisher({
+		await setCreateMePublisher({
 			userId: req.params.userId,
 			photo: urls[0].secure_url,
 			birthDate: req.body.birthDate,
@@ -74,8 +75,8 @@ export const meCreateController = async (req: Request, res: Response): Promise<v
 			workExperiences: req.body.workExperiences,
 			educations: req.body.educations
 		})
-		await initCreateProfileSubscriber()
-		const { status, message } = await getResponseSubscriber(`me:create:${uuid()}`)
+		await initCreateMeSubscriber()
+		const { status, message } = await getResponseSubscriber()
 
 		if (status >= 400) {
 			streamBox(res, status, {
@@ -94,9 +95,9 @@ export const meCreateController = async (req: Request, res: Response): Promise<v
 }
 
 export const meResultController = async (req: Request, res: Response): Promise<void> => {
-	await setResultProfilePublisher({ userId: req.params.id })
-	await initResultProfileSubscriber()
-	const { status, message, data } = await getResponseSubscriber(`me:result:${uuid()}`)
+	await setResultMePublisher({ userId: req.params.userId })
+	await initResultMeSubscriber()
+	const { status, message, data } = await getResponseSubscriber()
 
 	if (status >= 400) {
 		streamBox(res, status, {
@@ -110,6 +111,26 @@ export const meResultController = async (req: Request, res: Response): Promise<v
 			status,
 			message,
 			user: data
+		})
+	}
+}
+
+export const meDeleteController = async (req: Request, res: Response): Promise<void> => {
+	await setDeletetMePublisher({ userId: req.params.userId })
+	await initDeletetMeSubscriber()
+	const { status, message } = await getResponseSubscriber()
+
+	if (status >= 400) {
+		streamBox(res, status, {
+			method: req.method,
+			status,
+			message
+		})
+	} else {
+		streamBox(res, status, {
+			method: req.method,
+			status,
+			message
 		})
 	}
 }

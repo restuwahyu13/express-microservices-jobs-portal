@@ -42,7 +42,7 @@ export class Publisher {
 
 	public async setResponse(eventName: string, data: Record<string, any>): Promise<void> {
 		const ioRedis = this.redisConnect() as Redis
-		await ioRedis.setex('event', 10, `response:speaker:${eventName}`)
+		await ioRedis.setex('event', 5, `response:speaker:${eventName}`)
 		await ioRedis.hset(`response:speaker:${eventName}`, { response: JSON.stringify(data) })
 	}
 }

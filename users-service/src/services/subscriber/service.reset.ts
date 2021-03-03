@@ -9,11 +9,12 @@ import { IUser } from '../../interface/interface.user'
 export const initResetSubscriber = async (): Promise<void> => {
 	const resetSubscriber = new Subscriber({ key: 'Reset' })
 	const { id, password }: IUser = await resetSubscriber.getMap('reset:service')
+
 	try {
 		const checkUser: UsersDTO = await userSchema.findById({ _id: id })
 
 		if (!checkUser) {
-			await setResponsePublisher({
+			await setResponsePublisher(`users:reset:${uuid()}`, {
 				status: 404,
 				message: 'userId is not exist for this users, please create new account'
 			})
@@ -24,19 +25,19 @@ export const initResetSubscriber = async (): Promise<void> => {
 			})
 
 			if (!changePassword) {
-				await setResponsePublisher({
+				await setResponsePublisher(`users:reset:${uuid()}`, {
 					status: 403,
 					message: 'change new password failed, please try again'
 				})
 			} else {
-				await setResponsePublisher({
+				await setResponsePublisher(`users:reset:${uuid()}`, {
 					status: 200,
 					message: 'change new password successfully, please login'
 				})
 			}
 		}
 	} catch (err) {
-		await setResponsePublisher({
+		await setResponsePublisher(`users:reset:${uuid()}`, {
 			status: 500,
 			message: 'internal server error'
 		})

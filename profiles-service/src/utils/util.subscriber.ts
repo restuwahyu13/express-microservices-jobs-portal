@@ -53,7 +53,7 @@ export class Subscriber {
 		}
 	}
 
-	public async getResponse(eventName: string): Promise<any> {
+	public async getResponse(): Promise<any> {
 		const ioRedis = this.redisConnect() as Redis
 		const getEvent = await ioRedis.get('event')
 		const response: Record<string, any> = await ioRedis.hgetall(`${getEvent}`)

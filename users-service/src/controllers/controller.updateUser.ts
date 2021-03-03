@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { setGetUserPublisher } from '../services/publisher/service.getUser'
-import { initGetUserSubscriber } from '../services/subscriber/service.getUser'
+import { setGetUserPublisher } from '../services/publisher/service.resultUser'
+import { initResultUserSubscriber } from '../services/subscriber/service.resultUser'
 import { streamBox } from '../utils/util.stream'
 import { expressValidator } from '../utils/util.validator'
 import { getResponseSubscriber } from '../utils/util.message'
@@ -16,7 +16,7 @@ export const updateUserController = async (req: Request, res: Response): Promise
 		})
 	} else {
 		await setGetUserPublisher({ id: req.params.id })
-		await initGetUserSubscriber()
+		await initResultUserSubscriber()
 		const { status, message, data } = await getResponseSubscriber()
 
 		if (status >= 400) {

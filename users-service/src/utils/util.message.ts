@@ -1,11 +1,11 @@
 import { Publisher } from './util.publisher'
 import { Subscriber } from './util.subscriber'
 
-export const getResponseSubscriber = (eventName: string): Promise<any> => {
+export const getResponseSubscriber = (): Promise<any> => {
 	const getResponseSubscriber = new Subscriber({ key: 'Response' })
 	return new Promise((resolve, reject) => {
 		getResponseSubscriber
-			.getResponse(eventName)
+			.getResponse()
 			.then((response) => resolve(response))
 			.catch((error) => reject(error))
 	})
