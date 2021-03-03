@@ -6,6 +6,7 @@ import { skillsDeleteController, skillsUpdateController } from './controller.ski
 import { volunteersDeleteController, volunteersUpdateController } from './controller.volunteers'
 import { jobsDeleteController, jobsUpdateController } from './controller.jobs'
 import { educationsDeleteController, educationsUpdateController } from './controller.educations'
+import { worksDeleteController, worksUpdateController } from './controller.works'
 
 export const controller = {
 	createController,
@@ -16,5 +17,7 @@ export const controller = {
 	jobsDeleteController,
 	jobsUpdateController,
 	educationsDeleteController,
-	educationsUpdateController
+	educationsUpdateController,
+	worksDeleteController,
+	worksUpdateController
 }

@@ -22,7 +22,7 @@ export const initDeleteWorksSubscriber = async (): Promise<void> => {
 		} else {
 			const deleteWorks: ProfilesDTO = await profileSchema.updateOne(
 				{ 'works.workId': res.works.workId },
-				{ $pull: { works: { workId: res.works.workId } } }
+				{ $pull: { workExperiences: { workId: res.works.workId } } }
 			)
 
 			if (!deleteWorks) {
@@ -64,11 +64,11 @@ export const initUpdateWorksSubscriber = async (): Promise<void> => {
 				{ 'works.workId': res.works.workId },
 				{
 					$set: {
-						'works.$.companyName': res.works.companyName,
-						'works.$.jobPosition': res.works.jobPosition,
-						'works.$.startDate': res.works.startDate,
-						'works.$.endDate': res.works.endDate,
-						'works.$.workInformation': res.works.workInformation
+						'workExperiences.$.companyName': res.works.companyName,
+						'workExperiences.$.jobPosition': res.works.jobPosition,
+						'workExperiences.$.startDate': res.works.startDate,
+						'workExperiences.$.endDate': res.works.endDate,
+						'workExperiences.$.workInformation': res.works.workInformation
 					}
 				}
 			)
