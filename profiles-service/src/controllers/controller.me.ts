@@ -176,7 +176,7 @@ export const meUpdateController = async (req: Request, res: Response): Promise<v
 		nationality: req.body.nationality,
 		aboutMe: req.body.aboutMe,
 		resume: urls[1].secure_url,
-		socialNetworks: req.body.socialNetwork
+		socialNetworks: req.body.socialNetworks
 	})
 	await initUpdateMeSubscriber()
 	const { status, message } = await getResponseSubscriber()
