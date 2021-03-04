@@ -5,13 +5,15 @@ import {
 	initCreateMeSubscriber,
 	initCreateSubMeSubscriber,
 	initResultMeSubscriber,
-	initDeletetMeSubscriber
+	initDeleteMeSubscriber,
+	initUpdateMeSubscriber
 } from '../services/subscriber/service.me'
 import {
 	setCreateMePublisher,
 	setCreateSubMePublisher,
 	setResultMePublisher,
-	setDeletetMePublisher
+	setDeletetMePublisher,
+	setUpdateMePublisher
 } from '../services/publisher/service.me'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
@@ -123,7 +125,60 @@ export const meResultController = async (req: Request, res: Response): Promise<v
 
 export const meDeleteController = async (req: Request, res: Response): Promise<void> => {
 	await setDeletetMePublisher({ userId: req.params.userId })
-	await initDeletetMeSubscriber()
+	await initDeleteMeSubscriber()
+	const { status, message } = await getResponseSubscriber()
+
+	if (status >= 400) {
+		streamBox(res, status, {
+			method: req.method,
+			status,
+			message
+		})
+	} else {
+		streamBox(res, status, {
+			method: req.method,
+			status,
+			message
+		})
+	}
+}
+
+export const meUpdateController = async (req: Request, res: Response): Promise<void> => {
+	const urls: UploadApiResponse[] = []
+	const image: any = req.files['image']
+	const document: any = req.files['document']
+	const files: Array<Record<string, any>> = image.concat(document)
+
+	for (let file of files) {
+		try {
+			const response = (await cloudStorage(file.path)) as UploadApiResponse
+			urls.push(response)
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
+
+	await setStoreCache('fromProfile:update', {
+		userId: req.params.userId,
+		firstName: req.body.firstName,
+		lastName: req.body.lastLogin,
+		email: req.body.email,
+		location: req.body.location,
+		phone: req.body.phone
+	})
+	await initHttpClient('http://localhost:3003/api/v1/users/uprofile', { headers: { 'Content-Type': 'application/json' } })
+	await setUpdateMePublisher({
+		userId: req.params.userId,
+		photo: urls[0].secure_url,
+		gender: req.body.gender,
+		birthDate: req.body.birtDate,
+		status: req.body.status,
+		nationality: req.body.nationality,
+		aboutMe: req.body.aboutMe,
+		resume: urls[1].secure_url,
+		socialNetworks: req.body.socialNetwork
+	})
+	await initUpdateMeSubscriber()
 	const { status, message } = await getResponseSubscriber()
 
 	if (status >= 400) {

@@ -142,7 +142,7 @@ export const initResultMeSubscriber = async (): Promise<void> => {
 	}
 }
 
-export const initDeletetMeSubscriber = async (): Promise<void> => {
+export const initDeleteMeSubscriber = async (): Promise<void> => {
 	const resultProfileSubscriber = new Subscriber({ key: 'Profile' })
 	const { userId }: IRequest = await resultProfileSubscriber.getMap('dprofile:service')
 
@@ -152,12 +152,67 @@ export const initDeletetMeSubscriber = async (): Promise<void> => {
 		if (!checkAndDelete) {
 			await setResponsePublisher(`me:delete:${uuid()}`, {
 				status: 404,
-				message: `user profile for this id ${userId} is not exist`
+				message: `user profile for this id ${userId} is not exist, or deleted from owner`
 			})
 		} else {
 			await setResponsePublisher(`me:delete:${uuid()}`, {
 				status: 200,
 				message: `deleted user profile for this id ${userId} successfully`
+			})
+		}
+	} catch (error) {
+		await setResponsePublisher(`me:delete:${uuid()}`, {
+			status: 500,
+			message: `internal server error: ${error}`
+		})
+	}
+}
+
+export const initUpdateMeSubscriber = async (): Promise<void> => {
+	const resultProfileSubscriber = new Subscriber({ key: 'Profile' })
+	const res: IRequest = await resultProfileSubscriber.getMap('dprofile:service')
+
+	try {
+		const checkAndUpdate: ProfilesDTO = await profileSchema
+			.findOneAndUpdate(
+				{ userId: res.userId },
+				{
+					$set: {
+						photo: res.photo,
+						gender: res.gender,
+						birthDate: res.birthDate,
+						status: res.status,
+						nationality: res.nationality,
+						aboutMe: res.aboutme,
+						resume: res.resume,
+						socialNetworks: {
+							facebook: res.socialNetworks.facebook,
+							twitter: res.socialNetworks.twitter,
+							instagram: res.socialNetworks.instagram,
+							linkedIn: res.socialNetworks.linkedIn,
+							behance: res.socialNetworks.behance,
+							dribbble: res.socialNetworks.dribbble,
+							github: res.socialNetworks.github,
+							codepen: res.socialNetworks.codepen,
+							vimeo: res.socialNetworks.vimeo,
+							youtube: res.socialNetworks.youtube,
+							pinterest: res.socialNetworks.pinterest,
+							website: res.socialNetworks.website
+						}
+					}
+				}
+			)
+			.lean()
+
+		if (!checkAndUpdate) {
+			await setResponsePublisher(`me:delete:${uuid()}`, {
+				status: 404,
+				message: `user profile for this id ${res.userId} is not exist, or deleted from owner`
+			})
+		} else {
+			await setResponsePublisher(`me:delete:${uuid()}`, {
+				status: 200,
+				message: `updated user profile for this id ${res.userId} successfully`
 			})
 		}
 	} catch (error) {

@@ -5,9 +5,10 @@ import { initResultUserSubscriber } from '../services/subscriber/service.resultU
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
 import { getStoreCache, setStoreCache } from '../utils/util.cache'
+import { IUser } from '../interface/interface.user'
 
 export const resultUserController = async (req: Request, res: Response): Promise<void> => {
-	const { userId } = await getStoreCache('fromProfile:result')
+	const { userId }: IUser = await getStoreCache('fromProfile:result')
 	await setResultUserPublisher({ userId: userId })
 	await initResultUserSubscriber()
 	const { status, message, data } = await getResponseSubscriber()

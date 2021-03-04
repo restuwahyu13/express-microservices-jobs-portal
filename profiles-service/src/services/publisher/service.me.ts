@@ -28,10 +28,19 @@ export const setResultMePublisher = async (data: Record<string, any>): Promise<v
 }
 
 export const setDeletetMePublisher = async (data: Record<string, any>): Promise<void> => {
-	const resultMePublisher = new Publisher({ key: 'Profile' })
+	const deleteMePublisher = new Publisher({ key: 'Profile' })
 	if (Object.keys(data).length > 0 && data) {
-		await resultMePublisher.setMap('dprofile:service', data)
+		await deleteMePublisher.setMap('dprofile:service', data)
 	} else {
-		await resultMePublisher.setMap('dprofile:service', {})
+		await deleteMePublisher.setMap('dprofile:service', {})
+	}
+}
+
+export const setUpdateMePublisher = async (data: Record<string, any>): Promise<void> => {
+	const updateMePublisher = new Publisher({ key: 'Profile' })
+	if (Object.keys(data).length > 0 && data) {
+		await updateMePublisher.setMap('uprofile:service', data)
+	} else {
+		await updateMePublisher.setMap('uprofile:service', {})
 	}
 }
