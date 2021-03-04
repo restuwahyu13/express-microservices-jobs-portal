@@ -10,15 +10,13 @@ const ioRedis = new IORedis({
 }) as Redis
 
 export const setStoreCache = async (evetName: string, data: Record<string, any>): Promise<void> => {
-	await ioRedis.hmset(evetName, JSON.stringify({ payload: data }))
-	await ioRedis.setex('cacheFromProfile', 60, evetName)
+	await ioRedis.hset(evetName, { payload: JSON.stringify(data) })
+	await ioRedis.expire(evetName, 1)
 }
 
-export const getStoreCache = (): Promise<any> => {
+export const getStoreCache = (evetName: string): Promise<any> => {
 	return new Promise(async (resolve, reject) => {
-		const getEvent = await ioRedis.get('cacheToProfile')
-		const res: Record<string, any> = await ioRedis.hgetall(getEvent)
-		await ioRedis.expire(getEvent, 60)
+		const res: Record<string, any> = await ioRedis.hgetall(evetName)
 		resolve(JSON.parse(res.payload))
 	})
 }

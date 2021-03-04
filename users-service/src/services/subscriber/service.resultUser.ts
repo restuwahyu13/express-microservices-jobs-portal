@@ -10,7 +10,7 @@ export const initResultUserSubscriber = async (): Promise<void> => {
 	const { userId }: IUser = await getUserSubscriber.getMap('users:result:service')
 
 	try {
-		const checkUserId: UsersDTO = await userSchema.findOne({ userId: userId }).lean()
+		const checkUserId: UsersDTO = await userSchema.findOne({ userId: userId }, { __v: 0 }).lean()
 
 		if (!checkUserId) {
 			await setResponsePublisher(`users:result:${uuid()}`, {

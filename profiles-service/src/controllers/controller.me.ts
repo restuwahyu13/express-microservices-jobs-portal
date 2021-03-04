@@ -15,7 +15,9 @@ import {
 } from '../services/publisher/service.me'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
+import { initHttpClient } from '../utils/util.http'
 import { ProfilesDTO } from '../dto/dto.profile'
+import { setStoreCache, getStoreCache } from '../utils/util.cache'
 
 export const meCreateController = async (req: Request, res: Response): Promise<void> => {
 	const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: req.params.userId }).lean()
@@ -95,6 +97,10 @@ export const meCreateController = async (req: Request, res: Response): Promise<v
 }
 
 export const meResultController = async (req: Request, res: Response): Promise<void> => {
+	await setStoreCache('fromProfile:result', { userId: req.params.userId })
+	await initHttpClient('http://localhost:3003/api/v1/users/rprofile', { headers: { 'Content-Type': 'application/json' } })
+	const users = await getStoreCache('toProfile:result')
+
 	await setResultMePublisher({ userId: req.params.userId })
 	await initResultMeSubscriber()
 	const { status, message, data } = await getResponseSubscriber()
@@ -110,7 +116,7 @@ export const meResultController = async (req: Request, res: Response): Promise<v
 			method: req.method,
 			status,
 			message,
-			user: data
+			profile: Object.assign(data, users)
 		})
 	}
 }

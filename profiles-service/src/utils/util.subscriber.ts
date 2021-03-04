@@ -43,7 +43,6 @@ export class Subscriber {
 		if (this.keyTo == this.keyFrom) {
 			const ioRedis = this.redisConnect() as Redis
 			const response: Record<string, any> = await ioRedis.hgetall(keyName)
-			await ioRedis.expire(keyName, 30)
 			if (response) {
 				return Promise.resolve(JSON.parse(response.payload))
 			}
@@ -55,9 +54,8 @@ export class Subscriber {
 
 	public async getResponse(): Promise<any> {
 		const ioRedis = this.redisConnect() as Redis
-		const getEvent = await ioRedis.get('event')
+		const getEvent = await ioRedis.get('event:profile')
 		const response: Record<string, any> = await ioRedis.hgetall(`${getEvent}`)
-		await ioRedis.expire(`${getEvent}`, 30)
 		if (response) {
 			return Promise.resolve(JSON.parse(response.response))
 		}
