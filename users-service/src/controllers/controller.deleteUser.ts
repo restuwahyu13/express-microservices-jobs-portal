@@ -6,8 +6,8 @@ import { streamBox } from '../utils/util.stream'
 import { getStoreCache } from '../utils/util.cache'
 
 export const deleteUserController = async (req: Request, res: Response): Promise<void> => {
-	const userId = await getStoreCache('fromProfile:delete')
-	await setDeleteUserPublisher({ userId: userId })
+	const response = await getStoreCache('fromProfile:delete')
+	await setDeleteUserPublisher({ userId: response.userId })
 	await initDeleteUserSubscriber()
 	const { status, message } = await getResponseSubscriber()
 

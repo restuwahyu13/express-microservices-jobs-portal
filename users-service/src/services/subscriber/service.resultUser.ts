@@ -5,21 +5,21 @@ import { UsersDTO } from '../../dto/dto.users'
 import { IUser } from '../../interface/interface.user'
 
 export const initResultUserSubscriber = async (): Promise<void> => {
-	const getUserSubscriber = new Subscriber({ key: 'Result User' })
-	const { userId }: IUser = await getUserSubscriber.getMap('users:result:service')
+	const resultUserSubscriber = new Subscriber({ key: 'Result User' })
+	const res: IUser = await resultUserSubscriber.getMap('users:result:service')
 
 	try {
-		const checkUserId: UsersDTO = await userSchema.findOne({ userId: userId }, { __v: 0 }).lean()
+		const checkUserId: UsersDTO = await userSchema.findOne({ userId: res.userId }, { __v: 0 }).lean()
 
 		if (!checkUserId) {
 			await setResponsePublisher({
 				status: 404,
-				message: `users account for this id ${userId} is not exist for this users, please create new account`
+				message: `users account for this id ${res.userId} is not exist for this users, please create new account`
 			})
 		} else {
 			await setResponsePublisher({
 				status: 200,
-				message: `users account for this id ${userId}, ready to use`,
+				message: `users account for this id ${res.userId}, ready to use`,
 				data: checkUserId
 			})
 		}

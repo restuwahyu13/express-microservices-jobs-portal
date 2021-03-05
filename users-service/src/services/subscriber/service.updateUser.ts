@@ -5,8 +5,8 @@ import { UsersDTO } from '../../dto/dto.users'
 import { IUser } from '../../interface/interface.user'
 
 export const initUpdateUserSubscriber = async (): Promise<void> => {
-	const getUserSubscriber = new Subscriber({ key: 'Update User' })
-	const res: IUser = await getUserSubscriber.getMap('users:update:service')
+	const updateUserSubscriber = new Subscriber({ key: 'Update User' })
+	const res: IUser = await updateUserSubscriber.getMap('users:update:service')
 
 	try {
 		const checkUser: UsersDTO = await userSchema

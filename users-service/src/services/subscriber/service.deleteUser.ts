@@ -5,21 +5,21 @@ import { UsersDTO } from '../../dto/dto.users'
 import { IUser } from '../../interface/interface.user'
 
 export const initDeleteUserSubscriber = async (): Promise<void> => {
-	const getUserSubscriber = new Subscriber({ key: 'Result User' })
-	const { userId }: IUser = await getUserSubscriber.getMap('users:result:service')
+	const deleteUserSubscriber = new Subscriber({ key: 'Delete User' })
+	const res: IUser = await deleteUserSubscriber.getMap('users:delete:service')
 
 	try {
-		const checkUserId: UsersDTO = await userSchema.findOneAndDelete({ userId: userId }).lean()
+		const checkUserId: UsersDTO = await userSchema.findOneAndDelete({ userId: res.userId }).lean()
 
 		if (!checkUserId) {
 			await setResponsePublisher({
 				status: 404,
-				message: `users account for this id ${userId} is not exist for this users, please create new account`
+				message: `users account for this id ${res.userId} is not exist for this users, please create new account`
 			})
 		} else {
 			await setResponsePublisher({
 				status: 200,
-				message: `deleted users account for this id ${userId} successfully`
+				message: `deleted users account for this id ${res.userId} successfully`
 			})
 		}
 	} catch (error) {

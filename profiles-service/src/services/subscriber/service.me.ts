@@ -143,20 +143,20 @@ export const initResultMeSubscriber = async (): Promise<void> => {
 
 export const initDeleteMeSubscriber = async (): Promise<void> => {
 	const resultProfileSubscriber = new Subscriber({ key: 'Profile' })
-	const { userId }: IRequest = await resultProfileSubscriber.getMap('dprofile:service')
+	const res: IRequest = await resultProfileSubscriber.getMap('dprofile:service')
 
 	try {
-		const checkAndDelete: ProfilesDTO = await profileSchema.findOneAndDelete({ userId: userId }).lean()
+		const checkAndDelete: ProfilesDTO = await profileSchema.findOneAndDelete({ userId: res.userId }).lean()
 
 		if (!checkAndDelete) {
 			await setResponsePublisher({
 				status: 404,
-				message: `user profile for this id ${userId} is not exist, or deleted from owner`
+				message: `user profile for this id ${res.userId} is not exist, or deleted from owner`
 			})
 		} else {
 			await setResponsePublisher({
 				status: 200,
-				message: `deleted user profile for this id ${userId} successfully`
+				message: `deleted user profile for this id ${res.userId} successfully`
 			})
 		}
 	} catch (error) {

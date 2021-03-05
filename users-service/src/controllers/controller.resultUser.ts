@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { v4 as uuid } from 'uuid'
 import { setResultUserPublisher } from '../services/publisher/service.resultUser'
 import { initResultUserSubscriber } from '../services/subscriber/service.resultUser'
 import { getResponseSubscriber } from '../utils/util.message'
@@ -8,8 +7,8 @@ import { getStoreCache, setStoreCache } from '../utils/util.cache'
 import { IUser } from '../interface/interface.user'
 
 export const resultUserController = async (req: Request, res: Response): Promise<void> => {
-	const { userId }: IUser = await getStoreCache('fromProfile:result')
-	await setResultUserPublisher({ userId: userId })
+	const response: IUser = await getStoreCache('fromProfile:result')
+	await setResultUserPublisher({ userId: response.userId })
 	await initResultUserSubscriber()
 	const { status, message, data } = await getResponseSubscriber()
 

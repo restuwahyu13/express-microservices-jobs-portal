@@ -99,10 +99,6 @@ export const meCreateController = async (req: Request, res: Response): Promise<v
 }
 
 export const meResultController = async (req: Request, res: Response): Promise<void> => {
-	await setStoreCache('fromProfile:result', { userId: req.params.userId })
-	await initHttpClient('http://localhost:3003/api/v1/users/rprofile', { headers: { 'Content-Type': 'application/json' } })
-	const users = await getStoreCache('toProfile:result')
-
 	await setResultMePublisher({ userId: req.params.userId })
 	await initResultMeSubscriber()
 	const { status, message, data } = await getResponseSubscriber()
@@ -114,6 +110,10 @@ export const meResultController = async (req: Request, res: Response): Promise<v
 			message
 		})
 	} else {
+		await setStoreCache('fromProfile:result', { userId: req.params.userId })
+		await initHttpClient(`${process.env.USERS_URI}/users/rprofile`, { headers: { 'Content-Type': 'application/json' } })
+		const users = await getStoreCache('toProfile:result')
+
 		streamBox(res, status, {
 			method: req.method,
 			status,
@@ -135,6 +135,9 @@ export const meDeleteController = async (req: Request, res: Response): Promise<v
 			message
 		})
 	} else {
+		await setStoreCache('fromProfile:delete', { userId: req.params.userId })
+		await initHttpClient(`${process.env.USERS_URI}/users/dprofile`, { headers: { 'Content-Type': 'application/json' } })
+
 		streamBox(res, status, {
 			method: req.method,
 			status,
@@ -158,15 +161,6 @@ export const meUpdateController = async (req: Request, res: Response): Promise<v
 		}
 	}
 
-	await setStoreCache('fromProfile:update', {
-		userId: req.params.userId,
-		firstName: req.body.firstName,
-		lastName: req.body.lastName,
-		email: req.body.email,
-		location: req.body.location,
-		phone: req.body.phone
-	})
-	await initHttpClient('http://localhost:3003/api/v1/users/uprofile', { headers: { 'Content-Type': 'application/json' } })
 	await setUpdateMePublisher({
 		userId: req.params.userId,
 		photo: urls[0].secure_url,
@@ -188,6 +182,16 @@ export const meUpdateController = async (req: Request, res: Response): Promise<v
 			message
 		})
 	} else {
+		await setStoreCache('fromProfile:update', {
+			userId: req.params.userId,
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			email: req.body.email,
+			location: req.body.location,
+			phone: req.body.phone
+		})
+		await initHttpClient(`${process.env.USERS_URI}/users/uprofile`, { headers: { 'Content-Type': 'application/json' } })
+
 		streamBox(res, status, {
 			method: req.method,
 			status,
