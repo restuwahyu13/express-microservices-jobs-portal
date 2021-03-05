@@ -24,10 +24,10 @@ export const initResultUserSubscriber = async (): Promise<void> => {
 				data: checkUserId
 			})
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher(`users:result:${uuid()}`, {
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

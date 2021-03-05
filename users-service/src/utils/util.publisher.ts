@@ -1,20 +1,28 @@
 import IORedis, { Redis } from 'ioredis'
+import { v4 as uuid } from 'uuid'
 import { IPublisher } from '../interface/interface.publisher'
 
 export class Publisher {
 	private static key: string
+	private static unique: string
 
 	constructor(configs: Readonly<IPublisher>) {
 		Publisher.key = configs.key
-		Publisher.set(configs.key)
+		Publisher.unique = uuid()
+		Publisher.set({ key: configs.key, unique: Publisher.unique })
 	}
 
-	public static get(): string {
-		return Publisher.key
+	public static get(): Record<string, any> {
+		const options: Record<string, any> = {
+			key: Publisher.key,
+			unique: Publisher.unique
+		}
+		return options
 	}
 
-	private static set(key: string): void {
-		Publisher.key = key
+	private static set(config: Record<string, any>): void {
+		Publisher.key = config.key
+		Publisher.unique = config.unique
 	}
 
 	private redisConnect(): Redis {
@@ -44,7 +52,7 @@ export class Publisher {
 
 	public async setResponse(keyName: string, data: Record<string, any>): Promise<void> {
 		const ioRedis = this.redisConnect() as Redis
-		await ioRedis.setex('event:users', 1, `response:speaker:${keyName}`)
+		await ioRedis.setex(`event:users:${Publisher.get().unique}`, 1, `response:speaker:${keyName}`)
 		await ioRedis.hset(`response:speaker:${keyName}`, { response: JSON.stringify(data) })
 		await ioRedis.expire(`response:speaker:${keyName}`, 3)
 	}

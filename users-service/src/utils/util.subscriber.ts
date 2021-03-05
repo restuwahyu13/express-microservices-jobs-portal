@@ -6,10 +6,12 @@ import { ISubscriber } from '../interface/interface.subscriber'
 export class Subscriber {
 	private keyTo: string
 	private keyFrom: string
+	private uniqueId: string
 
 	constructor(config: Readonly<ISubscriber>) {
 		this.keyTo = config.key
-		this.keyFrom = Publisher.get()
+		this.keyFrom = Publisher.get().key
+		this.uniqueId = Publisher.get().unique
 	}
 
 	private redisConnect(): Redis {
@@ -52,8 +54,9 @@ export class Subscriber {
 	}
 
 	public async getResponse(): Promise<any> {
+		console.log(this.uniqueId)
 		const ioRedis = this.redisConnect() as Redis
-		const getEvent = await ioRedis.get('event:users')
+		const getEvent = await ioRedis.get(`event:users:${this.uniqueId}`)
 		const response: Record<string, any> = await ioRedis.hgetall(`${getEvent}`)
 		if (response) {
 			return Promise.resolve(JSON.parse(response.response))
