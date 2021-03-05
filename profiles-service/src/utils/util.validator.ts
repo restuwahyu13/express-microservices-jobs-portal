@@ -13,60 +13,7 @@ export const expressValidator = (req: Request): ValidationError[] => {
 	return messages
 }
 
-export const registerValidator = (): ValidationChain[] => [
-	check('firstName').notEmpty().withMessage('firstName is required'),
-	check('firstName')
-		.not()
-		.custom((val: string) => /[^a-zA-Z]/gi.test(val))
-		.withMessage('firstName cannot include unique character'),
-	check('lastName').notEmpty().withMessage('lastName is required'),
-	check('lastName')
-		.not()
-		.custom((val: string) => /[^a-zA-Z]/gi.test(val))
-		.withMessage('lastName cannot include unique character'),
-	check('email').notEmpty().withMessage('email is required'),
-	check('email').isEmail().withMessage('email is not valid'),
-	check('password').notEmpty().withMessage('password is required'),
-	check('password').isLength({ min: 8 }).withMessage('password must be at least 8 characters'),
-	check('location').notEmpty().withMessage('location is required'),
-	check('location')
-		.not()
-		.custom((val: string) => /[^a-zA-Z]/gi.test(val))
-		.withMessage('location cannot include unique character'),
-	check('phone').notEmpty().withMessage('phone is required'),
-	check('phone').isLength({ min: 10 }).withMessage('phone number must be at least 10 characters'),
-	check('phone').isLength({ max: 12 }).withMessage('phone number must be at least 12 characters'),
-	check('phone').isMobilePhone('id-ID').withMessage('phone number is not valid')
-]
-
-export const loginValidator = (): ValidationChain[] => [
-	check('email').notEmpty().withMessage('email is required'),
-	check('email').isEmail().withMessage('email is not valid'),
-	check('password').notEmpty().withMessage('pasword is required')
-]
-
-export const emailValidator = (): ValidationChain[] => [
-	check('email').notEmpty().withMessage('email is required'),
-	check('email').isEmail().withMessage('email is not valid')
-]
-
-export const tokenValidator = (): ValidationChain[] => [
-	check('token').notEmpty().withMessage('token is required'),
-	check('token').isBase64().withMessage('token is not valid')
-]
-
 export const idValidator = (): ValidationChain[] => [
-	check('token').notEmpty().withMessage('token is required'),
-	check('token').isMongoId().withMessage('token is not valid')
-]
-
-export const passwordValidator = (): ValidationChain[] => [
-	check('password').notEmpty().withMessage('password is required'),
-	check('password').isLength({ min: 8 }).withMessage('password must be at least 8 characters'),
-	check('password')
-		.not()
-		.custom((value: string, { req }: Meta) => req.body.cpassword !== value)
-		.withMessage('confirm password is not match with password'),
-	check('cpassword').notEmpty().withMessage('cpassword is required'),
-	check('cpassword').isLength({ min: 8 }).withMessage('cpassword must be at least 8 characters')
+	check('userId').notEmpty().withMessage('userId is required'),
+	check('userId').isUUID().withMessage('userId format is not valid')
 ]
