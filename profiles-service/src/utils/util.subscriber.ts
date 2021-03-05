@@ -30,7 +30,7 @@ export class Subscriber {
 	public async getString(keyName: string): Promise<any> {
 		if (this.keyTo == this.keyFrom) {
 			const ioRedis = this.redisConnect() as Redis
-			const response: string = await ioRedis.get(keyName)
+			const response: string = await ioRedis.get(`${keyName}:${this.uniqueId}`)
 			if (response) {
 				return Promise.resolve(response)
 			}
@@ -43,7 +43,7 @@ export class Subscriber {
 	public async getMap(keyName: string): Promise<any> {
 		if (this.keyTo == this.keyFrom) {
 			const ioRedis = this.redisConnect() as Redis
-			const response: Record<string, any> = await ioRedis.hgetall(keyName)
+			const response: Record<string, any> = await ioRedis.hgetall(`${keyName}:${this.uniqueId}`)
 			if (response) {
 				return Promise.resolve(JSON.parse(response.payload))
 			}
@@ -54,10 +54,8 @@ export class Subscriber {
 	}
 
 	public async getResponse(): Promise<any> {
-		console.log(this.uniqueId)
 		const ioRedis = this.redisConnect() as Redis
-		const getEvent = await ioRedis.get(`event:profiles:${this.uniqueId}`)
-		const response: Record<string, any> = await ioRedis.hgetall(`${getEvent}`)
+		const response: Record<string, any> = await ioRedis.hgetall(`response:speaker:${this.uniqueId}`)
 		if (response) {
 			return Promise.resolve(JSON.parse(response.response))
 		}

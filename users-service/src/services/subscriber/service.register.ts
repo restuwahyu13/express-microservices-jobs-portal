@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { hashPassword } from '../../utils/util.encrypt'
@@ -13,7 +12,7 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 		const checkUser: UsersDTO = await userSchema.findOne({ email: res.email }).lean()
 
 		if (checkUser) {
-			await setResponsePublisher(`users:register:${uuid()}`, {
+			await setResponsePublisher({
 				status: 409,
 				message: 'email already taken, please try again'
 			})
@@ -29,12 +28,12 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 			})
 
 			if (!createNewAccount) {
-				await setResponsePublisher(`users:register:${uuid()}`, {
+				await setResponsePublisher({
 					status: 403,
 					message: 'create new account failed, please try again'
 				})
 			} else {
-				await setResponsePublisher(`users:register:${uuid()}`, {
+				await setResponsePublisher({
 					status: 201,
 					message: `create new account successfully, please check your email ${res.email}`,
 					data: createNewAccount
@@ -42,7 +41,7 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 			}
 		}
 	} catch (err) {
-		await setResponsePublisher(`users:register:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: 'internal server error'
 		})

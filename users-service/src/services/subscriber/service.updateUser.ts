@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { userSchema } from '../../models/model.user'
@@ -26,19 +25,19 @@ export const initUpdateUserSubscriber = async (): Promise<void> => {
 			.lean()
 
 		if (!checkUser) {
-			await setResponsePublisher(`users:update:${uuid()}`, {
+			await setResponsePublisher({
 				status: 404,
 				message: `users account for this id ${res.userId} is not exist for this users, please create new account`
 			})
 		} else {
-			await setResponsePublisher(`users:update:${uuid()}`, {
+			await setResponsePublisher({
 				status: 200,
 				message: `users account for this id ${res.userId}, ready to use`,
 				data: checkUser
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher(`users:update:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: `internal server error: ${error}`
 		})

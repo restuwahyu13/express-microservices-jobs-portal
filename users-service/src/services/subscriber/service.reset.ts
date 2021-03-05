@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { hashPassword } from '../../utils/util.encrypt'
@@ -14,7 +13,7 @@ export const initResetSubscriber = async (): Promise<void> => {
 		const checkUser: UsersDTO = await userSchema.findById({ _id: id })
 
 		if (!checkUser) {
-			await setResponsePublisher(`users:reset:${uuid()}`, {
+			await setResponsePublisher({
 				status: 404,
 				message: 'userId is not exist for this users, please create new account'
 			})
@@ -25,19 +24,19 @@ export const initResetSubscriber = async (): Promise<void> => {
 			})
 
 			if (!changePassword) {
-				await setResponsePublisher(`users:reset:${uuid()}`, {
+				await setResponsePublisher({
 					status: 403,
 					message: 'change new password failed, please try again'
 				})
 			} else {
-				await setResponsePublisher(`users:reset:${uuid()}`, {
+				await setResponsePublisher({
 					status: 200,
 					message: 'change new password successfully, please login'
 				})
 			}
 		}
 	} catch (err) {
-		await setResponsePublisher(`users:reset:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: 'internal server error'
 		})

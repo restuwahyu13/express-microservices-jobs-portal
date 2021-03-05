@@ -40,20 +40,19 @@ export class Publisher {
 
 	public async setString(keyName: string, data: string): Promise<void> {
 		const ioRedis = this.redisConnect() as Redis
-		await ioRedis.set(keyName, data)
-		await ioRedis.expire(keyName, 3)
+		await ioRedis.set(`${keyName}:${Publisher.get().unique}`, data)
+		await ioRedis.expire(`${keyName}:${Publisher.get().unique}`, 30)
 	}
 
 	public async setMap(keyName: string, data: Record<string, any>): Promise<void> {
 		const ioRedis = this.redisConnect() as Redis
-		await ioRedis.hset(keyName, { payload: JSON.stringify(data) })
-		await ioRedis.expire(keyName, 3)
+		await ioRedis.hset(`${keyName}:${Publisher.get().unique}`, { payload: JSON.stringify(data) })
+		await ioRedis.expire(`${keyName}:${Publisher.get().unique}`, 30)
 	}
 
-	public async setResponse(keyName: string, data: Record<string, any>): Promise<void> {
+	public async setResponse(data: Record<string, any>): Promise<void> {
 		const ioRedis = this.redisConnect() as Redis
-		await ioRedis.setex(`event:profiles:${Publisher.get().unique}`, 1, `response:speaker:${keyName}`)
-		await ioRedis.hset(`response:speaker:${keyName}`, { response: JSON.stringify(data) })
-		await ioRedis.expire(`response:speaker:${keyName}`, 3)
+		await ioRedis.hset(`response:speaker:${Publisher.get().unique}`, { response: JSON.stringify(data) })
+		await ioRedis.expire(`response:speaker:${Publisher.get().unique}`, 30)
 	}
 }

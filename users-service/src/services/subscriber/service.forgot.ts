@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { userSchema } from '../../models/model.user'
@@ -13,19 +12,19 @@ export const initForgotSubscriber = async (): Promise<void> => {
 		const checkUser: UsersDTO = await userSchema.findOne({ email }).lean()
 
 		if (!checkUser) {
-			await setResponsePublisher(`users:forgot:${uuid()}`, {
+			await setResponsePublisher({
 				status: 404,
 				message: 'user is not exist for this email, please register new account'
 			})
 		} else {
-			await setResponsePublisher(`users:forgot:${uuid()}`, {
+			await setResponsePublisher({
 				status: 200,
 				message: `reset password successfully, please check your email ${checkUser.email}`,
 				data: checkUser
 			})
 		}
 	} catch (err) {
-		await setResponsePublisher(`users:forgot:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: 'internal server error'
 		})

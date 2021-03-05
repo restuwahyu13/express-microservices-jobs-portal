@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
 import { userSchema } from '../../models/model.user'
@@ -13,13 +12,13 @@ export const initLoginSubscriber = async (): Promise<void> => {
 		const checkUser: UsersDTO = await userSchema.findOne({ email })
 
 		if (!checkUser) {
-			await setResponsePublisher(`users:login:${uuid()}`, {
+			await setResponsePublisher({
 				status: 404,
 				message: 'user account is not exist, please register new account'
 			})
 		} else {
 			if (checkUser.active == false) {
-				await setResponsePublisher(`users:login:${uuid()}`, {
+				await setResponsePublisher({
 					status: 400,
 					message: 'user account is not active, please resend new activation token'
 				})
@@ -29,7 +28,7 @@ export const initLoginSubscriber = async (): Promise<void> => {
 					updatedAt: new Date()
 				})
 
-				await setResponsePublisher(`users:login:${uuid()}`, {
+				await setResponsePublisher({
 					status: 200,
 					message: 'login successfully',
 					data: checkUser
@@ -37,7 +36,7 @@ export const initLoginSubscriber = async (): Promise<void> => {
 			}
 		}
 	} catch (err) {
-		await setResponsePublisher(`users:login:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: 'internal server error'
 		})
