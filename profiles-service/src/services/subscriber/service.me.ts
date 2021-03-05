@@ -30,7 +30,6 @@ export const initCreateMeSubscriber = async (): Promise<void> => {
 				message: 'add new profile failed, please try again'
 			})
 		} else {
-			console.log(res)
 			await setResponsePublisher({
 				status: 200,
 				message: 'add new profile successfully'
@@ -39,7 +38,7 @@ export const initCreateMeSubscriber = async (): Promise<void> => {
 	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }
@@ -55,7 +54,7 @@ export const initCreateSubMeSubscriber = async (): Promise<void> => {
 		linkedIn,
 		behance,
 		dribbble,
-		gitHub,
+		github,
 		codepen,
 		vimeo,
 		youtube,
@@ -76,7 +75,7 @@ export const initCreateSubMeSubscriber = async (): Promise<void> => {
 					'socialNetworks.linkedIn': linkedIn,
 					'socialNetworks.behance': behance,
 					'socialNetworks.dribbble': dribbble,
-					'socialNetworks.gitHub': gitHub,
+					'socialNetworks.github': github,
 					'socialNetworks.codepen': codepen,
 					'socialNetworks.vimeo': vimeo,
 					'socialNetworks.youtube': youtube,
@@ -110,7 +109,7 @@ export const initCreateSubMeSubscriber = async (): Promise<void> => {
 	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }
@@ -170,7 +169,7 @@ export const initDeleteMeSubscriber = async (): Promise<void> => {
 
 export const initUpdateMeSubscriber = async (): Promise<void> => {
 	const resultProfileSubscriber = new Subscriber({ key: 'Profile' })
-	const res: IRequest = await resultProfileSubscriber.getMap('dprofile:service')
+	const res: IRequest = await resultProfileSubscriber.getMap('uprofile:service')
 
 	try {
 		const checkAndUpdate: ProfilesDTO = await profileSchema
@@ -183,7 +182,7 @@ export const initUpdateMeSubscriber = async (): Promise<void> => {
 						birthDate: res.birthDate,
 						status: res.status,
 						nationality: res.nationality,
-						aboutMe: res.aboutme,
+						aboutme: res.aboutme,
 						resume: res.resume,
 						socialNetworks: {
 							facebook: res.socialNetworks.facebook,

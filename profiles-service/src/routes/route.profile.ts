@@ -7,6 +7,11 @@ const router = express.Router() as Router
 router.post('/users/:userId/profile', fileUpload.fields([{ name: 'image' }, { name: 'document' }]), controller.meCreateController)
 router.get('/users/:userId/profile/me', controller.meResultController)
 router.delete('/users/:userId/profile/me', controller.meDeleteController)
+router.put(
+	'/users/:userId/profile/me',
+	fileUpload.fields([{ name: 'image' }, { name: 'document' }]),
+	controller.meUpdateController
+)
 router.post('/users/:userId/profile/skills', controller.skillsDeleteController)
 router.post('/users/:userId/profile/educations/:educationId', controller.educationsDeleteController)
 router.post('/users/:userId/profile/works/:workId', controller.worksDeleteController)

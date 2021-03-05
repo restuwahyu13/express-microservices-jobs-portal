@@ -161,7 +161,7 @@ export const meUpdateController = async (req: Request, res: Response): Promise<v
 	await setStoreCache('fromProfile:update', {
 		userId: req.params.userId,
 		firstName: req.body.firstName,
-		lastName: req.body.lastLogin,
+		lastName: req.body.lastName,
 		email: req.body.email,
 		location: req.body.location,
 		phone: req.body.phone
@@ -171,10 +171,10 @@ export const meUpdateController = async (req: Request, res: Response): Promise<v
 		userId: req.params.userId,
 		photo: urls[0].secure_url,
 		gender: req.body.gender,
-		birthDate: req.body.birtDate,
+		birthDate: req.body.birthDate,
 		status: req.body.status,
 		nationality: req.body.nationality,
-		aboutMe: req.body.aboutMe,
+		aboutme: req.body.aboutme,
 		resume: urls[1].secure_url,
 		socialNetworks: req.body.socialNetworks
 	})

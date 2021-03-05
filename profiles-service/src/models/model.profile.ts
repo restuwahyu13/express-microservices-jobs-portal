@@ -40,7 +40,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		trim: true,
 		default: null
 	},
-	aboutMe: {
+	aboutme: {
 		type: String,
 		trim: true,
 		default: null
@@ -52,7 +52,6 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	skills: {
 		type: Array,
-		unique: true,
 		trim: true,
 		default: []
 	},
@@ -66,7 +65,6 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			},
 			companyName: {
 				type: String,
-				unique: true,
 				trim: true,
 				default: null
 			},
@@ -102,7 +100,6 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			},
 			institutionName: {
 				type: String,
-				unique: true,
 				trim: true,
 				default: null
 			},
@@ -142,13 +139,11 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		},
 		jobInterests: {
 			type: Array,
-			unique: true,
 			trim: true,
 			default: []
 		},
 		workTypes: {
 			type: Array,
-			unique: true,
 			trim: true,
 			default: []
 		},
@@ -159,7 +154,6 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		},
 		workCityPreferences: {
 			type: Array,
-			unique: true,
 			trim: true,
 			default: []
 		}
@@ -195,7 +189,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			trim: true,
 			default: null
 		},
-		gitHub: {
+		github: {
 			type: String,
 			trim: true,
 			default: null
@@ -236,13 +230,11 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			},
 			awardTitle: {
 				type: String,
-				unique: true,
 				trim: true,
 				default: null
 			},
 			achievementTitle: {
 				type: String,
-				unique: true,
 				trim: true,
 				default: null
 			},
@@ -268,7 +260,6 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			},
 			organizationName: {
 				type: String,
-				unique: true,
 				trim: true,
 				default: null
 			},

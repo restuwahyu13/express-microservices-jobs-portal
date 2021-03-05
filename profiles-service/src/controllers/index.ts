@@ -1,4 +1,4 @@
-import { meCreateController, meResultController, meDeleteController } from './controller.me'
+import { meCreateController, meResultController, meDeleteController, meUpdateController } from './controller.me'
 import { skillsDeleteController, skillsUpdateController } from './controller.skills'
 import { volunteersDeleteController, volunteersUpdateController } from './controller.volunteers'
 import { jobsDeleteController, jobsUpdateController } from './controller.jobs'
@@ -10,6 +10,7 @@ export const controller = {
 	meCreateController,
 	meResultController,
 	meDeleteController,
+	meUpdateController,
 	skillsDeleteController,
 	skillsUpdateController,
 	volunteersDeleteController,
