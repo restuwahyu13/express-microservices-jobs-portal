@@ -22,7 +22,7 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 			.lean()
 
 		if (checkJobsExist.length < 1) {
-			await setResponsePublisher(`jobs:delete:${uuid()}`, {
+			await setResponsePublisher({
 				status: 404,
 				message: `value is not exist in jobInterests | workTypes | workCityPreferences, or deleted from owner`
 			})
@@ -39,19 +39,19 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 			)
 
 			if (!deleteJobs) {
-				await setResponsePublisher(`jobs:delete:${uuid()}`, {
+				await setResponsePublisher({
 					status: 403,
 					message: `deleted job value in jobInterests | workTypes | workCityPreferences failed`
 				})
 			} else {
-				await setResponsePublisher(`jobs:delete:${uuid()}`, {
+				await setResponsePublisher({
 					status: 200,
 					message: `deleted job value in jobInterests | workTypes | workCityPreferences successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`jobs:delete:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: `internal server error: ${error}`
 		})
@@ -75,7 +75,7 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 			.lean()
 
 		if (checkJobsExist.length > 0) {
-			await setResponsePublisher(`jobs:update:${uuid()}`, {
+			await setResponsePublisher({
 				status: 409,
 				message: `value already exist in jobInterests | workTypes | workCityPreferences, or deleted from owner`
 			})
@@ -93,19 +93,19 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 			)
 
 			if (!updateJobs) {
-				await setResponsePublisher(`jobs:update:${uuid()}`, {
+				await setResponsePublisher({
 					status: 403,
 					message: `updated job value in jobInterests | workTypes | workCityPreferences failed`
 				})
 			} else {
-				await setResponsePublisher(`jobs:update:${uuid()}`, {
+				await setResponsePublisher({
 					status: 200,
 					message: `updated job value in jobInterests | workTypes | workCityPreferences successfully`
 				})
 			}
 		}
 	} catch (error) {
-		await setResponsePublisher(`jobs:update:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: `internal server error: ${error}`
 		})

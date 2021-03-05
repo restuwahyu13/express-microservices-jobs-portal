@@ -25,19 +25,19 @@ export const initCreateMeSubscriber = async (): Promise<void> => {
 		})
 
 		if (!saveProfile) {
-			await setResponsePublisher(`me:create:${uuid()}`, {
+			await setResponsePublisher({
 				status: 403,
 				message: 'add new profile failed, please try again'
 			})
 		} else {
 			console.log(res)
-			await setResponsePublisher(`me:create:${uuid()}`, {
+			await setResponsePublisher({
 				status: 200,
 				message: 'add new profile successfully'
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher(`me:create:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: 'internal server error'
 		})
@@ -97,18 +97,18 @@ export const initCreateSubMeSubscriber = async (): Promise<void> => {
 		)
 
 		if (!addSubProfile) {
-			await setResponsePublisher(`me:subcreate${uuid()}`, {
+			await setResponsePublisher({
 				status: 403,
 				message: 'add new sub profile failed, please try again'
 			})
 		} else {
-			await setResponsePublisher(`me:subcreate${uuid()}`, {
+			await setResponsePublisher({
 				status: 200,
 				message: 'add new sub profile successfully'
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher(`me:subcreate:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: 'internal server error'
 		})
@@ -123,19 +123,19 @@ export const initResultMeSubscriber = async (): Promise<void> => {
 		const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: userId }).lean()
 
 		if (!checkUserId) {
-			await setResponsePublisher(`me:result:${uuid()}`, {
+			await setResponsePublisher({
 				status: 404,
 				message: `user profile is not exist for this id ${userId}, data not already to use`
 			})
 		} else {
-			await setResponsePublisher(`me:result:${uuid()}`, {
+			await setResponsePublisher({
 				status: 200,
 				message: `user profile for this id ${userId} exist, data already to use`,
 				data: checkUserId
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher(`me:result:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: `internal server error: ${error}`
 		})
@@ -150,18 +150,18 @@ export const initDeleteMeSubscriber = async (): Promise<void> => {
 		const checkAndDelete: ProfilesDTO = await profileSchema.findOneAndDelete({ userId: userId }).lean()
 
 		if (!checkAndDelete) {
-			await setResponsePublisher(`me:delete:${uuid()}`, {
+			await setResponsePublisher({
 				status: 404,
 				message: `user profile for this id ${userId} is not exist, or deleted from owner`
 			})
 		} else {
-			await setResponsePublisher(`me:delete:${uuid()}`, {
+			await setResponsePublisher({
 				status: 200,
 				message: `deleted user profile for this id ${userId} successfully`
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher(`me:delete:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: `internal server error: ${error}`
 		})
@@ -205,18 +205,18 @@ export const initUpdateMeSubscriber = async (): Promise<void> => {
 			.lean()
 
 		if (!checkAndUpdate) {
-			await setResponsePublisher(`me:delete:${uuid()}`, {
+			await setResponsePublisher({
 				status: 404,
 				message: `user profile for this id ${res.userId} is not exist, or deleted from owner`
 			})
 		} else {
-			await setResponsePublisher(`me:delete:${uuid()}`, {
+			await setResponsePublisher({
 				status: 200,
 				message: `updated user profile for this id ${res.userId} successfully`
 			})
 		}
 	} catch (error) {
-		await setResponsePublisher(`me:delete:${uuid()}`, {
+		await setResponsePublisher({
 			status: 500,
 			message: `internal server error: ${error}`
 		})
