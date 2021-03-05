@@ -8,7 +8,7 @@ const router = express.Router() as Router
 
 router.post(
 	'/users/:userId/profile',
-	[serviceLogger('Skills Service'), authJwt(), fileUpload.fields([{ name: 'image' }, { name: 'document' }])],
+	[serviceLogger('Skills Service'), fileUpload.fields([{ name: 'image' }, { name: 'document' }])],
 	controller.meCreateController
 )
 router.get('/users/:userId/profile/me', [serviceLogger('Me Service'), authJwt()], controller.meResultController)

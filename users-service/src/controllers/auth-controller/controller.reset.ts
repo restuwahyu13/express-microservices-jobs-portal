@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import { setResetPublisher } from '../services/publisher/service.reset'
-import { initResetSubscriber } from '../services/subscriber/service.reset'
-import { streamBox } from '../utils/util.stream'
-import { verifySignAccessToken } from '../utils/util.jwt'
-import { expressValidator } from '../utils/util.validator'
-import { getResponseSubscriber } from '../utils/util.message'
+import { setResetPublisher } from '../../services/publisher/auth-publisher/service.reset'
+import { initResetSubscriber } from '../../services/subscriber/auth-subscriber/service.reset'
+import { streamBox } from '../../utils/util.stream'
+import { verifySignAccessToken } from '../../utils/util.jwt'
+import { expressValidator } from '../../utils/util.validator'
+import { getResponseSubscriber } from '../../utils/util.message'
 
 export const resetController = async (req: Request, res: Response): Promise<void> => {
 	const errors = expressValidator(req)

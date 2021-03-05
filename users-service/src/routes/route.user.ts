@@ -1,14 +1,7 @@
 import express, { Router } from 'express'
 import { controller } from '../controllers'
 import { serviceLogger } from '../middlewares/middleware.logger'
-import {
-	loginValidator,
-	emailValidator,
-	registerValidator,
-	tokenValidator,
-	passwordValidator,
-	idValidator
-} from '../utils/util.validator'
+import { loginValidator, emailValidator, registerValidator, tokenValidator, passwordValidator } from '../utils/util.validator'
 
 const router: Router = express.Router()
 
@@ -26,8 +19,5 @@ router.post(
 	[serviceLogger('Reset Service'), ...tokenValidator(), ...passwordValidator()],
 	controller.resetController
 )
-router.get('/users/rprofile', serviceLogger('Result User Service'), controller.resultUserController)
-router.get('/users/dprofile', serviceLogger('Delete User Service'), controller.deleteUserController)
-router.get('/users/uprofile', serviceLogger('Update User Service'), controller.updateUserController)
 
 export default router

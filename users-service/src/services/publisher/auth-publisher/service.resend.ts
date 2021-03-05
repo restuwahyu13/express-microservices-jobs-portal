@@ -1,4 +1,4 @@
-import { Publisher } from '../../utils/util.publisher'
+import { Publisher } from '../../../utils/util.publisher'
 
 export const setResendPublisher = async (data: Record<string, any>): Promise<void> => {
 	const resendPublisher = new Publisher({ key: 'Resend' })

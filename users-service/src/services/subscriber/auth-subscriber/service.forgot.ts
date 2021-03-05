@@ -1,8 +1,8 @@
-import { Subscriber } from '../../utils/util.subscriber'
-import { setResponsePublisher } from '../../utils/util.message'
-import { userSchema } from '../../models/model.user'
-import { UsersDTO } from '../../dto/dto.users'
-import { IUser } from '../../interface/interface.user'
+import { Subscriber } from '../../../utils/util.subscriber'
+import { setResponsePublisher } from '../../../utils/util.message'
+import { userSchema } from '../../../models/model.user'
+import { UsersDTO } from '../../../dto/dto.users'
+import { IUser } from '../../../interface/interface.user'
 
 export const initForgotSubscriber = async (): Promise<void> => {
 	const forgotSubscriber = new Subscriber({ key: 'Forgot' })

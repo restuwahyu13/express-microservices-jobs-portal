@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import { setActivationPublisher } from '../services/publisher/service.activation'
-import { initActivationSubscriber } from '../services/subscriber/service.activation'
-import { getResponseSubscriber } from '../utils/util.message'
-import { streamBox } from '../utils/util.stream'
-import { verifySignAccessToken } from '../utils/util.jwt'
-import { expressValidator } from '../utils/util.validator'
+import { setActivationPublisher } from '../../services/publisher/auth-publisher/service.activation'
+import { initActivationSubscriber } from '../../services/subscriber/auth-subscriber/service.activation'
+import { getResponseSubscriber } from '../../utils/util.message'
+import { streamBox } from '../../utils/util.stream'
+import { verifySignAccessToken } from '../../utils/util.jwt'
+import { expressValidator } from '../../utils/util.validator'
 
 export const activationController = async (req: Request, res: Response): Promise<void> => {
 	const errors = expressValidator(req)

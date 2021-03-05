@@ -1,4 +1,4 @@
-import { Publisher } from '../../utils/util.publisher'
+import { Publisher } from '../../../utils/util.publisher'
 
 export const setUpdateUserPublisher = async (data: Record<string, any>): Promise<void> => {
 	const updateUserPublisher = new Publisher({ key: 'Update User' })

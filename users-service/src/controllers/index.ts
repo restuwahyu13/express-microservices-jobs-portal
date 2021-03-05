@@ -1,12 +1,12 @@
-import { registerController } from '../controllers/controller.register'
-import { loginController } from '../controllers/controller.login'
-import { activationController } from '../controllers/controller.activation'
-import { forgotController } from '../controllers/controller.forgot'
-import { resendController } from '../controllers/controller.resend'
-import { resetController } from '../controllers/controller.reset'
-import { resultUserController } from './controller.resultUser'
-import { deleteUserController } from './controller.deleteUser'
-import { updateUserController } from './controller.updateUser'
+import { registerController } from './auth-controller/controller.register'
+import { loginController } from './auth-controller/controller.login'
+import { activationController } from './auth-controller/controller.activation'
+import { forgotController } from './auth-controller/controller.forgot'
+import { resendController } from './auth-controller/controller.resend'
+import { resetController } from './auth-controller/controller.reset'
+import { resultUserController } from './external-controller/controller.resultUser'
+import { deleteUserController } from './external-controller/controller.deleteUser'
+import { updateUserController } from './external-controller/controller.updateUser'
 
 export const controller = {
 	registerController,
