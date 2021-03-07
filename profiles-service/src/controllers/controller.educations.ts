@@ -3,53 +3,74 @@ import { initDeleteEducationSubscriber, initUpdateEducationsSubscriber } from '.
 import { setDeleteEducationsPublisher, setUpdateEducationsPublisher } from '../services/publisher/service.education'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
+import { expressValidator } from '../utils/util.validator'
 
 export const educationsDeleteController = async (req: Request, res: Response): Promise<void> => {
-	await setDeleteEducationsPublisher({ educations: { educationId: req.params.educationId } })
-	await initDeleteEducationSubscriber()
-	const { status, message } = await getResponseSubscriber()
+	const errors = expressValidator(req)
 
-	if (status >= 400) {
-		streamBox(res, status, {
+	if (errors.length > 0) {
+		streamBox(res, 400, {
 			method: req.method,
-			status,
-			message
+			status: 400,
+			errors
 		})
 	} else {
-		streamBox(res, status, {
-			method: req.method,
-			status,
-			message
-		})
+		await setDeleteEducationsPublisher({ educations: { educationId: req.params.educationId } })
+		await initDeleteEducationSubscriber()
+		const { status, message } = await getResponseSubscriber()
+
+		if (status >= 400) {
+			streamBox(res, status, {
+				method: req.method,
+				status,
+				message
+			})
+		} else {
+			streamBox(res, status, {
+				method: req.method,
+				status,
+				message
+			})
+		}
 	}
 }
 
 export const educationsUpdateController = async (req: Request, res: Response): Promise<void> => {
-	await setUpdateEducationsPublisher({
-		educations: {
-			educationId: req.params.educationId,
-			institutionName: req.body.institutionName,
-			educationDegree: req.body.educationDegree,
-			fieldStudy: req.body.fieldStudy,
-			startDate: req.body.startDate,
-			endDate: req.body.endDate,
-			educationInformation: req.body.educationInformation
-		}
-	})
-	await initUpdateEducationsSubscriber()
-	const { status, message } = await getResponseSubscriber()
+	const errors = expressValidator(req)
 
-	if (status >= 400) {
-		streamBox(res, status, {
+	if (errors.length > 0) {
+		streamBox(res, 400, {
 			method: req.method,
-			status,
-			message
+			status: 400,
+			errors
 		})
 	} else {
-		streamBox(res, status, {
-			method: req.method,
-			status,
-			message
+		await setUpdateEducationsPublisher({
+			educations: {
+				educationId: req.params.educationId,
+				institutionName: req.body.institutionName,
+				educationDegree: req.body.educationDegree,
+				fieldStudy: req.body.fieldStudy,
+				startDate: req.body.startDate,
+				endDate: req.body.endDate,
+				educationInformation: req.body.educationInformation
+			}
 		})
+		await initUpdateEducationsSubscriber()
+		const { status, message } = await getResponseSubscriber()
+
+		if (status >= 400) {
+			streamBox(res, status, {
+				method: req.method,
+				status,
+				message
+			})
+		} else {
+			streamBox(res, status, {
+				method: req.method,
+				status,
+				message
+			})
+		}
 	}
 }

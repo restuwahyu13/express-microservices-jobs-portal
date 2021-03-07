@@ -3,43 +3,64 @@ import { initDeleteSkillsSubscriber, initUpdateSkillsSubscriber } from '../servi
 import { setDeleteSkillsPublisher, setUpdateSkillsPublisher } from '../services/publisher/service.skills'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
+import { expressValidator } from '../utils/util.validator'
 
 export const skillsDeleteController = async (req: Request, res: Response): Promise<void> => {
-	await setDeleteSkillsPublisher({ userId: req.params.userId, skills: req.body.skills })
-	await initDeleteSkillsSubscriber()
-	const { status, message } = await getResponseSubscriber()
+	const errors = expressValidator(req)
 
-	if (status >= 400) {
-		streamBox(res, status, {
+	if (errors.length > 0) {
+		streamBox(res, 400, {
 			method: req.method,
-			status,
-			message
+			status: 400,
+			errors
 		})
 	} else {
-		streamBox(res, status, {
-			method: req.method,
-			status,
-			message
-		})
+		await setDeleteSkillsPublisher({ userId: req.params.userId, skills: req.body.skills })
+		await initDeleteSkillsSubscriber()
+		const { status, message } = await getResponseSubscriber()
+
+		if (status >= 400) {
+			streamBox(res, status, {
+				method: req.method,
+				status,
+				message
+			})
+		} else {
+			streamBox(res, status, {
+				method: req.method,
+				status,
+				message
+			})
+		}
 	}
 }
 
 export const skillsUpdateController = async (req: Request, res: Response): Promise<void> => {
-	await setUpdateSkillsPublisher({ userId: req.params.userId, skills: req.body.skills })
-	await initUpdateSkillsSubscriber()
-	const { status, message } = await getResponseSubscriber()
+	const errors = expressValidator(req)
 
-	if (status >= 400) {
-		streamBox(res, status, {
+	if (errors.length > 0) {
+		streamBox(res, 400, {
 			method: req.method,
-			status,
-			message
+			status: 400,
+			errors
 		})
 	} else {
-		streamBox(res, status, {
-			method: req.method,
-			status,
-			message
-		})
+		await setUpdateSkillsPublisher({ userId: req.params.userId, skills: req.body.skills })
+		await initUpdateSkillsSubscriber()
+		const { status, message } = await getResponseSubscriber()
+
+		if (status >= 400) {
+			streamBox(res, status, {
+				method: req.method,
+				status,
+				message
+			})
+		} else {
+			streamBox(res, status, {
+				method: req.method,
+				status,
+				message
+			})
+		}
 	}
 }
