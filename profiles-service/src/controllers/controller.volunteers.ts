@@ -3,6 +3,7 @@ import { initDeleteVolunteersSubscriber, initUpdateVolunteersSubscriber } from '
 import { setDeleteVolunteersPublisher, setUpdateVolunteersPublisher } from '../services/publisher/service.volunteer'
 import { getResponseSubscriber } from '../utils/util.message'
 import { streamBox } from '../utils/util.stream'
+import { expressValidator } from '../utils/util.validator';
 
 export const volunteersDeleteController = async (req: Request, res: Response): Promise<void> => {
 	const errors = expressValidator(req)
