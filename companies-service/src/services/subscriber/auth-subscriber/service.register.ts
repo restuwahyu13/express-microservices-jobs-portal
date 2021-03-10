@@ -10,9 +10,9 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 	const res: ICompanies = await registerSubscriber.getMap('companies-register:service')
 
 	try {
-		const checkUser: CompaniesDTO = await companiesModel.findOne({ email: res.email }).lean()
+		const checkCompanies: CompaniesDTO = await companiesModel.findOne({ email: res.email }).lean()
 
-		if (checkUser) {
+		if (checkCompanies) {
 			await setResponsePublisher({
 				status: 409,
 				message: 'email already taken, please try again'

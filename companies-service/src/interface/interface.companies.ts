@@ -1,4 +1,5 @@
 export interface ICompanies {
+	readonly id?: string
 	readonly companiesId?: string
 	readonly companyName?: string
 	readonly email?: string

@@ -4,9 +4,9 @@ import { userSchema } from '../../../models/model.user'
 import { UsersDTO } from '../../../dto/dto.users'
 import { IUser } from '../../../interface/interface.user'
 
-export const initResultUserSubscriber = async (): Promise<void> => {
-	const resultUserSubscriber = new Subscriber({ key: 'Result User' })
-	const res: IUser = await resultUserSubscriber.getMap('users:result:service')
+export const initResultUsersSubscriber = async (): Promise<void> => {
+	const resultUsersSubscriber = new Subscriber({ key: 'Result Users' })
+	const res: IUser = await resultUsersSubscriber.getMap('users:result:service')
 
 	try {
 		const checkUserId: UsersDTO = await userSchema.findOne({ userId: res.userId }, { __v: 0 }).lean()

@@ -4,9 +4,9 @@ import { userSchema } from '../../../models/model.user'
 import { UsersDTO } from '../../../dto/dto.users'
 import { IUser } from '../../../interface/interface.user'
 
-export const initUpdateUserSubscriber = async (): Promise<void> => {
-	const updateUserSubscriber = new Subscriber({ key: 'Update User' })
-	const res: IUser = await updateUserSubscriber.getMap('users:update:service')
+export const initUpdateUsersSubscriber = async (): Promise<void> => {
+	const updateUsersSubscriber = new Subscriber({ key: 'Update Users' })
+	const res: IUser = await updateUsersSubscriber.getMap('users:update:service')
 
 	try {
 		const checkUser: UsersDTO = await userSchema

@@ -1,24 +1,24 @@
 import { Subscriber } from '../../../utils/util.subscriber'
 import { setResponsePublisher } from '../../../utils/util.message'
 import { hashPassword } from '../../../utils/util.encrypt'
-import { userSchema } from '../../../models/model.user'
-import { UsersDTO } from '../../../dto/dto.users'
-import { IUser } from '../../../interface/interface.user'
+import { companiesModel } from '../../../models/model.companies'
+import { CompaniesDTO } from '../../../dto/dto.companies'
+import { ICompanies } from '../../../interface/interface.companies'
 
 export const initResetSubscriber = async (): Promise<void> => {
-	const resetSubscriber = new Subscriber({ key: 'Reset' })
-	const { id, password }: IUser = await resetSubscriber.getMap('reset:service')
+	const resetSubscriber = new Subscriber({ key: 'Companies Reset' })
+	const { id, password }: ICompanies = await resetSubscriber.getMap('companies-reset:service')
 
 	try {
-		const checkUser: UsersDTO = await userSchema.findById({ _id: id })
+		const checkCompanies: CompaniesDTO = await companiesModel.findById({ _id: id })
 
-		if (!checkUser) {
+		if (!checkCompanies) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'userId is not exist for this users, please create new account'
+				message: 'companiesId is not exist for this users, please create new account'
 			})
 		} else {
-			const changePassword: UsersDTO = await userSchema.findByIdAndUpdate(checkUser._id, {
+			const changePassword: CompaniesDTO = await companiesModel.findByIdAndUpdate(checkCompanies._id, {
 				password: hashPassword(password),
 				updatedAt: new Date()
 			})
@@ -35,10 +35,10 @@ export const initResetSubscriber = async (): Promise<void> => {
 				})
 			}
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

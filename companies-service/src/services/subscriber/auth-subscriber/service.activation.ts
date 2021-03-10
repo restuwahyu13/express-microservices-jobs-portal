@@ -1,29 +1,29 @@
 import { Subscriber } from '../../../utils/util.subscriber'
 import { setResponsePublisher } from '../../../utils/util.message'
-import { userSchema } from '../../../models/model.user'
-import { UsersDTO } from '../../../dto/dto.users'
-import { IUser } from '../../../interface/interface.user'
+import { companiesModel } from '../../../models/model.companies'
+import { CompaniesDTO } from '../../../dto/dto.companies'
+import { ICompanies } from '../../../interface/interface.companies'
 
 export const initActivationSubscriber = async (): Promise<void> => {
-	const activationSubscriber = new Subscriber({ key: 'Activation' })
-	const { id }: IUser = await activationSubscriber.getMap('activation:service')
+	const activationSubscriber = new Subscriber({ key: 'Companies Activation' })
+	const { id }: ICompanies = await activationSubscriber.getMap('companies-activation:service')
 
 	try {
-		const checkUser: UsersDTO = await userSchema.findById({ _id: id }).lean()
+		const checkCompanies: CompaniesDTO = await companiesModel.findById({ _id: id }).lean()
 
-		if (!checkUser) {
+		if (!checkCompanies) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'userId is not exist for this users, please create new account'
+				message: 'compainesId is not exist for this users, please create new account'
 			})
 		} else {
-			if (checkUser.active == true) {
+			if (checkCompanies.active == true) {
 				await setResponsePublisher({
 					status: 400,
-					message: 'user account has been active, please login'
+					message: 'companies account has been active, please login'
 				})
 			} else {
-				const updateActivation: UsersDTO = await userSchema.findByIdAndUpdate(checkUser._id, {
+				const updateActivation: CompaniesDTO = await companiesModel.findByIdAndUpdate(checkCompanies._id, {
 					active: true,
 					updatedAt: new Date()
 				})
@@ -41,10 +41,10 @@ export const initActivationSubscriber = async (): Promise<void> => {
 				})
 			}
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error:${error}`
 		})
 	}
 }

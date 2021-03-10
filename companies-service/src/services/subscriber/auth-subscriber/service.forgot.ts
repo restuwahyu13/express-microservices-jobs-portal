@@ -1,32 +1,32 @@
 import { Subscriber } from '../../../utils/util.subscriber'
 import { setResponsePublisher } from '../../../utils/util.message'
-import { userSchema } from '../../../models/model.user'
-import { UsersDTO } from '../../../dto/dto.users'
-import { IUser } from '../../../interface/interface.user'
+import { companiesModel } from '../../../models/model.companies'
+import { CompaniesDTO } from '../../../dto/dto.companies'
+import { ICompanies } from '../../../interface/interface.companies'
 
 export const initForgotSubscriber = async (): Promise<void> => {
-	const forgotSubscriber = new Subscriber({ key: 'Forgot' })
-	const { email }: IUser = await forgotSubscriber.getMap('forgot:service')
+	const forgotSubscriber = new Subscriber({ key: 'Companies Forgot' })
+	const { email }: ICompanies = await forgotSubscriber.getMap('companies-forgot:service')
 
 	try {
-		const checkUser: UsersDTO = await userSchema.findOne({ email }).lean()
+		const checkCompanies: CompaniesDTO = await companiesModel.findOne({ email }).lean()
 
-		if (!checkUser) {
+		if (!checkCompanies) {
 			await setResponsePublisher({
 				status: 404,
-				message: 'user is not exist for this email, please register new account'
+				message: 'companies account is not exist for this email, please register new account'
 			})
 		} else {
 			await setResponsePublisher({
 				status: 200,
-				message: `reset password successfully, please check your email ${checkUser.email}`,
-				data: checkUser
+				message: `reset password successfully, please check your email ${checkCompanies.email}`,
+				data: checkCompanies
 			})
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

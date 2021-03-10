@@ -4,9 +4,9 @@ import { userSchema } from '../../../models/model.user'
 import { UsersDTO } from '../../../dto/dto.users'
 import { IUser } from '../../../interface/interface.user'
 
-export const initDeleteUserSubscriber = async (): Promise<void> => {
-	const deleteUserSubscriber = new Subscriber({ key: 'Delete User' })
-	const res: IUser = await deleteUserSubscriber.getMap('users:delete:service')
+export const initDeleteUsersSubscriber = async (): Promise<void> => {
+	const deleteUsersSubscriber = new Subscriber({ key: 'Delete Users' })
+	const res: IUser = await deleteUsersSubscriber.getMap('users:delete:service')
 
 	try {
 		const checkUserId: UsersDTO = await userSchema.findOneAndDelete({ userId: res.userId }).lean()

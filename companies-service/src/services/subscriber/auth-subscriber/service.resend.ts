@@ -1,39 +1,39 @@
 import { Subscriber } from '../../../utils/util.subscriber'
 import { setResponsePublisher } from '../../../utils/util.message'
-import { userSchema } from '../../../models/model.user'
-import { UsersDTO } from '../../../dto/dto.users'
-import { IUser } from '../../../interface/interface.user'
+import { companiesModel } from '../../../models/model.companies'
+import { CompaniesDTO } from '../../../dto/dto.companies'
+import { ICompanies } from '../../../interface/interface.companies'
 
 export const initResendSubscriber = async (): Promise<void> => {
-	const resendSubscriber = new Subscriber({ key: 'Resend' })
-	const { email }: IUser = await resendSubscriber.getMap('resend:service')
+	const resendSubscriber = new Subscriber({ key: 'Companies Resend' })
+	const { email }: ICompanies = await resendSubscriber.getMap('companies-resend:service')
 
 	try {
-		const checkUser: UsersDTO = await userSchema.findOne({ email }).lean()
+		const checkCompanies: CompaniesDTO = await companiesModel.findOne({ email }).lean()
 
-		if (!checkUser) {
+		if (!checkCompanies) {
 			await setResponsePublisher({
 				status: 404,
 				message: 'user is not exist for this email, please register new account'
 			})
 		} else {
-			if (checkUser.active == true) {
+			if (checkCompanies.active == true) {
 				await setResponsePublisher({
 					status: 400,
-					message: 'user account has been active, please login'
+					message: 'companies account has been active, please login'
 				})
 			} else {
 				await setResponsePublisher({
 					status: 200,
-					message: `resend new token successfully, please check your email ${checkUser.email}`,
-					data: checkUser
+					message: `resend new token successfully, please check your email ${checkCompanies.email}`,
+					data: checkCompanies
 				})
 			}
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }
