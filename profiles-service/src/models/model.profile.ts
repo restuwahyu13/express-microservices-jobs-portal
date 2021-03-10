@@ -58,6 +58,12 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	workExperiences: [
 		{
+			workId: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: shortId()
+			},
 			companyName: {
 				type: String,
 				unique: true,
@@ -88,6 +94,12 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	],
 	educations: [
 		{
+			educationId: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: shortId()
+			},
 			institutionName: {
 				type: String,
 				unique: true,
@@ -210,6 +222,12 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	appreciations: [
 		{
+			appreciationId: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: shortId()
+			},
 			awardTitle: {
 				type: String,
 				unique: true,
@@ -236,6 +254,12 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	],
 	volunteerExperiences: [
 		{
+			volunteerId: {
+				type: String,
+				unique: true,
+				trim: true,
+				default: shortId()
+			},
 			organizationName: {
 				type: String,
 				unique: true,

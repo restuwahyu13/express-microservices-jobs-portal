@@ -20,7 +20,7 @@ import { streamBox } from '../../../users-service/src/utils/util.stream'
 import { ProfilesDTO } from '../dto/dto.profile'
 
 export const createController = async (req: Request, res: Response): Promise<void> => {
-	const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: req.params.id }).lean()
+	const checkUserId: ProfilesDTO = await profileSchema.findOne({ userId: req.params.userId }).lean()
 
 	if (checkUserId) {
 		await setCreateSubProfilePublisher({
@@ -65,7 +65,7 @@ export const createController = async (req: Request, res: Response): Promise<voi
 		}
 
 		await setCreateProfilePublisher({
-			userId: req.params.id,
+			userId: req.params.userId,
 			photo: urls[0].secure_url,
 			birthDate: req.body.birthDate,
 			gender: req.body.gender,

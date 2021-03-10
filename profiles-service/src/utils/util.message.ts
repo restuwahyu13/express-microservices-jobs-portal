@@ -14,7 +14,7 @@ export const getResponseSubscriber = (): Promise<any> => {
 export const setResponsePublisher = async (response: Record<string, any>): Promise<any> => {
 	const setResponsePublisher = new Publisher({ key: 'Response' })
 	if (response) {
-		await setResponsePublisher.setResponse({ ...response })
+		await setResponsePublisher.setResponse(response)
 	} else {
 		await setResponsePublisher.setResponse({})
 	}

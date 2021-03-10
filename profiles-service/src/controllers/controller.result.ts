@@ -5,7 +5,7 @@ import { getResponseSubscriber } from '../../../users-service/src/utils/util.mes
 import { streamBox } from '../../../users-service/src/utils/util.stream'
 
 export const resultController = async (req: Request, res: Response): Promise<void> => {
-	await setResultProfilePublisher({ userId: req.params.id })
+	await setResultProfilePublisher({ userId: req.params.userId })
 	await initResultProfileSubscriber()
 	const { status, message, data } = await getResponseSubscriber()
 

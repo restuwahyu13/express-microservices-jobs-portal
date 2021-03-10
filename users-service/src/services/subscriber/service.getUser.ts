@@ -1,6 +1,5 @@
 import { Subscriber } from '../../utils/util.subscriber'
 import { setResponsePublisher } from '../../utils/util.message'
-import { toJson } from '../../utils/util.parse'
 import { userSchema } from '../../models/model.user'
 import { UsersDTO } from '../../dto/dto.users'
 import { IUser } from '../../interface/interface.user'
@@ -20,7 +19,7 @@ export const initGetUserSubscriber = async (): Promise<void> => {
 			await setResponsePublisher({
 				status: 200,
 				message: 'userId already exist, ready to use',
-				data: toJson(checkUser)
+				data: checkUser
 			})
 		}
 	} catch (err) {

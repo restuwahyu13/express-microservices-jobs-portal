@@ -4,7 +4,6 @@ import { initGetUserSubscriber } from '../services/subscriber/service.getUser'
 import { streamBox } from '../utils/util.stream'
 import { expressValidator } from '../utils/util.validator'
 import { getResponseSubscriber } from '../utils/util.message'
-import { toObject } from '../utils/util.parse'
 
 export const updateUserController = async (req: Request, res: Response): Promise<void> => {
 	const errors = expressValidator(req)
@@ -31,7 +30,7 @@ export const updateUserController = async (req: Request, res: Response): Promise
 				method: req.method,
 				status,
 				message,
-				data: toObject(data)
+				user: data
 			})
 		}
 	}
