@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import shortId from 'shortid'
+import { v4 as uuid } from 'uuid'
 import { CompaniesDTO } from '../dto/dto.companies'
 
 const CompaniesSchema: mongoose.Schema = new mongoose.Schema({
@@ -7,7 +7,7 @@ const CompaniesSchema: mongoose.Schema = new mongoose.Schema({
 		type: String,
 		unique: true,
 		trim: true,
-		default: shortId()
+		default: uuid()
 	},
 	companyName: {
 		type: String,
@@ -19,18 +19,21 @@ const CompaniesSchema: mongoose.Schema = new mongoose.Schema({
 		type: String,
 		unique: true,
 		trim: true,
-		required: [true, 'email is required']
+		required: [true, 'email is required'],
+			default: null
 	},
 	password: {
 		type: String,
 		trim: true,
-		required: [true, 'password is required']
+		required: [true, 'password is required'],
+			default: null
 	},
 	phone: {
 		type: Number,
 		unique: true,
 		trim: true,
-		required: [true, 'phone is required']
+		required: [true, 'phone is required'],
+			default: null
 	},
 	photo: {
 		type: String,
@@ -64,12 +67,10 @@ const CompaniesSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	active: {
 		type: Boolean,
-		trim: true,
 		default: false
 	},
 	firstLogin: {
 		type: Date,
-		trim: true,
 		default: null
 	},
 	lastLogin: {
@@ -79,12 +80,10 @@ const CompaniesSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	createdAt: {
 		type: Date,
-		trim: true,
 		default: null
 	},
 	updatedAt: {
 		type: Date,
-		trim: true,
 		default: null
 	}
 })

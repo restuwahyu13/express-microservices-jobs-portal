@@ -29,7 +29,7 @@ type SocialNetwork = {
 	readonly linkedIn: string
 	readonly behance: string
 	readonly dribbble: string
-	readonly gitHub: string
+	readonly github: string
 	readonly codepen: string
 	readonly vimeo: string
 	readonly youtube: string

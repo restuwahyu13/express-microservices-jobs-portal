@@ -5,11 +5,11 @@ import { streamBox } from '../utils/util.stream'
 export const authJwt = () => (req: Request | any, res: Response, next: NextFunction): void => {
 	const tokenHeader: string = req.headers.authorization
 	if (tokenHeader) {
-		try {
-			const decodedToken: string | any = verifySignAccessToken()(tokenHeader.split('Bearer ')[1])
+		const decodedToken: string | any = verifySignAccessToken()(tokenHeader.split('Bearer ')[1])
+		if (decodedToken) {
 			req.user = decodedToken
 			next()
-		} catch (err) {
+		} else {
 			streamBox(res, 401, {
 				method: req.method,
 				statusCode: 401,

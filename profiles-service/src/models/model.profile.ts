@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose'
-import shortId from 'shortid'
+import { v4 as uuid } from 'uuid'
 import { ProfilesDTO } from '../dto/dto.profile'
 
 const ProfileSchema: mongoose.Schema = new mongoose.Schema({
@@ -7,7 +7,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		type: String,
 		unique: true,
 		trim: true,
-		default: shortId()
+		default: uuid()
 	},
 	userId: {
 		type: String,
@@ -40,7 +40,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		trim: true,
 		default: null
 	},
-	aboutMe: {
+	aboutme: {
 		type: String,
 		trim: true,
 		default: null
@@ -52,21 +52,28 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	},
 	skills: {
 		type: Array,
-		unique: true,
 		trim: true,
 		default: []
 	},
 	workExperiences: [
 		{
 			workId: {
+<<<<<<< HEAD
 				type: String,
 				unique: true,
 				trim: true,
 				default: shortId()
 			},
 			companyName: {
+=======
+>>>>>>> 4b604427810e5c18c8673b4a0a0670df8b425e8f
 				type: String,
 				unique: true,
+				trim: true,
+				default: uuid()
+			},
+			companyName: {
+				type: String,
 				trim: true,
 				default: null
 			},
@@ -95,14 +102,22 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	educations: [
 		{
 			educationId: {
+<<<<<<< HEAD
 				type: String,
 				unique: true,
 				trim: true,
 				default: shortId()
 			},
 			institutionName: {
+=======
+>>>>>>> 4b604427810e5c18c8673b4a0a0670df8b425e8f
 				type: String,
 				unique: true,
+				trim: true,
+				default: uuid()
+			},
+			institutionName: {
+				type: String,
 				trim: true,
 				default: null
 			},
@@ -134,15 +149,19 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		}
 	],
 	jobPreferences: {
+		jobId: {
+			type: String,
+			unique: true,
+			trim: true,
+			default: uuid()
+		},
 		jobInterests: {
 			type: Array,
-			unique: true,
 			trim: true,
 			default: []
 		},
 		workTypes: {
 			type: Array,
-			unique: true,
 			trim: true,
 			default: []
 		},
@@ -153,7 +172,6 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 		},
 		workCityPreferences: {
 			type: Array,
-			unique: true,
 			trim: true,
 			default: []
 		}
@@ -189,7 +207,7 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 			trim: true,
 			default: null
 		},
-		gitHub: {
+		github: {
 			type: String,
 			trim: true,
 			default: null
@@ -223,20 +241,27 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	appreciations: [
 		{
 			appreciationId: {
+<<<<<<< HEAD
 				type: String,
 				unique: true,
 				trim: true,
 				default: shortId()
 			},
 			awardTitle: {
+=======
+>>>>>>> 4b604427810e5c18c8673b4a0a0670df8b425e8f
 				type: String,
 				unique: true,
+				trim: true,
+				default: uuid()
+			},
+			awardTitle: {
+				type: String,
 				trim: true,
 				default: null
 			},
 			achievementTitle: {
 				type: String,
-				unique: true,
 				trim: true,
 				default: null
 			},
@@ -255,14 +280,22 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	volunteerExperiences: [
 		{
 			volunteerId: {
+<<<<<<< HEAD
 				type: String,
 				unique: true,
 				trim: true,
 				default: shortId()
 			},
 			organizationName: {
+=======
+>>>>>>> 4b604427810e5c18c8673b4a0a0670df8b425e8f
 				type: String,
 				unique: true,
+				trim: true,
+				default: uuid()
+			},
+			organizationName: {
+				type: String,
 				trim: true,
 				default: null
 			},

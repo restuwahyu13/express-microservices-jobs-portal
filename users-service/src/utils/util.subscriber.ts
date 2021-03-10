@@ -6,10 +6,12 @@ import { ISubscriber } from '../interface/interface.subscriber'
 export class Subscriber {
 	private keyTo: string
 	private keyFrom: string
+	private uniqueId: string
 
 	constructor(config: Readonly<ISubscriber>) {
 		this.keyTo = config.key
-		this.keyFrom = Publisher.get()
+		this.keyFrom = Publisher.get().key
+		this.uniqueId = Publisher.get().unique
 	}
 
 	private redisConnect(): Redis {
@@ -28,8 +30,7 @@ export class Subscriber {
 	public async getString(keyName: string): Promise<any> {
 		if (this.keyTo == this.keyFrom) {
 			const ioRedis = this.redisConnect() as Redis
-			const response: string = await ioRedis.get(keyName)
-			await ioRedis.expire(keyName, 60)
+			const response: string = await ioRedis.get(`${keyName}:${this.uniqueId}`)
 			if (response) {
 				return Promise.resolve(response)
 			}
@@ -42,8 +43,7 @@ export class Subscriber {
 	public async getMap(keyName: string): Promise<any> {
 		if (this.keyTo == this.keyFrom) {
 			const ioRedis = this.redisConnect() as Redis
-			const response: Record<string, any> = await ioRedis.hgetall(keyName)
-			await ioRedis.expire(keyName, 60)
+			const response: Record<string, any> = await ioRedis.hgetall(`${keyName}:${this.uniqueId}`)
 			if (response) {
 				return Promise.resolve(JSON.parse(response.payload))
 			}
@@ -55,7 +55,7 @@ export class Subscriber {
 
 	public async getResponse(): Promise<any> {
 		const ioRedis = this.redisConnect() as Redis
-		const response: Record<string, any> = await ioRedis.hgetall('response:speaker')
+		const response: Record<string, any> = await ioRedis.hgetall(`response:speaker:${this.uniqueId}`)
 		if (response) {
 			return Promise.resolve(JSON.parse(response.response))
 		}
