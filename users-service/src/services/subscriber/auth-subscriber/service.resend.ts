@@ -5,8 +5,8 @@ import { UsersDTO } from '../../../dto/dto.users'
 import { IUser } from '../../../interface/interface.user'
 
 export const initResendSubscriber = async (): Promise<void> => {
-	const resendSubscriber = new Subscriber({ key: 'Resend' })
-	const { email }: IUser = await resendSubscriber.getMap('resend:service')
+	const resendSubscriber = new Subscriber({ key: 'Users Resend' })
+	const { email }: IUser = await resendSubscriber.getMap('users-resend:service')
 
 	try {
 		const checkUser: UsersDTO = await userSchema.findOne({ email }).lean()
@@ -30,10 +30,10 @@ export const initResendSubscriber = async (): Promise<void> => {
 				})
 			}
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

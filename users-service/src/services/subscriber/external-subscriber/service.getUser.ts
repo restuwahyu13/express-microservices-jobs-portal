@@ -1,12 +1,13 @@
-import { Subscriber } from '../../utils/util.subscriber'
-import { setResponsePublisher } from '../../utils/util.message'
-import { userSchema } from '../../models/model.user'
-import { UsersDTO } from '../../dto/dto.users'
-import { IUser } from '../../interface/interface.user'
+import { Subscriber } from '../../../utils/util.subscriber'
+import { setResponsePublisher } from '../../../utils/util.message'
+import { userSchema } from '../../../models/model.user'
+import { UsersDTO } from '../../../dto/dto.users'
+import { IUser } from '../../../interface/interface.user'
 
 export const initGetUserSubscriber = async (): Promise<void> => {
 	const getUserSubscriber = new Subscriber({ key: 'getUser' })
 	const { id }: IUser = await getUserSubscriber.getMap('getUser:service')
+
 	try {
 		const checkUser: UsersDTO = await userSchema.findById({ _id: id }).lean()
 
@@ -22,10 +23,10 @@ export const initGetUserSubscriber = async (): Promise<void> => {
 				data: checkUser
 			})
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

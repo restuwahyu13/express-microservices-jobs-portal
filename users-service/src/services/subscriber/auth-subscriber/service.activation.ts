@@ -5,8 +5,8 @@ import { UsersDTO } from '../../../dto/dto.users'
 import { IUser } from '../../../interface/interface.user'
 
 export const initActivationSubscriber = async (): Promise<void> => {
-	const activationSubscriber = new Subscriber({ key: 'Activation' })
-	const { id }: IUser = await activationSubscriber.getMap('activation:service')
+	const activationSubscriber = new Subscriber({ key: 'Users Activation' })
+	const { id }: IUser = await activationSubscriber.getMap('users-activation:service')
 
 	try {
 		const checkUser: UsersDTO = await userSchema.findById({ _id: id }).lean()
@@ -41,10 +41,10 @@ export const initActivationSubscriber = async (): Promise<void> => {
 				})
 			}
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

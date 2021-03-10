@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { setGetUserPublisher } from '../services/publisher/service.getUser'
-import { initGetUserSubscriber } from '../services/subscriber/service.getUser'
+import { initGetUserSubscriber } from '../services/subscriber/external-subscriber/service.getUser'
 import { streamBox } from '../utils/util.stream'
 import { expressValidator } from '../utils/util.validator'
 import { getResponseSubscriber } from '../utils/util.message'

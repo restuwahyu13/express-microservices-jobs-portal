@@ -6,8 +6,9 @@ import { UsersDTO } from '../../../dto/dto.users'
 import { IUser } from '../../../interface/interface.user'
 
 export const initRegisterSubscriber = async (): Promise<void> => {
-	const registerSubscriber = new Subscriber({ key: 'Register' })
-	const res: IUser = await registerSubscriber.getMap('register:service')
+	const registerSubscriber = new Subscriber({ key: 'Users Register' })
+	const res: IUser = await registerSubscriber.getMap('users-register:service')
+
 	try {
 		const checkUser: UsersDTO = await userSchema.findOne({ email: res.email }).lean()
 
@@ -40,10 +41,10 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 				})
 			}
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

@@ -1,15 +1,16 @@
 import { Subscriber } from '../../../utils/util.subscriber'
 import { setResponsePublisher } from '../../../utils/util.message'
 import { hashPassword } from '../../../utils/util.encrypt'
-import { userSchema } from '../../../models/model.user'
-import { UsersDTO } from '../../../dto/dto.users'
-import { IUser } from '../../../interface/interface.user'
+import { companiesModel } from '../../../models/model.companies'
+import { CompaniesDTO } from '../../../dto/dto.companies'
+import { ICompanies } from '../../../interface/interface.companies'
 
 export const initRegisterSubscriber = async (): Promise<void> => {
-	const registerSubscriber = new Subscriber({ key: 'Register' })
-	const res: IUser = await registerSubscriber.getMap('register:service')
+	const registerSubscriber = new Subscriber({ key: 'Companies Register' })
+	const res: ICompanies = await registerSubscriber.getMap('companies-register:service')
+
 	try {
-		const checkUser: UsersDTO = await userSchema.findOne({ email: res.email }).lean()
+		const checkUser: CompaniesDTO = await companiesModel.findOne({ email: res.email }).lean()
 
 		if (checkUser) {
 			await setResponsePublisher({
@@ -17,16 +18,14 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 				message: 'email already taken, please try again'
 			})
 		} else {
-			const createNewAccount = await userSchema.create({
-				firstName: res.firstName,
-				lastName: res.lastName,
+			const createNewAccount: CompaniesDTO = await companiesModel.create({
+				companyName: res.companyName,
 				email: res.email,
 				password: hashPassword(res.password),
 				location: res.location,
 				phone: res.phone,
 				createdAt: new Date()
 			})
-
 			if (!createNewAccount) {
 				await setResponsePublisher({
 					status: 403,
@@ -40,10 +39,10 @@ export const initRegisterSubscriber = async (): Promise<void> => {
 				})
 			}
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

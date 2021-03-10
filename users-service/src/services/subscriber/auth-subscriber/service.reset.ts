@@ -6,8 +6,8 @@ import { UsersDTO } from '../../../dto/dto.users'
 import { IUser } from '../../../interface/interface.user'
 
 export const initResetSubscriber = async (): Promise<void> => {
-	const resetSubscriber = new Subscriber({ key: 'Reset' })
-	const { id, password }: IUser = await resetSubscriber.getMap('reset:service')
+	const resetSubscriber = new Subscriber({ key: 'Users Reset' })
+	const { id, password }: IUser = await resetSubscriber.getMap('users-reset:service')
 
 	try {
 		const checkUser: UsersDTO = await userSchema.findById({ _id: id })
@@ -35,10 +35,10 @@ export const initResetSubscriber = async (): Promise<void> => {
 				})
 			}
 		}
-	} catch (err) {
+	} catch (error) {
 		await setResponsePublisher({
 			status: 500,
-			message: 'internal server error'
+			message: `internal server error: ${error}`
 		})
 	}
 }

@@ -22,8 +22,8 @@ export const registerController = async (req: Request, res: Response): Promise<v
 			errors
 		})
 	} else {
-		const { firstName, lastName, email, password, location, phone }: IUser = req.body
-		await setRegisterPublisher({ firstName, lastName, email, password, location, phone })
+		const { companyName, email, password, phone }: ICompanies = req.body
+		await setRegisterPublisher({ companyName, email, password, phone })
 		await initRegisterSubscriber()
 		const { status, message, data } = await getResponseSubscriber()
 
