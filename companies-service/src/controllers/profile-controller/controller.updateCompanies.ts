@@ -7,16 +7,29 @@ import { getResponseSubscriber } from '../../utils/util.message'
 import { cloudStorage } from '../../utils/util.cloud'
 
 export const updateCompaniesController = async (req: Request, res: Response): Promise<void> => {
-	const urls: UploadApiResponse[] = []
+	const singleUrl: UploadApiResponse[] = []
+	const multipleUrl: string[] = []
+
 	const photo: any = req.files['photo']
 	const document: any = req.files['banner']
 	const gallery: any = req.files['gallery']
-	const files: Array<Record<string, any>> = photo.concat(document, gallery)
 
-	for (let file of files) {
+	const singleUpload: Array<Record<string, any>> = photo.concat(document)
+	const multipleUpload = gallery
+
+	for (let file of singleUpload) {
 		try {
 			const response = (await cloudStorage(file.path)) as UploadApiResponse
-			urls.push(response)
+			singleUrl.push(response)
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
+
+	for (let file of multipleUpload) {
+		try {
+			const response = (await cloudStorage(file.path)) as UploadApiResponse
+			multipleUrl.push(response.secure_url)
 		} catch (error) {
 			throw new Error(error)
 		}
@@ -27,11 +40,11 @@ export const updateCompaniesController = async (req: Request, res: Response): Pr
 		companyName: req.body.companyName,
 		email: req.body.email,
 		phone: req.body.phone,
-		photo: urls[0].secure_url,
-		bannerPhoto: urls[1].secure_url,
+		photo: singleUrl[0].secure_url,
+		bannerPhoto: singleUrl[1].secure_url,
 		industry: req.body.industry,
 		overview: req.body.overview,
-		gallery: urls[2].secure_url
+		gallery: multipleUrl
 	})
 	await initUpdateCompaniesSubscriber()
 	const { status, message } = await getResponseSubscriber()
@@ -49,4 +62,5 @@ export const updateCompaniesController = async (req: Request, res: Response): Pr
 			message
 		})
 	}
+	res.end()
 }
