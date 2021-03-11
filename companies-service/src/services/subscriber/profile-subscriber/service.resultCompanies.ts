@@ -9,7 +9,7 @@ export const initResultCompaniesSubscriber = async (): Promise<void> => {
 	const res: ICompanies = await resultCompaniesSubscriber.getMap('companies:result:service')
 
 	try {
-		const checkCompaniesId: CompaniesDTO = await companiesModel.findOne({ companiesId: res.companiesId }, { __v: 0 }).lean()
+		const checkCompaniesId: CompaniesDTO = await companiesModel.findOne({ companyId: res.companiesId }, { __v: 0 }).lean()
 
 		if (!checkCompaniesId) {
 			await setResponsePublisher({

@@ -7,23 +7,9 @@ import { idValidator } from '../utils/util.validator'
 
 const router = express.Router() as Router
 
-<<<<<<< HEAD
-router.post('/users/:userId/profile', fileUpload.fields([{ name: 'image' }, { name: 'document' }]), controller.createController)
-router.get('/users/:userId/profile/me', controller.resultController)
-router.delete('/users/:userId/profile/me', controller.deleteController)
-router.delete('/users/:userId/profile/education/:subId', controller.deleteController)
-router.delete('/users/:userId/profile/work/:subId', controller.deleteController)
-router.delete('/users/:userId/profile/volunteer/:subId', controller.deleteController)
-router.delete('/users/:userId/profile/jobs/:subId', controller.deleteController)
-router.put('/users/:userId/profile/me', controller.updateController)
-router.put('/users/:userId/profile/education/:subId', controller.updateController)
-router.put('/users/:userId/profile/work/:subId', controller.updateController)
-router.put('/users/:userId/profile/volunteer/:subId', controller.updateController)
-router.put('/users/:userId/profile/jobs/:subId', controller.updateController)
-=======
 router.post(
 	'/users/:userId/profile',
-	[serviceLogger('Skills Service'), ...idValidator(), fileUpload.fields([{ name: 'image' }, { name: 'document' }])],
+	[serviceLogger('Me Service'), ...idValidator(), fileUpload.fields([{ name: 'image' }, { name: 'document' }])],
 	controller.meCreateController
 )
 router.get('/users/:userId/profile/me', [serviceLogger('Me Service'), authJwt(), ...idValidator()], controller.meResultController)
@@ -98,6 +84,5 @@ router.put(
 	[serviceLogger('Jobs Service'), authJwt(), ...idValidator()],
 	controller.jobsUpdateController
 )
->>>>>>> 4b604427810e5c18c8673b4a0a0670df8b425e8f
 
 export default router

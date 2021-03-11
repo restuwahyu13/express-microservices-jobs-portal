@@ -11,14 +11,19 @@ export const initUpdateCompaniesSubscriber = async (): Promise<void> => {
 	try {
 		const checkCompanies: CompaniesDTO = await companiesModel
 			.findOneAndUpdate(
-				{ companiesId: res.companiesId },
+				{ companyId: res.companiesId },
 				{
 					$set: {
 						companyName: res.companyName,
 						email: res.email,
-						location: res.location,
-						phone: res.phone
-					}
+						phone: res.phone,
+						photo: res.photo,
+						bannerPhoto: res.bannerPhoto,
+						industry: res.industry,
+						overview: res.overview,
+						updatedAt: new Date()
+					},
+					$addToSet: { gallery: { $each: [...res.gallery] } }
 				}
 			)
 			.lean()
