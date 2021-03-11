@@ -3,7 +3,7 @@ import httpAuth from 'http-auth'
 
 export const basicAuth = () => {
 	const authBasic = httpAuth.basic({
-		realm: 'Users Service',
+		realm: 'Companies Service',
 		file: path.resolve(__dirname, '../../user.htpasswd'),
 		msg401: JSON.stringify({
 			method: 'GET',

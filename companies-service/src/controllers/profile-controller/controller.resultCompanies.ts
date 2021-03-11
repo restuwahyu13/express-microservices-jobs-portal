@@ -4,7 +4,7 @@ import { initResultCompaniesSubscriber } from '../../services/subscriber/profile
 import { getResponseSubscriber } from '../../utils/util.message'
 import { streamBox } from '../../utils/util.stream'
 
-export const resultUserController = async (req: Request, res: Response): Promise<void> => {
+export const resultCompaniesController = async (req: Request, res: Response): Promise<void> => {
 	await setResultCompaniesPublisher({ companiesId: req.params.companiesId })
 	await initResultCompaniesSubscriber()
 	const { status, message, data } = await getResponseSubscriber()

@@ -4,7 +4,7 @@ import { initDeleteCompaniesSubscriber } from '../../services/subscriber/profile
 import { getResponseSubscriber } from '../../utils/util.message'
 import { streamBox } from '../../utils/util.stream'
 
-export const deleteProfileController = async (req: Request, res: Response): Promise<void> => {
+export const deleteCompaniesController = async (req: Request, res: Response): Promise<void> => {
 	await setDeleteCompaniesPublisher({ companiesId: req.params.companiesId })
 	await initDeleteCompaniesSubscriber()
 	const { status, message } = await getResponseSubscriber()

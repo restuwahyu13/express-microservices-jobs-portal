@@ -20,20 +20,20 @@ const CompaniesSchema: mongoose.Schema = new mongoose.Schema({
 		unique: true,
 		trim: true,
 		required: [true, 'email is required'],
-			default: null
+		default: null
 	},
 	password: {
 		type: String,
 		trim: true,
 		required: [true, 'password is required'],
-			default: null
+		default: null
 	},
 	phone: {
 		type: Number,
 		unique: true,
 		trim: true,
 		required: [true, 'phone is required'],
-			default: null
+		default: null
 	},
 	photo: {
 		type: String,
@@ -56,7 +56,7 @@ const CompaniesSchema: mongoose.Schema = new mongoose.Schema({
 		default: null
 	},
 	gallery: {
-		type: mongoose.Types.Array,
+		type: [],
 		trim: true,
 		default: []
 	},

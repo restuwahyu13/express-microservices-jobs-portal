@@ -4,7 +4,7 @@ import { initUpdateCompaniesSubscriber } from '../../services/subscriber/profile
 import { streamBox } from '../../utils/util.stream'
 import { getResponseSubscriber } from '../../utils/util.message'
 
-export const updateUserController = async (req: Request, res: Response): Promise<void> => {
+export const updateCompaniesController = async (req: Request, res: Response): Promise<void> => {
 	await setUpdateCompaniesPublisher({
 		companiesId: req.params.companiesId,
 		companyName: req.body.companyName,
