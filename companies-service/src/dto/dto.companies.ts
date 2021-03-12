@@ -1,7 +1,7 @@
 import { Document } from 'mongoose'
 
 export class CompaniesDTO extends Document {
-	readonly companiesId?: string
+	readonly companyId?: string
 	readonly companyName?: string
 	readonly email?: string
 	readonly password?: string

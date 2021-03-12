@@ -36,7 +36,7 @@ export const updateCompaniesController = async (req: Request, res: Response): Pr
 	}
 
 	await setUpdateCompaniesPublisher({
-		companyId: req.params.companyId,
+		companiesId: req.params.companiesId,
 		companyName: req.body.companyName,
 		email: req.body.email,
 		phone: req.body.phone,
@@ -62,5 +62,4 @@ export const updateCompaniesController = async (req: Request, res: Response): Pr
 			message
 		})
 	}
-	res.end()
 }

@@ -36,7 +36,7 @@ export const initUpdateCompaniesSubscriber = async (): Promise<void> => {
 		} else {
 			await setResponsePublisher({
 				status: 200,
-				message: `companies account for this id ${res.companiesId}, ready to use`
+				message: `companies account for this id ${res.companiesId} successfully to updated`
 			})
 		}
 	} catch (error) {

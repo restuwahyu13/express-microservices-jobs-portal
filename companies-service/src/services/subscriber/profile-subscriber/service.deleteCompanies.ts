@@ -9,7 +9,7 @@ export const initDeleteCompaniesSubscriber = async (): Promise<void> => {
 	const res: ICompanies = await deleteCompaniesSubscriber.getMap('companies:delete:service')
 
 	try {
-		const checkCompaniesId: CompaniesDTO = await companiesModel.findOneAndDelete({ companiesId: res.companiesId }).lean()
+		const checkCompaniesId: CompaniesDTO = await companiesModel.findOneAndDelete({ companyId: res.companiesId }).lean()
 
 		if (!checkCompaniesId) {
 			await setResponsePublisher({
