@@ -19,7 +19,7 @@ export const initResultUsersSubscriber = async (): Promise<void> => {
 		} else {
 			await setResponsePublisher({
 				status: 200,
-				message: `users account for this id ${res.userId}, ready to use`,
+				message: `users account for this id ${res.userId} ready to use`,
 				data: checkUserId
 			})
 		}

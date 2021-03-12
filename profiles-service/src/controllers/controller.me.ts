@@ -131,7 +131,7 @@ export const meResultController = async (req: Request, res: Response): Promise<v
 			})
 		} else {
 			await setStoreCache('fromProfile:result', { userId: req.params.userId })
-			await initHttpClient(`${process.env.USERS_URI}/users/rprofile`, { headers: { 'Content-Type': 'application/json' } })
+			await initHttpClient(`${process.env.USERS_URI}/users/rprofile`)
 			const users = await getStoreCache('toProfile:result')
 
 			streamBox(res, status, {

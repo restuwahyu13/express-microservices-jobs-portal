@@ -46,8 +46,8 @@ export const tokenValidator = (): ValidationChain[] => [
 ]
 
 export const idValidator = (): ValidationChain[] => [
-	check('token').notEmpty().withMessage('token is required'),
-	check('token').isMongoId().withMessage('token is not valid')
+	check('companiesId').notEmpty().withMessage('companiesId is required'),
+	check('companiesId').isUUID().withMessage('companiesId format is not valid')
 ]
 
 export const passwordValidator = (): ValidationChain[] => [

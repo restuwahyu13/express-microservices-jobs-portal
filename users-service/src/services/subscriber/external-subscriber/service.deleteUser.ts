@@ -19,7 +19,7 @@ export const initDeleteUsersSubscriber = async (): Promise<void> => {
 		} else {
 			await setResponsePublisher({
 				status: 200,
-				message: `deleted users account for this id ${res.userId} successfully`
+				message: `users account for this id ${res.userId} successfully to deleted`
 			})
 		}
 	} catch (error) {

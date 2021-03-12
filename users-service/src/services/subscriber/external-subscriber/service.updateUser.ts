@@ -32,7 +32,7 @@ export const initUpdateUsersSubscriber = async (): Promise<void> => {
 		} else {
 			await setResponsePublisher({
 				status: 200,
-				message: `users account for this id ${res.userId}, ready to use`,
+				message: `users account for this id ${res.userId} successfully to updated`,
 				data: checkUser
 			})
 		}

@@ -7,7 +7,7 @@ import { getStoreCache } from '../../utils/util.cache'
 import { IUser } from '../../interface/interface.user'
 
 export const updateUserController = async (req: Request, res: Response): Promise<void> => {
-	const response = (await getStoreCache('fromProfile:update')) as IUser
+	const response: IUser = await getStoreCache('fromProfile:update')
 	await setUpdateUserPublisher({
 		userId: response.userId,
 		firstName: response.firstName,

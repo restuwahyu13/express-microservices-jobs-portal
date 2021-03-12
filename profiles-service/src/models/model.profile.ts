@@ -58,15 +58,6 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	workExperiences: [
 		{
 			workId: {
-<<<<<<< HEAD
-				type: String,
-				unique: true,
-				trim: true,
-				default: shortId()
-			},
-			companyName: {
-=======
->>>>>>> 4b604427810e5c18c8673b4a0a0670df8b425e8f
 				type: String,
 				unique: true,
 				trim: true,
@@ -102,15 +93,6 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	educations: [
 		{
 			educationId: {
-<<<<<<< HEAD
-				type: String,
-				unique: true,
-				trim: true,
-				default: shortId()
-			},
-			institutionName: {
-=======
->>>>>>> 4b604427810e5c18c8673b4a0a0670df8b425e8f
 				type: String,
 				unique: true,
 				trim: true,
@@ -241,15 +223,6 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	appreciations: [
 		{
 			appreciationId: {
-<<<<<<< HEAD
-				type: String,
-				unique: true,
-				trim: true,
-				default: shortId()
-			},
-			awardTitle: {
-=======
->>>>>>> 4b604427810e5c18c8673b4a0a0670df8b425e8f
 				type: String,
 				unique: true,
 				trim: true,
@@ -280,15 +253,6 @@ const ProfileSchema: mongoose.Schema = new mongoose.Schema({
 	volunteerExperiences: [
 		{
 			volunteerId: {
-<<<<<<< HEAD
-				type: String,
-				unique: true,
-				trim: true,
-				default: shortId()
-			},
-			organizationName: {
-=======
->>>>>>> 4b604427810e5c18c8673b4a0a0670df8b425e8f
 				type: String,
 				unique: true,
 				trim: true,

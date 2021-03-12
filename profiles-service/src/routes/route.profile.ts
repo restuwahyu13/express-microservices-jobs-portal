@@ -53,7 +53,6 @@ router.post(
 	[serviceLogger('Jobs Service'), authJwt(), ...idValidator()],
 	controller.jobsDeleteController
 )
-// router.put('/users/:userId/profile/me', controller.updateController)
 router.put(
 	'/users/:userId/profile/skills',
 	[serviceLogger('Skills Service'), authJwt(), ...idValidator()],

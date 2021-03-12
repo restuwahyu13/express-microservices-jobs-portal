@@ -6,6 +6,7 @@ export const authJwt = () => (req: Request | any, res: Response, next: NextFunct
 	const tokenHeader: string = req.headers.authorization
 	if (tokenHeader) {
 		const decodedToken: string | any = verifySignAccessToken()(tokenHeader.split('Bearer ')[1])
+
 		if (decodedToken) {
 			req.user = decodedToken
 			next()
