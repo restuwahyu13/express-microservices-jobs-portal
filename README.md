@@ -3,7 +3,7 @@
 ### Note
 
 - [x] Users Service
-- [ ] Companies Service
+- [x] Companies Service
 - [x] Profiles Service
 - [ ] Jobs Service
 - [ ] Admin Service
