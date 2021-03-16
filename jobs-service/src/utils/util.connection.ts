@@ -9,11 +9,11 @@ export const mongooseConnection = (): void => {
 		poolSize: 10,
 		useUnifiedTopology: true,
 		useNewUrlParser: true,
-		useFindAndModify: false,
 		useCreateIndex: true,
-		socketTimeoutMS: 60000,
-		serverSelectionTimeoutMS: 60000,
-		loggerLevel: 'error'
+		useFindAndModify: false,
+		connectTimeoutMS: 5000,
+		socketTimeoutMS: 30000,
+		serverSelectionTimeoutMS: 30000
 	})
 
 	mongoose.connection.on('connecting', () => consola.info('database connecting'))

@@ -21,11 +21,11 @@ const Schema = new mongoose.Schema({
 	jobsVancyUsers: [
 		{
 			userId: {
-				type: mongoose.Types.Array,
+				type: String,
 				unique: [true, 'userId must be a unique'],
 				trim: true,
 				ref: 'usersService',
-				default: []
+				default: null
 			},
 			jobsApplicationStatus: {
 				type: String,
@@ -91,4 +91,4 @@ const Schema = new mongoose.Schema({
 	}
 })
 
-export const jobsSchema: Model<JobsDTO> = mongoose.mode('jobsService', Schema)
+export const jobsSchema: Model<JobsDTO> = mongoose.model('jobsService', Schema)
