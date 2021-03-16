@@ -15,7 +15,6 @@ export const pluginMiddleware = (app: Express): void => {
 	app.use(bodyParser.urlencoded({ extended: false }))
 	app.use(cors())
 	app.use(helmet())
-	// app.use('/bullmq/dashboard', [httpAuthConnect(basicAuth()), router])
 	app.use(
 		compression({
 			level: zlib.constants.Z_BEST_COMPRESSION,
