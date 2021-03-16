@@ -2,84 +2,47 @@ import { Subscriber } from '../../../utils/util.subscriber'
 import { setResponsePublisher } from '../../../utils/util.message'
 import { jobsSchema } from '../../../models/model.job'
 import { JobsDTO } from '../../../dto/dto.job'
-import { IAppreciations } from '../../interface/interface.jobs'
+import { IJobs } from '../../../interface/interface.jobs'
 
-export const initDeleteAppreciationsSubscriber = async (): Promise<void> => {
-	const deleteAppreciationsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IAppreciations = await deleteAppreciationsSubscriber.getMap('dappreciations:service')
+export const initCreateJobsSubscriber = async (): Promise<void> => {
+	const createJobsSubscriber = new Subscriber({ key: 'Jobs Create' })
+	const res: IJobs = await createJobsSubscriber.getMap('jobs:create:service')
 
 	try {
-		const checkAppreciationExist: ProfilesDTO = await profileSchema.findOne({
-			'appreciations.appreciationId': res.appreciations.appreciationId
-		})
+		const checkCompaniesId: JobsDTO[] = await jobsSchema
+			.find({ $and: [{ companiesId: res.companiesId }, { jobsVancyPosition: res.jobsVancyPosition }] })
+			.lean()
 
-		if (!checkAppreciationExist) {
+		if (checkCompaniesId.length > 0) {
 			await setResponsePublisher({
-				status: 404,
-				message: `appreciation id ${res.appreciations.appreciationId} is not exist, or deleted from owner`
+				status: 409,
+				message: `jobs already posted for this position ${res.jobsVancyPosition} by companiesId ${res.companiesId}`
 			})
 		} else {
-			const deleteAppreciations: ProfilesDTO = await profileSchema.updateOne(
-				{ 'appreciations.appreciationId': res.appreciations.appreciationId },
-				{ $pull: { appreciations: { appreciationId: res.appreciations.appreciationId } } }
-			)
+			const createJobsPost = await jobsSchema.create({
+				companiesId: res.companiesId,
+				jobsVancyLocation: res.jobsVancyLocation,
+				jobsVancySalary: res.jobsVancySalary,
+				jobsVancyPosition: res.jobsVancyPosition,
+				jobsVancyCategory: res.jobsVancyCategory,
+				jobsVancyWorkingTime: res.jobsVancyWorkingTime,
+				jobsVancyExperince: res.jobsVancyExperince,
+				jobsVancyStatus: res.jobsVancyStatus,
+				jobsVancyDescription: res.jobsVancyDescription,
+				jobsVancySkill: res.jobsVancySkill,
+				jobsVancyAllowances: res.jobsVancyAllowances,
+				jobsVancyAdditionalSkill: res.jobsVancyAdditionalSkill
+			})
 
-			if (!deleteAppreciations) {
+			if (!createJobsPost) {
 				await setResponsePublisher({
 					status: 403,
-					message: `deleted appreciation id ${res.appreciations.appreciationId} successfully`
+					message: `post new jobs for this id ${res.companiesId} failed`
 				})
 			} else {
 				await setResponsePublisher({
-					status: 200,
-					message: `deleted appreciation id ${res.appreciations.appreciationId} successfully`
-				})
-			}
-		}
-	} catch (error) {
-		await setResponsePublisher({
-			status: 500,
-			message: `internal server error: ${error}`
-		})
-	}
-}
-
-export const initUpdateAppreciationsSubscriber = async (): Promise<void> => {
-	const deleteEducationsSubscriber = new Subscriber({ key: 'Sub Profile' })
-	const res: IAppreciations = await deleteEducationsSubscriber.getMap('uappreciations:service')
-
-	try {
-		const checkAppreciationsExist: ProfilesDTO = await profileSchema.findOne({
-			'appreciations.appreciationId': res.appreciations.appreciationId
-		})
-
-		if (!checkAppreciationsExist) {
-			await setResponsePublisher({
-				status: 404,
-				message: `appreciation id ${res.appreciations.appreciationId} is not exist, or deleted from owner`
-			})
-		} else {
-			const updateAppreciations: ProfilesDTO = await profileSchema.updateOne(
-				{ 'appreciations.appreciationId': res.appreciations.appreciationId },
-				{
-					$set: {
-						'appreciations.$.awardTitle': res.appreciations.awardTitle,
-						'appreciations.$.achievementTitle': res.appreciations.achievementTitle,
-						'appreciations.$.awardYear': res.appreciations.awardYear,
-						'appreciations.$.awardInformation': res.appreciations.awardInformation
-					}
-				}
-			)
-
-			if (!updateAppreciations) {
-				await setResponsePublisher({
-					status: 403,
-					message: `updated appreciation id ${res.appreciations.appreciationId} failed`
-				})
-			} else {
-				await setResponsePublisher({
-					status: 200,
-					message: `updated appreciation id ${res.appreciations.appreciationId} successfully`
+					status: 201,
+					message: `post new jobs for this id ${res.companiesId} successfully`
 				})
 			}
 		}

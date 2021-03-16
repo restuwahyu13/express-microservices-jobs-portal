@@ -11,7 +11,6 @@ const Schema = new mongoose.Schema({
 	},
 	companiesId: {
 		type: String,
-		unique: [true, 'companiesId must be a unique'],
 		trim: true,
 		required: [true, 'companiesId is required'],
 		ref: 'companiesService',
