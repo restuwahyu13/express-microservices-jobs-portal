@@ -7,7 +7,6 @@ const Schema = new mongoose.Schema({
 		type: String,
 		unique: [true, 'jobsId must be a unique'],
 		trim: true,
-		required: [true, 'jobsId is required'],
 		default: uuid()
 	},
 	companiesId: {
@@ -39,6 +38,18 @@ const Schema = new mongoose.Schema({
 			}
 		}
 	],
+	jobsVancyLocation: {
+		type: Array,
+		trim: true,
+		required: [true, 'jobsVancyLocation is required'],
+		default: []
+	},
+	jobsVancySalary: {
+		type: String,
+		trim: true,
+		required: [true, 'jobsVancySalary is required'],
+		default: null
+	},
 	jobsVancyPosition: {
 		type: String,
 		trim: true,
@@ -75,10 +86,21 @@ const Schema = new mongoose.Schema({
 		required: [true, 'jobsVancyDescription is required'],
 		default: null
 	},
-	jobsVancyTags: {
-		type: mongoose.Types.Array,
+	jobsVancySkill: {
+		type: Array,
 		trim: true,
 		required: [true, 'jobsVancyTags is required'],
+		default: []
+	},
+	jobsVancyAllowances: {
+		type: Array,
+		trim: true,
+		required: [true, 'jobsVancyAllowances is required'],
+		default: []
+	},
+	jobsVancyAdditionalSkill: {
+		type: Array,
+		trim: true,
 		default: []
 	},
 	createdAt: {

@@ -1,9 +1,8 @@
-import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../../utils/util.subscriber'
 import { setResponsePublisher } from '../../../utils/util.message'
-import { profileSchema } from '../../models/model.profile'
-import { ProfilesDTO } from '../../dto/dto.profile'
-import { IAppreciations } from '../../interface/interface.service'
+import { jobsSchema } from '../../../models/model.job'
+import { JobsDTO } from '../../../dto/dto.job'
+import { IAppreciations } from '../../interface/interface.jobs'
 
 export const initDeleteAppreciationsSubscriber = async (): Promise<void> => {
 	const deleteAppreciationsSubscriber = new Subscriber({ key: 'Sub Profile' })

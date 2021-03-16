@@ -1,12 +1,10 @@
-import { Document } from 'mongoose'
-
 type JobsVancyUsers = {
 	userId?: string
 	jobsApplicationStatus?: string
 	jobsApplicationDescription?: string
 }
 
-export class JobsDTO extends Document {
+export interface IJobs {
 	readonly jobsId?: string
 	readonly companiesId?: string
 	readonly jobsVancyUsers?: JobsVancyUsers
