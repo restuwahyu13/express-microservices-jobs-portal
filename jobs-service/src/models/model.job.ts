@@ -38,64 +38,68 @@ const Schema = new mongoose.Schema({
 		}
 	],
 	jobsVancyLocation: {
-		type: Array,
-		trim: true,
-		required: [true, 'jobsVancyLocation is required'],
-		default: []
-	},
-	jobsVancySalary: {
 		type: String,
 		trim: true,
-		required: [true, 'jobsVancySalary is required'],
-		default: null
+		required: [true, 'jobsVancyLocation is required']
+	},
+	jobsVancySalary: {
+		from: {
+			type: Number,
+			trim: true,
+			required: [true, 'jobsVancySalary.from is required']
+		},
+		to: {
+			type: Number,
+			trim: true,
+			required: [true, 'jobsVancySalary.to is required']
+		}
 	},
 	jobsVancyPosition: {
 		type: String,
 		trim: true,
-		required: [true, 'jobsVancyPosition is required'],
-		default: null
+		required: [true, 'jobsVancyPosition is required']
 	},
 	jobsVancyCategory: {
 		type: String,
 		trim: true,
-		required: [true, 'jobsVancyCategory is required'],
-		default: null
+		required: [true, 'jobsVancyCategory is required']
 	},
 	jobsVancyWorkingTime: {
 		type: String,
 		trim: true,
-		required: [true, 'jobsVancyWorkingTime is required'],
-		default: null
+		required: [true, 'jobsVancyWorkingTime is required']
 	},
 	jobsVancyExperince: {
-		type: String,
-		trim: true,
-		required: [true, 'jobsVancyExperince is required'],
-		default: null
+		from: {
+			type: Number,
+			trim: true,
+			required: [true, 'jobsVancyExperince.from is required']
+		},
+		to: {
+			type: Number,
+			trim: true,
+			required: [true, 'jobsVancyExperince.to is required']
+		}
 	},
 	jobsVancyStatus: {
 		type: String,
 		trim: true,
-		required: [true, 'jobsVancyStatus is required'],
-		default: null
+		required: [true, 'jobsVancyStatus is required']
 	},
 	jobsVancyDescription: {
 		type: String,
 		trim: true,
-		required: [true, 'jobsVancyDescription is required'],
-		default: null
+		required: [true, 'jobsVancyDescription is required']
 	},
 	jobsVancySkill: {
 		type: Array,
 		trim: true,
-		required: [true, 'jobsVancyTags is required'],
-		default: []
+		required: [true, 'jobsVancyTags is required']
 	},
 	jobsVancyAllowances: {
 		type: Array,
 		trim: true,
-		required: [true, 'jobsVancyAllowances is required'],
-		default: []
+		required: [true, 'jobsVancyAllowances is required']
 	},
 	jobsVancyAdditionalSkill: {
 		type: Array,

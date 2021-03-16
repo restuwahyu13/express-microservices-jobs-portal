@@ -4,16 +4,26 @@ type JobsVancyUsers = {
 	jobsApplicationDescription?: string
 }
 
+type jobsVancySalary = {
+	from?: number
+	to?: number
+}
+
+type jobsVancyExperince = {
+	from?: number
+	to?: number
+}
+
 export interface IJobs {
 	readonly jobsId?: string
 	readonly companiesId?: string
 	readonly jobsVancyUsers?: JobsVancyUsers
 	readonly jobsVancyLocation?: string
-	readonly jobsVancySalary?: string
+	readonly jobsVancySalary?: jobsVancySalary
 	readonly jobsVancyPosition?: string
 	readonly jobsVancyCategory?: string
 	readonly jobsVancyWorkingTime?: string
-	readonly jobsVancyExperince?: string
+	readonly jobsVancyExperince?: jobsVancyExperince
 	readonly jobsVancyStatus?: string
 	readonly jobsVancyDescription?: string
 	readonly jobsVancySkill?: string[]
