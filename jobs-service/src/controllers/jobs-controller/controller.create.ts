@@ -8,11 +8,17 @@ export const createJobsController = async (req: Request, res: Response): Promise
 	await setCreateJobsPublisher({
 		companiesId: req.params.companiesId,
 		jobsVancyLocation: req.body.jobsVancyLocation,
-		jobsVancySalary: [...req.body.jobsVancySalary],
+		jobsVancySalary: {
+			from: req.body.jobsVancySalary.from,
+			to: req.body.jobsVancySalary.to
+		},
 		jobsVancyPosition: req.body.jobsVancyPosition,
 		jobsVancyCategory: req.body.jobsVancyCategory,
 		jobsVancyWorkingTime: req.body.jobsVancyWorkingTime,
-		jobsVancyExperince: req.body.jobsVancyExperince,
+		jobsVancyExperince: {
+			from: req.body.jobsVancyExperince.from,
+			to: req.body.jobsVancyExperince.to
+		},
 		jobsVancyStatus: req.body.jobsVancyStatus,
 		jobsVancyDescription: req.body.jobsVancyDescription,
 		jobsVancySkill: [...req.body.jobsVancySkill],
