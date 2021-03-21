@@ -4,10 +4,10 @@ import { Base64 } from 'js-base64'
 import { ICompanies } from '../interface/interface.companies'
 
 export const signAccessToken = () => (res: Response, payload: ICompanies, options: SignOptions): string | any => {
-	try {
-		if (!payload) {
-			return null
-		} else {
+	if (!payload) {
+		return null
+	} else {
+		try {
 			const accessToken: string = jwt.sign({ ...payload }, process.env.ACCESS_TOKEN_SECRET, { ...options })
 			const refreshToken: string = jwt.sign({ ...payload }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '90d' })
 
@@ -17,33 +17,35 @@ export const signAccessToken = () => (res: Response, payload: ICompanies, option
 			res.cookie('refreshToken', `${encodedRefreshToken}`, { maxAge: 86400 * 90, httpOnly: true })
 
 			return { accessToken: encodedAccessToken, refreshToken: encodedRefreshToken }
+		} catch (error) {
+			if (error) Promise.reject(new Error(error))
+			else return
 		}
-	} catch (err) {
-		return
 	}
 }
 
 export const verifySignAccessToken = () => (token: string): string | any => {
-	try {
-		if (!Base64.isValid(token)) {
-			return null
-		} else {
+	if (!Base64.isValid(token)) {
+		return null
+	} else {
+		try {
 			const decodedToken: string = Base64.decode(token)
 			const decoded: string | any = jwt.verify(decodedToken, process.env.ACCESS_TOKEN_SECRET)
 			return decoded
+		} catch (error) {
+			if (error) Promise.reject(new Error(error))
+			else return
 		}
-	} catch (err) {
-		return
 	}
 }
 
 export const signRefreshToken = () => (req: Request): string | any => {
-	try {
-		const getToken: string = req.cookies.refreshToken
+	const getToken: string = req.cookies.refreshToken
 
-		if (!Base64.isValid(getToken) && !getToken) {
-			return null
-		} else {
+	if (!Base64.isValid(getToken) && !getToken) {
+		return null
+	} else {
+		try {
 			const decodedToken: string = Base64.decode(getToken)
 
 			const { user_id, email }: string | any = jwt.verify(decodedToken, process.env.REFRESH_TOKEN_SECRET)
@@ -53,8 +55,9 @@ export const signRefreshToken = () => (req: Request): string | any => {
 
 			const encodedAccessToken: string = Base64.encode(accessToken)
 			return encodedAccessToken
+		} catch (error) {
+			if (error) Promise.reject(new Error(error))
+			else return
 		}
-	} catch (err) {
-		return
 	}
 }
