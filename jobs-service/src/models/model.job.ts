@@ -13,14 +13,12 @@ const Schema = new mongoose.Schema({
 		type: String,
 		trim: true,
 		required: [true, 'companiesId is required'],
-		ref: 'companiesService',
-		default: null
+		ref: 'companiesService'
 	},
 	jobsVancyUsers: [
 		{
 			userId: {
 				type: String,
-				unique: [true, 'userId must be a unique'],
 				trim: true,
 				ref: 'usersService',
 				default: null

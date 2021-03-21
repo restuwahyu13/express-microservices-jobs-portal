@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { setResultCompaniesPublisher } from '../../services/publisher/profile-publisher/service.resultCompanies'
-import { initResultCompaniesSubscriber } from '../../services/subscriber/profile-subscriber/service.resultCompanies'
+import { setResultCompaniesPublisher } from '../../services/publisher/profile-publisher/service.result'
+import { initResultCompaniesSubscriber } from '../../services/subscriber/profile-subscriber/service.result'
 import { getResponseSubscriber } from '../../utils/util.message'
 import { streamBox } from '../../utils/util.stream'
 import { expressValidator } from '../../utils/util.validator'

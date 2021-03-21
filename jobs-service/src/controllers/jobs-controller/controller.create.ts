@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { setCreateJobsPublisher } from '../../services/publisher/jobs-publisher/service.create'
 import { initCreateJobsSubscriber } from '../../services/subscriber/jobs-subscriber/service.create.'
-import { getResponseSubscriber } from '../../../../companies-service/src/utils/util.message'
+import { getResponseSubscriber } from '../../utils/util.message'
 import { streamBox } from '../../utils/util.stream'
 
 export const createJobsController = async (req: Request, res: Response): Promise<void> => {

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { setDeleteCompaniesPublisher } from '../../services/publisher/profile-publisher/service.deleteCompanies'
-import { initDeleteCompaniesSubscriber } from '../../services/subscriber/profile-subscriber/service.deleteCompanies'
+import { setDeleteCompaniesPublisher } from '../../services/publisher/profile-publisher/service.delete'
+import { initDeleteCompaniesSubscriber } from '../../services/subscriber/profile-subscriber/service.delete'
 import { getResponseSubscriber } from '../../utils/util.message'
 import { streamBox } from '../../utils/util.stream'
 import { expressValidator } from '../../utils/util.validator'

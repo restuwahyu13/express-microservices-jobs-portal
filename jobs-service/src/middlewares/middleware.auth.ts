@@ -4,6 +4,7 @@ import { streamBox } from '../utils/util.stream'
 
 export const authJwt = () => (req: Request | any, res: Response, next: NextFunction): void => {
 	const tokenHeader: string = req.headers.authorization
+
 	if (tokenHeader) {
 		const decodedToken: string | any = verifySignAccessToken()(tokenHeader.split('Bearer ')[1])
 

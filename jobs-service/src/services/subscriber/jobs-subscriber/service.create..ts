@@ -19,33 +19,33 @@ export const initCreateJobsSubscriber = async (): Promise<void> => {
 				message: `jobs already posted for this position ${res.jobsVancyPosition} by companiesId ${res.companiesId}`
 			})
 		} else {
-			// const createJobsPost = await jobsSchema.create({
-			// 	companiesId: res.companiesId,
-			// 	jobsVancyLocation: res.jobsVancyLocation,
-			// 	jobsVancySalary: res.jobsVancySalary,
-			// 	jobsVancyPosition: res.jobsVancyPosition,
-			// 	jobsVancyCategory: res.jobsVancyCategory,
-			// 	jobsVancyWorkingTime: res.jobsVancyWorkingTime,
-			// 	jobsVancyExperince: res.jobsVancyExperince,
-			// 	jobsVancyStatus: res.jobsVancyStatus,
-			// 	jobsVancyDescription: res.jobsVancyDescription,
-			// 	jobsVancySkill: res.jobsVancySkill,
-			// 	jobsVancyAllowances: res.jobsVancyAllowances,
-			// 	jobsVancyAdditionalSkill: res.jobsVancyAdditionalSkill
-			// })
-
-			// if (!createJobsPost) {
-			// 	await setResponsePublisher({
-			// 		status: 403,
-			// 		message: `post new jobs for this id ${res.companiesId} failed`
-			// 	})
-			// } else {
-			console.log(checkCompaniesId, res)
-			await setResponsePublisher({
-				status: 201,
-				message: `post new jobs for this id ${res.companiesId} successfully`
+			const createJobsPost: JobsDTO = await jobsSchema.create({
+				companiesId: res.companiesId,
+				jobsVancyUsers: [],
+				jobsVancyLocation: res.jobsVancyLocation,
+				jobsVancySalary: res.jobsVancySalary,
+				jobsVancyPosition: res.jobsVancyPosition,
+				jobsVancyCategory: res.jobsVancyCategory,
+				jobsVancyWorkingTime: res.jobsVancyWorkingTime,
+				jobsVancyExperince: res.jobsVancyExperince,
+				jobsVancyStatus: res.jobsVancyStatus,
+				jobsVancyDescription: res.jobsVancyDescription,
+				jobsVancySkill: res.jobsVancySkill,
+				jobsVancyAllowances: res.jobsVancyAllowances,
+				jobsVancyAdditionalSkill: res.jobsVancyAdditionalSkill,
+				createdAt: new Date()
 			})
-			// }
+			if (!createJobsPost) {
+				await setResponsePublisher({
+					status: 403,
+					message: `post new jobs for this id ${res.companiesId} failed`
+				})
+			} else {
+				await setResponsePublisher({
+					status: 201,
+					message: `post new jobs for this id ${res.companiesId} successfully`
+				})
+			}
 		}
 	} catch (error) {
 		await setResponsePublisher({
