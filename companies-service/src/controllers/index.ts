@@ -7,6 +7,7 @@ import { resetController } from './auth-controller/controller.reset'
 import { resultCompaniesController } from './profile-controller/controller.result'
 import { deleteCompaniesController } from './profile-controller/controller.delete'
 import { updateCompaniesController } from './profile-controller/controller.update'
+import { resultJobsPostController } from './jobs-controller/controller.result'
 
 export const controller = {
 	registerController,
@@ -17,5 +18,6 @@ export const controller = {
 	resetController,
 	resultCompaniesController,
 	deleteCompaniesController,
-	updateCompaniesController
+	updateCompaniesController,
+	resultJobsPostController
 }
