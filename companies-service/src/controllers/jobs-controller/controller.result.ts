@@ -1,20 +1,37 @@
 import { Request, Response } from 'express'
-import { companiesModel } from '../../models/model.companies'
+import { setResultJobsPostCompaniesPublisher } from '../../services/publisher/jobs-publisher/service.result'
+import { initResultJobsPostCompaniesSubscriber } from '../../services/subscriber/jobs-subscriber/service.result'
+import { getResponseSubscriber } from '../../utils/util.message'
+import { streamBox } from '../../utils/util.stream'
+import { expressValidator } from '../../utils/util.validator'
 
-export const resultJobsPostController = async (req: Request, res: Response): Promise<any> => {
-	const resultJobsPostById = await companiesModel.aggregate([
-		{
-			$lookup: {
-				from: 'jobsservices',
-				localField: 'companyId',
-				foreignField: 'companiesId',
-				as: 'postJobs'
-			}
-		},
-		{ $project: { '__v': 0, 'createdAt': 0, 'updatedAt': 0, 'postJobs.__v': 0 } },
-		{ $sort: { 'postJobs.createdAt': 1 } },
-		{ $match: { companyId: req.params.companiesId } }
-	])
+export const resultJobsPostController = async (req: Request, res: Response): Promise<void> => {
+	const errors = expressValidator(req)
 
-	return res.status(200).json({ data: resultJobsPostById })
+	if (errors.length > 0) {
+		streamBox(res, 400, {
+			method: req.method,
+			status: 400,
+			errors
+		})
+	} else {
+		await setResultJobsPostCompaniesPublisher({ companiesId: req.params.companiesId })
+		await initResultJobsPostCompaniesSubscriber()
+		const { status, message, data } = await getResponseSubscriber()
+
+		if (status >= 400) {
+			streamBox(res, status, {
+				method: req.method,
+				status,
+				message
+			})
+		} else {
+			streamBox(res, status, {
+				method: req.method,
+				status,
+				message,
+				jobsPost: data
+			})
+		}
+	}
 }

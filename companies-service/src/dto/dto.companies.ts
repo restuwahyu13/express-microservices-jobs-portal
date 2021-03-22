@@ -18,4 +18,5 @@ export class CompaniesDTO extends Document {
 	readonly lastLogin?: any
 	readonly createdAt?: any
 	readonly updatedAt?: any
+	postJobs?: Record<string, any>[]
 }
