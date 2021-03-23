@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { streamBox } from '../../utils/util.stream'
-import { initHttpClient } from '../../utils/util.http'
+import { httpClient } from '../../utils/util.http'
 import { setPipelineSpeaker } from '../../utils/util.speaker'
 import { expressValidator } from '../../utils/util.validator'
 
@@ -29,7 +29,7 @@ export const createJobsPostController = async (req: Request, res: Response): Pro
 			jobsVancyAdditionalSkill: [...req.body.jobsVancyAdditionalSkill]
 		})
 		try {
-			const { data } = await initHttpClient(`${process.env.JOBS_URI}/companies/${req.params.companiesId}/jobs`, {
+			const { data } = await httpClient(`${process.env.JOBS_URI}/companies/${req.params.companiesId}/jobs`, {
 				headers: { authorization: req.headers.authorization }
 			})
 			streamBox(res, data.status, {
