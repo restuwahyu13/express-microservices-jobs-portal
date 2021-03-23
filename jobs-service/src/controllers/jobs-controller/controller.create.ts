@@ -6,7 +6,7 @@ import { streamBox } from '../../utils/util.stream'
 import { getPipelineSpeaker } from '../../utils/util.speaker'
 import { IJobs } from '../../interface/interface.jobs'
 
-export const createJobsController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createJobsController = async (req: Request, res: Response): Promise<void> => {
 	const response: IJobs = await getPipelineSpeaker('speaker:companies:to:jobs')
 	await setCreateJobsPublisher({ ...response })
 	await initCreateJobsSubscriber()
