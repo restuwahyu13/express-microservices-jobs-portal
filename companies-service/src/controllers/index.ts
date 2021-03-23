@@ -8,6 +8,7 @@ import { resultCompaniesController } from './profile-controller/controller.resul
 import { deleteCompaniesController } from './profile-controller/controller.delete'
 import { updateCompaniesController } from './profile-controller/controller.update'
 import { resultJobsPostController } from './jobs-controller/controller.result'
+import { createJobsPostController } from './jobs-controller/controller.create'
 
 export const controller = {
 	registerController,
@@ -19,5 +20,6 @@ export const controller = {
 	resultCompaniesController,
 	deleteCompaniesController,
 	updateCompaniesController,
-	resultJobsPostController
+	resultJobsPostController,
+	createJobsPostController
 }

@@ -4,9 +4,9 @@ import { companiesModel } from '../../../models/model.companies'
 import { CompaniesDTO } from '../../../dto/dto.companies'
 import { ICompanies } from '../../../interface/interface.companies'
 
-export const initUpdateJobsPostCompaniesSubscriber = async (): Promise<void> => {
-	const updateCompaniesJobsSubscriber = new Subscriber({ key: 'Update Jobs Post Companies' })
-	const res: ICompanies = await updateCompaniesJobsSubscriber.getMap('companies:jobs:update:service')
+export const initCreateJobsPostCompaniesSubscriber = async (): Promise<void> => {
+	const createCompaniesJobsSubscriber = new Subscriber({ key: 'Create Jobs Post Companies' })
+	const res: ICompanies = await createCompaniesJobsSubscriber.getMap('companies:jobs:create:service')
 
 	try {
 		const checkJobsPostById: CompaniesDTO[] = await companiesModel.aggregate([

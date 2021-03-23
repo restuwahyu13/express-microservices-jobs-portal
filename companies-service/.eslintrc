@@ -15,15 +15,18 @@
 	"rules": {
 		"indent": 0,
 		"quote-props": 0,
-		"no-tabs": 0
+		"no-tabs": 0,
+		"no-async-promise-executor": 0,
+		"space-before-function-paren": 0,
+		"eqeqeq": 0
 	},
 	"env": {
-		"jest/globals": true,
+		// "jest/globals": true,
 		"node": true
-	},
-	"settings": {
-		"version": {
-			"jest": 26
-		}
 	}
+	// "settings": {
+	// 	"version": {
+	// 		"jest": 26
+	// 	}
+	// }
 }

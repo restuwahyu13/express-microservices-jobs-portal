@@ -30,7 +30,7 @@ export class Publisher {
 			host: process.env.REDIS_HOST,
 			port: +process.env.REDIS_PORT,
 			maxRetriesPerRequest: 50,
-			connectTimeout: 5000,
+			connectTimeout: 25000,
 			enableReadyCheck: true,
 			enableAutoPipelining: true
 		}) as IORedis.Redis
