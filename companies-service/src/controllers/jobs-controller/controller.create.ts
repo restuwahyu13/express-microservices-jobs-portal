@@ -14,7 +14,7 @@ export const createJobsPostController = async (req: Request, res: Response): Pro
 			errors
 		})
 	} else {
-		await setPipelineSpeaker('speaker:companies:to:jobs', {
+		await setPipelineSpeaker('speaker:create:companies:to:jobs', {
 			companiesId: req.params.companiesId,
 			jobsVancyLocation: req.body.jobsVancyLocation,
 			jobsVancySalary: { from: req.body.jobsVancySalary.from, to: req.body.jobsVancySalary.to },
@@ -30,7 +30,8 @@ export const createJobsPostController = async (req: Request, res: Response): Pro
 		})
 		try {
 			const { data } = await httpClient(`${process.env.JOBS_URI}/companies/${req.params.companiesId}/jobs`, {
-				headers: { authorization: req.headers.authorization }
+				method: 'GET',
+				headers: { 'authorization': req.headers.authorization, 'content-type': 'application/json' }
 			})
 			streamBox(res, data.status, {
 				method: req.method,

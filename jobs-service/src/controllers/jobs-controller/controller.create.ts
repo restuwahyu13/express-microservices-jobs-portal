@@ -7,7 +7,7 @@ import { getPipelineSpeaker } from '../../utils/util.speaker'
 import { IJobs } from '../../interface/interface.jobs'
 
 export const createJobsController = async (req: Request, res: Response): Promise<void> => {
-	const response: IJobs = await getPipelineSpeaker('speaker:companies:to:jobs')
+	const response: IJobs = await getPipelineSpeaker('speaker:create:companies:to:jobs')
 	await setCreateJobsPublisher({ ...response })
 	await initCreateJobsSubscriber()
 	const { status, message } = await getResponseSubscriber()
