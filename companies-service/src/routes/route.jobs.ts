@@ -16,14 +16,13 @@ router.get(
 	[serviceLogger('Result Companies Jobs Post Service'), authJwt(), ...idValidator()],
 	controller.resultJobsPostController
 )
-
 router.delete(
-	'/companies/jobs/:companiesId',
+	'/companies/:companiesId/jobs/:jobsId',
 	[serviceLogger('Delete Companies Jobs Post Service'), authJwt(), ...idValidator()],
 	controller.deleteJobsPostController
 )
 router.put(
-	'/companies/jobs/:companiesId',
+	'/companies/:companiesId/jobs/:jobsId',
 	[serviceLogger('Update Companies Jobs Post Service'), authJwt(), ...idValidator()],
 	controller.updateJobsPostController
 )

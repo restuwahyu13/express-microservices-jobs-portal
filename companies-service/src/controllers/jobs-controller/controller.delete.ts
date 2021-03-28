@@ -14,9 +14,12 @@ export const deleteJobsPostController = async (req: Request, res: Response): Pro
 			errors
 		})
 	} else {
-		await setPipelineSpeaker('speaker:delete:companies:to:jobs', { jobsId: req.params.jobsId })
+		await setPipelineSpeaker('speaker:delete:companies:to:jobs', {
+			jobsId: req.params.jobsId,
+			companiesId: req.params.companiesId
+		})
 		try {
-			const { data } = await httpClient(`${process.env.JOBS_URI}/companies/${req.params.jobsId}/jobs`, {
+			const { data } = await httpClient(`${process.env.JOBS_URI}/companies/${req.params.companiesId}/jobs/${req.params.jobsId}`, {
 				method: 'DELETE',
 				headers: { 'authorization': req.headers.authorization, 'content-type': 'application/json' }
 			})
