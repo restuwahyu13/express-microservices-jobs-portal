@@ -45,5 +45,9 @@ if (cluster.isMaster) {
 	const server = http.createServer(app) as Server
 	const host: any = process.env.HOST
 	const port: any = process.env.PORT
-	server.listen(port, host, (): void => consola.success(`server is running on ${port}`))
+	server.listen(port, host, (): void => {
+		if (process.env.NODE_ENV !== 'production') {
+			consola.success(`server is running on ${port}`)
+		}
+	})
 }

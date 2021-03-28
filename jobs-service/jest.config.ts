@@ -3,7 +3,7 @@ import { Config } from '@jest/types'
 const config: Config.InitialOptions = {
 	preset: 'ts-jest',
 	testEnvironment: 'node',
-	moduleFileExtensions: ['ts'],
+	moduleFileExtensions: ['ts', 'js'],
 	cache: true,
 	testMatch: ['<rootDir>/__tests__/**/*.{test.ts,spec.ts}', '<rootDir>/tests/**/*.{test.ts,spec.ts}'],
 	testPathIgnorePatterns: [

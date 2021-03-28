@@ -12,7 +12,7 @@
 		"noEmitOnError": true,
 		"sourceMap": true,
 		"noImplicitAny": false,
-		"strict": false,
+		"strict": true,
 		"alwaysStrict": false,
 		"noUnusedParameters": false,
 		"typeRoots": ["node_modules/@types/"]

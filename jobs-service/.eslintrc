@@ -12,7 +12,10 @@
 		"plugin:jest-playwright/recommended",
 		"standard"
 	],
-	"rules": {},
+	"rules": {
+		"no-tabs": 0,
+		"indent": 0
+	},
 	"env": {
 		"jest/globals": true,
 		"node": true
