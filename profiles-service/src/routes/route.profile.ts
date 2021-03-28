@@ -3,13 +3,13 @@ import { controller } from '../controllers'
 import { fileUpload } from '../utils/util.upload'
 import { serviceLogger } from '../middlewares/middleware.logger'
 import { authJwt } from '../middlewares/middleware.auth'
-import { idValidator } from '../utils/util.validator'
+import { meCreateController } from '../utils/util.validator'
 
 const router = express.Router() as Router
 
 router.post(
 	'/users/:userId/profile',
-	[serviceLogger('Me Service'), ...idValidator(), fileUpload.fields([{ name: 'image' }, { name: 'document' }])],
+	[serviceLogger('Me Service'), fileUpload.fields([{ name: 'image' }, { name: 'document' }]), ...meCreateController()],
 	controller.meCreateController
 )
 router.get('/users/:userId/profile/me', [serviceLogger('Me Service'), authJwt(), ...idValidator()], controller.meResultController)

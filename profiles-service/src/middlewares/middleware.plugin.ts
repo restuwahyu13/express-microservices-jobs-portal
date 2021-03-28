@@ -10,7 +10,7 @@ import slowDown from 'express-slow-down'
 
 export const pluginMiddleware = (app: Express): void => {
 	app.use(bodyParser.json({ limit: '5mb' }))
-	app.use(bodyParser.urlencoded({ extended: true }))
+	app.use(bodyParser.urlencoded({ extended: false }))
 	app.use(cors())
 	app.use(helmet())
 	app.use(

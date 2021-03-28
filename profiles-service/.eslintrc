@@ -1,25 +1,28 @@
 {
 	"parserOptions": {
 		"ecmaVersion": 2020,
-		"sourceType": "module"
+		"sourceType": "module",
+		"project": "tsconfig.json"
 	},
 	"parser": "@typescript-eslint/parser",
 	"extends": [
+		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
+		"plugin:@typescript-eslint/recommended-requiring-type-checking",
 		"plugin:prettier/recommended",
-		"plugin:jest/recommended",
-		"plugin:jest-formatting/recommended",
-		"plugin:jest-playwright/recommended",
+		// "plugin:jest/recommended",
+		// "plugin:jest-formatting/recommended",
+		// "plugin:jest-playwright/recommended",
 		"standard"
 	],
 	"rules": {},
 	"env": {
-		"jest/globals": true,
+		// "jest/globals": true,
 		"node": true
-	},
-	"settings": {
-		"version": {
-			"jest": 26
-		}
 	}
+	// "settings": {
+	// 	"version": {
+	// 		"jest": 26
+	// 	}
+	// }
 }
