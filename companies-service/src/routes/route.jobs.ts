@@ -17,4 +17,14 @@ router.get(
 	controller.resultJobsPostController
 )
 
+router.delete(
+	'/companies/jobs/:companiesId',
+	[serviceLogger('Delete Companies Jobs Post Service'), authJwt(), ...idValidator()],
+	controller.deleteJobsPostController
+)
+router.put(
+	'/companies/jobs/:companiesId',
+	[serviceLogger('Update Companies Jobs Post Service'), authJwt(), ...idValidator()],
+	controller.updateJobsPostController
+)
 export default router
