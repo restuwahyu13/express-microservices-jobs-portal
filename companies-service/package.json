@@ -7,9 +7,12 @@
 		"dists/**/*.js"
 	],
 	"scripts": {
-		"cleanup": "rimraf dist",
-		"compile": "tsc --pretty",
-		"build": "npm run cleanup && npm run compile",
+		"mkdir": "make-dir temp",
+		"cpf": "cp -r src temp && cp server.ts temp",
+		"del:temp": "rimraf temp",
+		"del:dist": "rimraf dist",
+		"compiler": "npm run mkdir && npm run cpf && babel --extensions '.ts' temp -d dist",
+		"build": "npm run del:dist && npm run compiler && npm run del:temp",
 		"start": "node dist/server.js",
 		"dev": "tsnd --poll --respawn --watch src/**/*.{ts} --files -H -T server.ts",
 		"format": "prettier ./src/**/*.{ts,spect.ts,test.ts} --write",
