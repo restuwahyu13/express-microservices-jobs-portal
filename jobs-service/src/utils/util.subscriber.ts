@@ -28,7 +28,7 @@ export class Subscriber {
 	}
 
 	public async getString(keyName: string): Promise<any> {
-		if (this.keyTo == this.keyFrom) {
+		if (this.keyTo === this.keyFrom) {
 			const ioRedis = this.redisConnect() as Redis
 			const response: string = await ioRedis.get(`${keyName}:${this.uniqueId}`)
 			if (response) {
@@ -41,7 +41,7 @@ export class Subscriber {
 	}
 
 	public async getMap(keyName: string): Promise<any> {
-		if (this.keyTo == this.keyFrom) {
+		if (this.keyTo === this.keyFrom) {
 			const ioRedis = this.redisConnect() as Redis
 			const response: Record<string, any> = await ioRedis.hgetall(`${keyName}:${this.uniqueId}`)
 			if (response) {

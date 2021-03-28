@@ -3,149 +3,149 @@ services:
   ######################
   ### COMPANIES SERVICE
   ######################
-  companies-service:
-    image: companies/service
-    container_name: companies-service-prod
-    build:
-      context: .
-      dockerfile: ./companies-service/Dockerfile.prod
-    restart: unless-stopped
-    healthcheck:
-      test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
-      interval: 60s
-      timeout: 30s
-      start_period: 15s
-      retries: 5
-    environment:
-      - HOST=0.0.0.0
-      - PORT=3000
-      - NODE_ENV=production
-    ports:
-      - 3000:3000
-    depends_on:
-      - db
-    volumes:
-      - /usr/src/companies-service
-      - /usr/src/companies-service/node_modules
-    networks:
-      - webapp-network
+  # companies-service:
+  #   image: companies/service
+  #   container_name: companies-service-prod
+  #   build:
+  #     context: .
+  #     dockerfile: ./companies-service/Dockerfile.prod
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
+  #     interval: 60s
+  #     timeout: 30s
+  #     start_period: 15s
+  #     retries: 5
+  #   environment:
+  #     - HOST=0.0.0.0
+  #     - PORT=3000
+  #     - NODE_ENV=production
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - db
+  #   volumes:
+  #     - /usr/src/companies-service
+  #     - /usr/src/companies-service/node_modules
+  #   networks:
+  #     - webapp-network
   ######################
   ### JOBS SERVICE
   ######################
-  jobs-service:
-    image: jobs/service
-    container_name: jobs-service-prod
-    build:
-      context: .
-      dockerfile: ./jobs-service/Dockerfile.prod
-    restart: unless-stopped
-    healthcheck:
-      test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
-      interval: 60s
-      timeout: 30s
-      start_period: 15s
-      retries: 5
-    environment:
-      - HOST=0.0.0.0
-      - PORT=3001
-      - NODE_ENV=production
-    ports:
-      - 3001:3001
-    depends_on:
-      - db
-      - /usr/src/jobs-service
-      - /usr/src/jobs-service/node_modules
-    networks:
-      - webapp-network
+  # jobs-service:
+  #   image: jobs/service
+  #   container_name: jobs-service-prod
+  #   build:
+  #     context: .
+  #     dockerfile: ./jobs-service/Dockerfile.prod
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
+  #     interval: 60s
+  #     timeout: 30s
+  #     start_period: 15s
+  #     retries: 5
+  #   environment:
+  #     - HOST=0.0.0.0
+  #     - PORT=3001
+  #     - NODE_ENV=production
+  #   ports:
+  #     - 3001:3001
+  #   depends_on:
+  #     - db
+  #     - /usr/src/jobs-service
+  #     - /usr/src/jobs-service/node_modules
+  #   networks:
+  #     - webapp-network
   ######################
   ### PROFILES SERVICE
   ######################
-  profiles-service:
-    image: profiles/service
-    container_name: profiles-service-prod
-    build:
-      context: .
-      dockerfile: ./profiles-service/Dockerfile.prod
-    restart: unless-stopped
-    healthcheck:
-      test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
-      interval: 60s
-      timeout: 30s
-      start_period: 15s
-      retries: 5
-    environment:
-      - HOST=0.0.0.0
-      - PORT=3002
-      - NODE_ENV=production
-    ports:
-      - 3002:3002
-    depends_on:
-      - db
-    volumes:
-      - /usr/src/profiles-service
-      - /usr/src/profiles-service/node_modules
-    networks:
-      - webapp-network
+  # profiles-service:
+  #   image: profiles/service
+  #   container_name: profiles-service-prod
+  #   build:
+  #     context: .
+  #     dockerfile: ./profiles-service/Dockerfile.prod
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
+  #     interval: 60s
+  #     timeout: 30s
+  #     start_period: 15s
+  #     retries: 5
+  #   environment:
+  #     - HOST=0.0.0.0
+  #     - PORT=3002
+  #     - NODE_ENV=production
+  #   ports:
+  #     - 3002:3002
+  #   depends_on:
+  #     - db
+  #   volumes:
+  #     - /usr/src/profiles-service
+  #     - /usr/src/profiles-service/node_modules
+  #   networks:
+  #     - webapp-network
   ######################
   ### USERS SERVICE
   ######################
-  users-service:
-    image: users/service
-    container_name: users-service-prod
-    build:
-      context: .
-      dockerfile: ./users-service/Dockerfile.prod
-    restart: unless-stopped
-    healthcheck:
-      test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
-      interval: 60s
-      timeout: 30s
-      start_period: 15s
-      retries: 5
-    environment:
-      - HOST=0.0.0.0
-      - PORT=3003
-      - NODE_ENV=production
-    depends_on:
-      - db
-    ports:
-      - 3003:3003
-    volumes:
-      - /usr/src/users-service
-      - /usr/src/users-service/node_modules
-    networks:
-      - webapp-network
+  # users-service:
+  #   image: users/service
+  #   container_name: users-service-prod
+  #   build:
+  #     context: .
+  #     dockerfile: ./users-service/Dockerfile.prod
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
+  #     interval: 60s
+  #     timeout: 30s
+  #     start_period: 15s
+  #     retries: 5
+  #   environment:
+  #     - HOST=0.0.0.0
+  #     - PORT=3003
+  #     - NODE_ENV=production
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - 3003:3003
+  #   volumes:
+  #     - /usr/src/users-service
+  #     - /usr/src/users-service/node_modules
+  #   networks:
+  #     - webapp-network
   ######################
   ### NGINX SERVICE
   ######################
-  proxy:
-    build: ./nginx
-    container_name: proxy-service-prod
-    restart: unless-stopped
-    healthcheck:
-      test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
-      interval: 60s
-      timeout: 30s
-      start_period: 15s
-      retries: 5
-    ports:
-      - 80:80
-    depends_on:
-      - companies-service
-      - jobs-service
-      - profiles-service
-      - users-service
-    networks:
-      - webapp-network
+  # proxy:
+  #   build: ./nginx
+  #   container_name: proxy-service-prod
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
+  #     interval: 60s
+  #     timeout: 30s
+  #     start_period: 15s
+  #     retries: 5
+  #   ports:
+  #     - 80:80
+  #   depends_on:
+  #     - companies-service
+  #     - jobs-service
+  #     - profiles-service
+  #     - users-service
+  #   networks:
+  #     - webapp-network
   ######################
   ### MONGO SERVICE
   ######################
   db:
-    image: mongo:alpine
+    image: mongo:latest
     container_name: db-service-prod
     restart: unless-stopped
     healthcheck:
-      test: ['curl', '-f', 'https://jsonplaceholder.typicode.com/todos/1']
+      test: echo mongo is working fine
       interval: 60s
       timeout: 30s
       start_period: 15s
@@ -153,12 +153,32 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - db:/var/lib/mongodb/data:delegated
+      - mongo-data:/var/lib/mongodb/data:delegated
+    networks:
+      - webapp-network
+  ######################
+  ### REDIS SERVICE
+  ######################
+  redis:
+    image: redis:latest
+    container_name: redis-service-prod
+    restart: unless-stopped
+    healthcheck:
+      test: echo redis is working fine
+      interval: 60s
+      timeout: 30s
+      start_period: 15s
+      retries: 5
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/var/lib/redis/data:delegated
     networks:
       - webapp-network
 
 volumes:
-  db:
+  mongo-data:
+  redis-data:
 
 networks:
   webapp-network:

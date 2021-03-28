@@ -20,14 +20,14 @@ export const updateCompaniesController = async (req: Request, res: Response): Pr
 		const singleUrl: UploadApiResponse[] = []
 		const multipleUrl: string[] = []
 
-		const photo: any = req.files['photo']
-		const document: any = req.files['banner']
-		const gallery: any = req.files['gallery']
+		const photo: Express.Multer.File[] = req.files['photo']
+		const document: Express.Multer.File[] = req.files['banner']
+		const gallery: Express.Multer.File[] = req.files['gallery']
 
 		const singleUpload: Array<Record<string, any>> = photo.concat(document)
 		const multipleUpload = gallery
 
-		for (let file of singleUpload) {
+		for (const file of singleUpload) {
 			try {
 				const response = (await cloudStorage(file.path)) as UploadApiResponse
 				singleUrl.push(response)
@@ -36,7 +36,7 @@ export const updateCompaniesController = async (req: Request, res: Response): Pr
 			}
 		}
 
-		for (let file of multipleUpload) {
+		for (const file of multipleUpload) {
 			try {
 				const response = (await cloudStorage(file.path)) as UploadApiResponse
 				multipleUrl.push(response.secure_url)

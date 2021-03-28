@@ -7,22 +7,24 @@
 	"extends": [
 		"plugin:@typescript-eslint/recommended",
 		"plugin:prettier/recommended",
-		"plugin:jest/recommended",
-		"plugin:jest-formatting/recommended",
-		"plugin:jest-playwright/recommended",
+		// "plugin:jest/recommended",
+		// "plugin:jest-formatting/recommended",
+		// "plugin:jest-playwright/recommended",
 		"standard"
 	],
 	"rules": {
 		"no-tabs": 0,
-		"indent": 0
+		"indent": 0,
+		"quote-props": 0,
+		"space-before-function-paren": 0
 	},
 	"env": {
-		"jest/globals": true,
+		// "jest/globals": true,
 		"node": true
-	},
-	"settings": {
-		"version": {
-			"jest": 26
-		}
 	}
+	// "settings": {
+	// 	"version": {
+	// 		"jest": "26.6.3"
+	// 	}
+	// }
 }

@@ -1,44 +1,56 @@
-import { v4 as uuid } from 'uuid'
 import { Subscriber } from '../../../utils/util.subscriber'
 import { setResponsePublisher } from '../../../utils/util.message'
 import { jobsSchema } from '../../../models/model.job'
 import { JobsDTO } from '../../../dto/dto.job'
 import { IJobs } from '../../../interface/interface.jobs'
 
-export const initCreateMeSubscriber = async (): Promise<void> => {
-	const createProfileSubscriber = new Subscriber({ key: 'Profile' })
-	const res: IJobs = await createProfileSubscriber.getMap('cprofile:service')
+export const initUpdateJobsSubscriber = async (): Promise<void> => {
+	const updateJobsSubscriber = new Subscriber({ key: 'Jobs Update' })
+	const res: IJobs = await updateJobsSubscriber.getMap('jobs:update:service')
 
-	// try {
-	// 	const saveProfile: JobsDTO = await jobsSchema.create({
-	// 		userId: res.userId,
-	// 		photo: res.photo,
-	// 		birthDate: res.birthDate,
-	// 		gender: res.gender,
-	// 		status: res.status,
-	// 		nationality: res.nationality,
-	// 		aboutme: res.aboutme,
-	// 		resume: res.resume,
-	// 		skills: res.skills,
-	// 		workExperiences: res.workExperiences,
-	// 		educations: res.educations
-	// 	})
+	try {
+		const checkJobsExist: JobsDTO[] = await jobsSchema
+			.findOneAndUpdate(
+				{ jobId: res.jobsId },
+				{
+					$set: {
+						'jobsVancyLocation': res.jobsVancyLocation,
+						'jobsVancySalary': res.jobsVancySalary,
+						'jobsVancyPosition': res.jobsVancyPosition,
+						'jobsVancyCategory': res.jobsVancyCategory,
+						'jobsVancyWorkingTime': res.jobsVancyWorkingTime,
+						'jobsVancyExperince.from': res.jobsVancyExperince?.from,
+						'jobsVancyExperince.to': res.jobsVancyExperince?.to,
+						'jobsVancyStatus': res.jobsVancyStatus,
+						'jobsVancyDescription': res.jobsVancyDescription,
+						'jobsVancyUsers.$.jobsApplicationStatus': res.jobsVancyUsers?.jobsApplicationStatus,
+						'jobsVancyUsers.$.jobsApplicationDescription': res.jobsVancyUsers?.jobsApplicationDescription,
+						'createdAt': new Date()
+					}
+					// $addToSet: {
+					// 	jobsVancySkill: res.jobsVancySkill,
+					// 	jobsVancyAllowances: res.jobsVancyAllowances,
+					// 	jobsVancyAdditionalSkill: res.jobsVancyAdditionalSkill
+					// }
+				}
+			)
+			.lean()
 
-	// 	if (!saveProfile) {
-	// 		await setResponsePublisher({
-	// 			status: 403,
-	// 			message: 'add new profile failed, please try again'
-	// 		})
-	// 	} else {
-	// 		await setResponsePublisher({
-	// 			status: 200,
-	// 			message: 'add new profile successfully'
-	// 		})
-	// 	}
-	// } catch (error) {
-	// 	await setResponsePublisher({
-	// 		status: 500,
-	// 		message: `internal server error: ${error}`
-	// 	})
-	// }
+		if (!checkJobsExist) {
+			await setResponsePublisher({
+				status: 404,
+				message: `jobs post is not exist for this id ${res.jobsId}, or deleted from owner`
+			})
+		} else {
+			await setResponsePublisher({
+				status: 200,
+				message: `updated job post successfully for this id ${res.jobsId}`
+			})
+		}
+	} catch (error) {
+		await setResponsePublisher({
+			status: 500,
+			message: `internal server error: ${error}`
+		})
+	}
 }

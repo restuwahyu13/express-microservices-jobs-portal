@@ -18,7 +18,8 @@
 		"no-tabs": 0,
 		"no-async-promise-executor": 0,
 		"space-before-function-paren": 0,
-		"eqeqeq": 0
+		"eqeqeq": 0,
+		"dot-notation": 0
 	},
 	"env": {
 		// "jest/globals": true,
