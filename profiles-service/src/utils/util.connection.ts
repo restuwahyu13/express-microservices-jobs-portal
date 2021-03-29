@@ -16,9 +16,11 @@ export const mongooseConnection = (): void => {
 		serverSelectionTimeoutMS: 30000
 	})
 
-	mongoose.connection.on('connecting', () => consola.info('database connecting'))
-	mongoose.connection.on('connected', () => consola.success('database connected'))
-	mongoose.connection.on('disconnecting', () => consola.info('database disconnecting'))
-	mongoose.connection.on('disconnected', () => consola.info('database disconnected'))
-	mongoose.connection.on('error', () => consola.error('database error'))
+	if (process.env.NODE_ENV !== 'production') {
+		mongoose.connection.on('connecting', () => consola.info('database connecting'))
+		mongoose.connection.on('connected', () => consola.success('database connected'))
+		mongoose.connection.on('disconnecting', () => consola.info('database disconnecting'))
+		mongoose.connection.on('disconnected', () => consola.info('database disconnected'))
+		mongoose.connection.on('error', () => consola.error('database error'))
+	}
 }
