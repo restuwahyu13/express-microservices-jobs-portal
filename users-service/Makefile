@@ -2,8 +2,12 @@
 ## APP DEVELOPMENT
 ###################
 
-NPM := npm
+NPM := @npm
 FLAGS := run
+
+install:
+	${NPM} install && ${NPM} audit fix
+
 dev:
 	${NPM} ${FLAGS} dev
 

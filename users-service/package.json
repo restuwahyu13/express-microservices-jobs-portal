@@ -7,12 +7,13 @@
 		"dists/**/*.js"
 	],
 	"scripts": {
+		"build-check": "tsc --pretty",
 		"mkdir": "make-dir temp",
 		"cpf": "cp -r src temp && cp server.ts temp",
 		"del:temp": "rimraf temp",
 		"del:dist": "rimraf dist",
 		"compiler": "npm run mkdir && npm run cpf && babel --extensions '.ts' temp -d dist",
-		"build": "npm run del:dist && npm run compiler && npm run del:temp",
+		"build": "npm run build-check && npm run del:dist && npm run compiler && npm run del:temp",
 		"start": "node dist/server.js",
 		"dev": "tsnd --poll --respawn --watch src/**/*.{ts} --files -H -T server.ts",
 		"format": "prettier ./src/**/*.{ts,spect.ts,test.ts} --write",
@@ -107,6 +108,7 @@
 		"@types/q": "^1.5.4",
 		"@types/supertest": "^2.0.10",
 		"@types/uuid": "^8.3.0",
+		"@typescript-eslint/eslint-plugin": "^4.22.1",
 		"@typescript-eslint/parser": "^4.15.0",
 		"babel-plugin-minify-constant-folding": "^0.5.0",
 		"babel-plugin-minify-dead-code-elimination": "^0.5.1",
