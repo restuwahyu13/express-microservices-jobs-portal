@@ -52,12 +52,12 @@ export const emailSchema = (): ValidationChain[] => [
 
 export const tokenSchema = (): ValidationChain[] => [
 	check('token').notEmpty().withMessage('token is required'),
-	check('token').isBase64().withMessage('token is not valid')
+	check('token').isBase64().withMessage('token is must be a base64 format')
 ]
 
 export const idSchema = (): ValidationChain[] => [
-	check('token').notEmpty().withMessage('token is required'),
-	check('token').isMongoId().withMessage('token is not valid')
+	check('id').notEmpty().withMessage('id is required'),
+	check('id').isMongoId().withMessage('id must be a mongoId format')
 ]
 
 export const passwordSchema = (): ValidationChain[] => [
