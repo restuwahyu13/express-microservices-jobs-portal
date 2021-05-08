@@ -16,8 +16,8 @@ export class Subscriber {
 
 	private redisConnect(): Redis {
 		const ioRedis = new IORedis({
-			host: process.env.REDIS_HOST,
-			port: +process.env.REDIS_PORT,
+			host: process.env.REDIS_HOST || 'localhost',
+			port: +process.env.REDIS_PORT || 6379,
 			maxRetriesPerRequest: 50,
 			connectTimeout: 5000,
 			enableReadyCheck: true,

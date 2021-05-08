@@ -3,7 +3,7 @@ import { setDeleteUserPublisher } from '../../services/publisher/external-publis
 import { initDeleteUsersSubscriber } from '../../services/subscriber/external-subscriber/service.deleteUser'
 import { getResponseSubscriber } from '../../utils/util.message'
 import { streamBox } from '../../utils/util.stream'
-import { getStoreCache } from '../../utils/util.cache'
+import { getStoreCache } from '../../utils/util.kafka'
 
 export const deleteUserController = async (req: Request, res: Response): Promise<void> => {
 	const response = await getStoreCache('fromProfile:delete')

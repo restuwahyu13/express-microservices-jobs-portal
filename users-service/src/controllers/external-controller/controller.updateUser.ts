@@ -3,7 +3,7 @@ import { setUpdateUserPublisher } from '../../services/publisher/external-publis
 import { initUpdateUsersSubscriber } from '../../services/subscriber/external-subscriber/service.updateUser'
 import { streamBox } from '../../utils/util.stream'
 import { getResponseSubscriber } from '../../utils/util.message'
-import { getStoreCache } from '../../utils/util.cache'
+import { getStoreCache } from '../../utils/util.kafka'
 import { IUser } from '../../interface/interface.user'
 
 export const updateUserController = async (req: Request, res: Response): Promise<void> => {
