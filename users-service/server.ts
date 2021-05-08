@@ -12,21 +12,6 @@ if (cluster.isMaster) {
 		cluster.fork()
 	}
 
-	const workersTread: any = []
-	for (const id in cluster.workers) {
-		workersTread.push(id)
-	}
-
-	workersTread.forEach(
-		async (pid: number, _: number): Promise<void> => {
-			await cluster.workers[pid].send({
-				from: 'isMaster',
-				type: 'SIGKILL',
-				message: 'cleanup is worker dead and change to new worker'
-			})
-		}
-	)
-
 	if (process.env.NODE_ENV !== 'production') {
 		cluster.on('online', (worker: Worker): void => {
 			if (worker.isConnected()) {

@@ -1,20 +1,19 @@
 import { Request, Response } from 'express'
 import { setUpdateUserPublisher } from '../../services/publisher/external-publisher/service.updateUser'
-import { initUpdateUsersSubscriber } from '../../services/subscriber/external-subscriber/service.updateUser'
+import { initUpdateUsersSubscriber } from '../../services/subscriber/profile-subscriber/service.updateUser'
 import { streamBox } from '../../utils/util.stream'
 import { getResponseSubscriber } from '../../utils/util.message'
-import { getStoreCache } from '../../utils/util.kafka'
-import { IUser } from '../../interface/interface.user'
+import { kafkaConsumer } from '../../utils/util.kafka'
 
 export const updateUserController = async (req: Request, res: Response): Promise<void> => {
-	const response: IUser = await getStoreCache('fromProfile:update')
+	const response = await kafkaConsumer('fromProfile:update')
 	await setUpdateUserPublisher({
-		userId: response.userId,
-		firstName: response.firstName,
-		lastName: response.lastName,
-		email: response.email,
-		location: response.location,
-		phone: response.phone
+		userId: response.messages.userId,
+		firstName: response.messages.firstName,
+		lastName: response.messages.lastName,
+		email: response.messages.email,
+		location: response.messages.location,
+		phone: response.messages.phone
 	})
 	await initUpdateUsersSubscriber()
 	const { status, message } = await getResponseSubscriber()

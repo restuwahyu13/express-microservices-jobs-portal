@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
 import { setDeleteUserPublisher } from '../../services/publisher/external-publisher/service.deleteUser'
-import { initDeleteUsersSubscriber } from '../../services/subscriber/external-subscriber/service.deleteUser'
+import { initDeleteUsersSubscriber } from '../../services/subscriber/profile-subscriber/service.deleteUser'
 import { getResponseSubscriber } from '../../utils/util.message'
 import { streamBox } from '../../utils/util.stream'
-import { getStoreCache } from '../../utils/util.kafka'
+import { kafkaConsumer } from '../../utils/util.kafka'
 
 export const deleteUserController = async (req: Request, res: Response): Promise<void> => {
-	const response = await getStoreCache('fromProfile:delete')
-	await setDeleteUserPublisher({ userId: response.userId })
+	const response = await kafkaConsumer('fromProfile:delete')
+	await setDeleteUserPublisher({ userId: response.messages.userId })
 	await initDeleteUsersSubscriber()
 	const { status, message } = await getResponseSubscriber()
 

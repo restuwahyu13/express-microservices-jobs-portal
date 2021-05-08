@@ -6,7 +6,7 @@ import { streamBox } from '../../utils/util.stream'
 import { getStoreToken } from '../../utils/util.storeToken'
 
 export const activationController = async (req: Request, res: Response): Promise<void> => {
-	const activationTokenExpired = await getStoreToken()
+	const activationTokenExpired = await getStoreToken(req.params.token)
 
 	if (activationTokenExpired.expired < 0 || req.params.token !== activationTokenExpired.data.token) {
 		streamBox(res, 403, {

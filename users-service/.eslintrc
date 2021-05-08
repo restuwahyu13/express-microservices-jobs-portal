@@ -20,7 +20,7 @@
 	"env": {
 		"jest/globals": true,
 		"node": true
-	}
+	},
 	"settings": {
 		"version": {
 			"jest": 26
