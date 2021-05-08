@@ -13,16 +13,16 @@ const ioRedis = new IORedis({
 export const setStoreToken = async (data: Record<string, any>, typeExpired: string, expired: number): Promise<void> => {
 	switch (typeExpired) {
 		case 'minute':
-			await ioRedis.setex('token', expired * 60, JSON.stringify(data))
+			await ioRedis.setex(`token-${data.token}`, expired * 60, JSON.stringify(data))
 			break
 		case 'hour':
-			await ioRedis.setex('token', expired * 60 * 60, JSON.stringify(data))
+			await ioRedis.setex(`token-${data.token}`, expired * 60 * 60, JSON.stringify(data))
 			break
 	}
 }
 
-export const getStoreToken = async (): Promise<Record<string, any>> => {
-	const expired = await ioRedis.ttl('token')
-	const result = await ioRedis.get('token')
-	return { expired, data: JSON.parse(result) }
+export const getStoreToken = async (token: string): Promise<Record<string, any>> => {
+	const expired = await ioRedis.ttl(`token-${token}`)
+	const result = await ioRedis.get(`token-${token}`)
+	return Promise.resolve({ expired, data: JSON.parse(result) })
 }

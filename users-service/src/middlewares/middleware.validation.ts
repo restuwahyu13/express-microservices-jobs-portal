@@ -1,6 +1,5 @@
 import { expressValidator } from '../utils/util.validator'
 import { Request, Response, NextFunction } from 'express'
-import { streamBox } from '../utils/util.stream'
 
 export const validator = () => (req: Request, res: Response, next: NextFunction): any => {
 	const errors = expressValidator(req)
