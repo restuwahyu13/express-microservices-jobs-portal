@@ -20,7 +20,7 @@ export const initDeleteEducationSubscriber = async (): Promise<void> => {
 				message: `education id ${res.educations.educationId} is not exist, or deleted from owner`
 			})
 		} else {
-			const deleteEducations: ProfilesDTO = await profileSchema.updateOne(
+			const deleteEducations: any = await profileSchema.updateOne(
 				{ 'educations.educationId': res.educations.educationId },
 				{ $pull: { educations: { educationId: res.educations.educationId } } }
 			)
@@ -60,7 +60,7 @@ export const initUpdateEducationsSubscriber = async (): Promise<void> => {
 				message: `education id ${res.educations.educationId} is not exist, or deleted from owner`
 			})
 		} else {
-			const updateEducations: ProfilesDTO = await profileSchema.updateOne(
+			const updateEducations: any = await profileSchema.updateOne(
 				{ 'educations.educationId': res.educations.educationId },
 				{
 					$set: {

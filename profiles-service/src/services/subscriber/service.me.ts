@@ -64,7 +64,7 @@ export const initCreateSubMeSubscriber = async (): Promise<void> => {
 
 	try {
 		const getUserId: ProfilesDTO = await profileSchema.findOne({ userId: res.userId }).lean()
-		const addSubProfile: ProfilesDTO = await profileSchema.updateOne(
+		const addSubProfile: any = await profileSchema.updateOne(
 			{ _id: getUserId._id },
 			{
 				$set: {

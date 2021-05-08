@@ -27,7 +27,7 @@ export const initDeleteJobsSubscriber = async (): Promise<void> => {
 				message: `value is not exist in jobInterests | workTypes | workCityPreferences, or deleted from owner`
 			})
 		} else {
-			const deleteJobs: ProfilesDTO = await profileSchema.updateOne(
+			const deleteJobs: any = await profileSchema.updateOne(
 				{ 'jobPreferences.jobId': res.jobPreferences.jobsId },
 				{
 					$pull: {
@@ -80,7 +80,7 @@ export const initUpdateJobsSubscriber = async (): Promise<void> => {
 				message: `value already exist in jobInterests | workTypes | workCityPreferences, or deleted from owner`
 			})
 		} else {
-			const updateJobs: ProfilesDTO = await profileSchema.updateOne(
+			const updateJobs: any = await profileSchema.updateOne(
 				{ 'jobPreferences.jobId': res.jobPreferences.jobsId },
 				{
 					$set: { 'jobs.salaryExpectation': res.jobPreferences.salaryExpectation },

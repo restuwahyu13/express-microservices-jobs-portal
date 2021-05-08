@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import jwt, { SignOptions } from 'jsonwebtoken'
 import { Base64 } from 'js-base64'
-import { ICompanies } from '../interface/interface.companies'
+import { IProfile } from '../interface/interface.profile'
 
-export const signAccessToken = () => (res: Response, payload: ICompanies, options: SignOptions): string | any => {
+export const signAccessToken = () => (res: Response, payload: IProfile, options: SignOptions): string | any => {
 	if (!payload) {
 		return null
 	} else {

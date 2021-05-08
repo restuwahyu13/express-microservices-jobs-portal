@@ -20,7 +20,7 @@ export const initDeleteWorksSubscriber = async (): Promise<void> => {
 				message: `work id ${res.works.workId} is not exist, or deleted from owner`
 			})
 		} else {
-			const deleteWorks: ProfilesDTO = await profileSchema.updateOne(
+			const deleteWorks: any = await profileSchema.updateOne(
 				{ 'workExperiences.workId': res.works.workId },
 				{ $pull: { workExperiences: { workId: res.works.workId } } }
 			)
@@ -60,7 +60,7 @@ export const initUpdateWorksSubscriber = async (): Promise<void> => {
 				message: `work id ${res.works.workId} is not exist, or deleted from owner`
 			})
 		} else {
-			const updateWorks: ProfilesDTO = await profileSchema.updateOne(
+			const updateWorks: any = await profileSchema.updateOne(
 				{ 'workExperiences.workId': res.works.workId },
 				{
 					$set: {

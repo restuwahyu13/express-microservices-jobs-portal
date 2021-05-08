@@ -19,7 +19,7 @@ export const initDeleteSkillsSubscriber = async (): Promise<void> => {
 				message: `value skills ${skills} is not exist, or deleted from owner`
 			})
 		} else {
-			const deleteSkills: ProfilesDTO = await profileSchema.updateOne({ userId: userId }, { $pull: { skills: skills } })
+			const deleteSkills: any = await profileSchema.updateOne({ userId: userId }, { $pull: { skills: skills } })
 
 			if (!deleteSkills) {
 				await setResponsePublisher({
@@ -55,7 +55,7 @@ export const initUpdateSkillsSubscriber = async (): Promise<void> => {
 				message: `value skills ${skills} already exist, or deleted from owner`
 			})
 		} else {
-			const updateSkills: ProfilesDTO = await profileSchema.updateOne(
+			const updateSkills: any = await profileSchema.updateOne(
 				{ userId: userId },
 				{ $addToSet: { skills: { $each: [...skills] } } }
 			)

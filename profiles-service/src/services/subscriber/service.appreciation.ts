@@ -20,7 +20,7 @@ export const initDeleteAppreciationsSubscriber = async (): Promise<void> => {
 				message: `appreciation id ${res.appreciations.appreciationId} is not exist, or deleted from owner`
 			})
 		} else {
-			const deleteAppreciations: ProfilesDTO = await profileSchema.updateOne(
+			const deleteAppreciations: any = await profileSchema.updateOne(
 				{ 'appreciations.appreciationId': res.appreciations.appreciationId },
 				{ $pull: { appreciations: { appreciationId: res.appreciations.appreciationId } } }
 			)
@@ -60,7 +60,7 @@ export const initUpdateAppreciationsSubscriber = async (): Promise<void> => {
 				message: `appreciation id ${res.appreciations.appreciationId} is not exist, or deleted from owner`
 			})
 		} else {
-			const updateAppreciations: ProfilesDTO = await profileSchema.updateOne(
+			const updateAppreciations: any = await profileSchema.updateOne(
 				{ 'appreciations.appreciationId': res.appreciations.appreciationId },
 				{
 					$set: {

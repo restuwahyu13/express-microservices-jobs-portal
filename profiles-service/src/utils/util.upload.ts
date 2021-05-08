@@ -17,7 +17,7 @@ const diskStorage: StorageEngine = multer.diskStorage({
 
 const fileValidator = (req: any, file: Express.Multer.File, done): void => {
 	const extFile = file.originalname.replace('.', '')
-	const extPattern = /(jpg|jpeg|png|gif|svg|doc|docx|pdf)/gi.test(extFile)
+	const extPattern = /(jpg|jpeg|png|gif|svg|doc)/gi.test(extFile)
 
 	if (!extPattern) {
 		done(new TypeError('File format is not valid'), null)
